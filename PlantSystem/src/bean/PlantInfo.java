@@ -5,7 +5,7 @@ import java.util.Date;
 public class PlantInfo {
 	    private String plantId;
 	    private String plantName;
-	    private String diseaseID;
+	    private String diseaseID;//病编号
 	    private String features;
 	    private String cultivationTechniques;
 	    private String value;
