@@ -1,9 +1,9 @@
 package monitor;
 //监测设备表
 public class device {
-	String deviceID;//设备编号
-	String deviceName;//设备名称
-	String indexID;//指标编号
+	private String deviceID;//设备编号
+	private String deviceName;//设备名称
+	private String indexID;//指标编号
 	
     public device(String deviceID, String deviceName, String indexID) {  
         this.deviceID = deviceID;
