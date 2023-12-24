@@ -1,11 +1,11 @@
 package monitor;
 //监测表
 public class monitor {
-	String monitorTime;//监测时间
-	String monitorAddr;//监测地点
-	String deviceID;//设备编号
-	String plantID;//对象编号
-	String staffID;//员工编号
+	private String monitorTime;//监测时间
+	private String monitorAddr;//监测地点
+	private String deviceID;//设备编号
+	private String plantID;//对象编号
+	private String staffID;//员工编号
 	
     public monitor(String monitorTime, String monitorAddr, String deviceID, String plantID, String staffID) {  
         this.monitorTime = monitorTime;  
