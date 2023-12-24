@@ -1,8 +1,8 @@
 package monitor;
 //异常表
 public class error {
-	String plantID;//监测对象编号
-	String indexID;//异常指标编号
+	private String plantID;//监测对象编号
+	private String indexID;//异常指标编号
 	
     public error(String plantID, String indexID) {  
         this.plantID = plantID;
