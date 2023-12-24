@@ -1,10 +1,10 @@
 package Disease;
 //防治方法表
 public class treatment {
-	String treatmentID;//方法编号
-	String treatmentName;//方法名称
-	String treatmentCont;//方法内容
-	String medicineID;//药剂编号
+	private String treatmentID;//方法编号
+	private String treatmentName;//方法名称
+	private String treatmentCont;//方法内容
+	private String medicineID;//药剂编号
 	
     public treatment(String treatmentID, String treatmentName, String treatmentCont, String medicineID) {  
         this.treatmentID = treatmentID;  
