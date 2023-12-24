@@ -1,4 +1,4 @@
-package mapper;
+package bean;
 
 import java.util.Date;
 
