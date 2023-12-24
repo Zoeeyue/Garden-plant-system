@@ -1,61 +1,55 @@
 package DAO;
 
 import java.util.List;
+import java.util.Map;
 
 import bean.PlantInfo;
 
-public interface PlantInfoDAO {
+public interface plant_infoDAO {
 
     /**
      * 增加植物基本信息到数据库
      * @param pf
      * @return
      */
-    boolean insertPlant(PlantInfo pf) throws Exception;
+    public boolean insertPlant(PlantInfo pf) throws Exception;
+
 
     /**
-     * 根据帖子id查找回复
-     * @param zt_id
+     * 根据植物id删除植物数据
+     * @param plant_id
+     * @throws Exception
+     */
+    public void deletePlant(String plant_id) throws Exception;
+
+    /**
+     * 更新植物数据
+     * @param plant_id
      * @return
      * @throws Exception
      */
-    public List queryHf(String zt_id) throws Exception;
+    public void updatePlant(PlantInfo pf) throws Exception;
 
     /**
-     * 删除植物数据
-     * @param hf_id
-     * @throws Exception
-     */
-    public void deleteHf(String hf_id) throws Exception;
-
-    /**
-     * 根据用户id查找回复
-     * @param user_id
+     * 根据植物id查找
+     * @param plant_id
      * @return
      */
-    public List getPlantInfoById(String plant_id) throws Exception;
+    public PlantInfo getPlantInfoById(String plant_id) throws Exception;
+
 
     /**
-     * 更新植帖评论数
-     * @param string
-     * @param flag
-     * @throws Exception
-     */
-    public boolean changeHf(String zt_id, boolean flag) throws Exception;
-
-    /**
-     * 查询所有回复
+     * 查询所有植物
      * @return
      * @throws Exception
      */
-    public List queryAllHf() throws Exception;
+    public List queryAllPf() throws Exception;
 
     /**
-     * 条件查询回复内容
-     * @param condition1
-     * @param condition2
+     * 根据用户需要统计平台中每科植物的数量，支持不同科名植物的视图。通过视图来查
+     * @param specifiedScientificName，用户指定科名
      * @return
      */
-    public List queryHf(String condition1, String condition2) throws Exception;
+    public Map<String, Integer> countPlantsByScientificName(String specifiedScientificName) throws Exception;
 
 }
