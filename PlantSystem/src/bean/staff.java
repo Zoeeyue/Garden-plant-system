@@ -1,9 +1,9 @@
 package monitor;
 //监测人员表
 public class staff {
-	String staffID;//员工编号
-	String staffName;//员工姓名
-	String staffPwd;//员工密码
+	private String staffID;//员工编号
+	private String staffName;//员工姓名
+	private String staffPwd;//员工密码
 
     public staff(String staffID, String staffName, String staffPwd) {  
         this.staffID = staffID;  
