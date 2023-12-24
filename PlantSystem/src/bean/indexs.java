@@ -1,9 +1,9 @@
 package monitor;
 //监测指标
 public class indexs {
-	String indexID;//指标编号
-	String indexName;//指标名称
-	String indexValue;//指标值
+	private String indexID;//指标编号
+	private String indexName;//指标名称
+	private String indexValue;//指标值
 	
     public indexs(String indexID, String indexName, String indexValue) {  
         this.indexID = indexID;
