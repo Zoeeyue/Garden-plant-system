@@ -1,10 +1,10 @@
 package Disease;
 //药剂表
 public class medicine {
-	String medicineID;//药剂编号
-	String medicineName;//药剂名称
-	String medicineDosage;//药剂用量
-	String medicineDuration;//作用期限
+	private String medicineID;//药剂编号
+	private String medicineName;//药剂名称
+	private String medicineDosage;//药剂用量
+	private String medicineDuration;//作用期限
 	
     public medicine(String medicineID, String medicineName, String medicineDosage, String medicineDuration) {  
         this.medicineID = medicineID;
