@@ -3,6 +3,7 @@ package bean;
 
 public class ImageInfo {
     private String imageId;
+    private String plantId;
     private String filename;
     private String place;
     private String detail;
@@ -59,4 +60,12 @@ public class ImageInfo {
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
+
+	public String getPlantId() {
+		return plantId;
+	}
+
+	public void setPlantId(String plantId) {
+		this.plantId = plantId;
+	}
 }
