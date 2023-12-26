@@ -1,4 +1,4 @@
-package monitor;
+package bean;
 //监测人员表
 public class staff {
 	private String staffID;//员工编号
