@@ -2,14 +2,17 @@ package service;
 import java.util.Map;
 import java.util.Scanner;
 import DAO.admin_infoDAO;
-import DAO.Impl.admin_infoDAOImpl;
-import DAO.Impl.image_infoDAOImpl;
 import bean.PlantInfo;
+import bean.UpkeepStaff;
 import bean.adminInfo;
+import bean.expert;
+import bean.masterInfo;
 import bean.staff;
+import service.Disease;
+import service.Monitor;
 import DAO.staffDAO;
-import DAO.Impl.plant_infoDAOImpl;
-import DAO.Impl.staffDAOImpl;
+import DAO.*;
+import DAO.Impl.*;
 
 public class login_service {
 	
@@ -33,7 +36,7 @@ public class login_service {
 //					getupkeepInfoFromUser(scanner);
 					break;
 				case 4:
-					getstaffInfoFromUser(scanner);
+//					getstaffInfoFromUser(scanner);
 					break;
 				case 5:
 					getexpertInfoFromUser(scanner);
@@ -86,17 +89,17 @@ public class login_service {
 		}
 	}
 	
-	// private static void getupkeepInfoFromUser() {
-	// Scanner scanner = new Scanner(System.in);
-	// 	System.out.println("您选择以【养护人员】身份登录，请输入您的账号：");
-	// 	String Id = scanner.nextLine();
- //        System.out.println("请输入您的密码: ");
- //        String password = scanner.nextLine();
- //        UpkeepStaff staff = new UpkeepStaff(Id,"",password);
-	// ///
-	// }
-//	
-	//监测人员
+	 private static void getupkeepInfoFromUser() {
+	 Scanner scanner = new Scanner(System.in);
+	 	System.out.println("您选择以【养护人员】身份登录，请输入您的账号：");
+	 	String Id = scanner.nextLine();
+         System.out.println("请输入您的密码: ");
+         String password = scanner.nextLine();
+         UpkeepStaff staff = new UpkeepStaff(Id,"",password);
+	 ///
+	 }
+	
+//	监测人员
 	private static void getstaffInfoFromUser(Scanner scanner) {
 		System.out.println("您选择以【监测人员】身份登录，请输入您的账号：");
 		String Id = scanner.nextLine();
@@ -119,7 +122,7 @@ public class login_service {
 				e.printStackTrace();
 			}
 		}
-	//病虫害防治专家
+//	病虫害防治专家
 	private static void getexpertInfoFromUser(Scanner scanner) {
 		System.out.println("您选择以【病虫害防治专家】身份登录，请输入您的账号：");
 		String Id = scanner.nextLine();
@@ -148,18 +151,19 @@ public class login_service {
 		String Id = scanner.nextLine();
 	        System.out.println("请输入您的密码: ");
 	        String password = scanner.nextLine();
-	        expert expert = new expert(Id,"",password);
-	        expertDAO expert_ =new expertDAOImpl();
+	        masterInfo master = new  masterInfo(Id,"",password);
+	        master_infoDAO master_ =new master_infoDAOImpl();
 		try {
-			expert isexpert = expert_.login(expert.get_expertID(), expert.get_expertPwd());
-		     	if(isexpert==null) {
+			masterInfo ismaster = master_.login(master.getMasterId(), master.getMaster_password());
+		     	if(ismaster==null) {
 		    	 	System.out.println("账号或密码不正确，登录失败！");
 		     	}
 		     	else
 		     	{
-		    		System.out.println("欢迎！"+isexpert.get_expertName());
+		    		System.out.println("欢迎！"+ismaster.getMaster_name());
 		    		System.out.println("您可以管理以下信息");
-				displayDiseaseInfoMenu(scanner);
+		    		displayMasterInfoMenu(scanner);
+				//替换成主管部门管理逻辑
 		     	}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -366,7 +370,8 @@ public class login_service {
 	//病虫害防治专家
 	private static void displayDiseaseInfoMenu(Scanner scanner) throws Exception {
 		Disease disease = new Disease();
-	        while (true) {
+		boolean flag=true;
+	        while (flag) {
 	            System.out.println("植物病虫害防治信息管理菜单:");
 	            System.out.println("1. 查看病虫害及防治措施信息");//OK
 	            System.out.println("2. 添加病虫害及防治措施信息");//OK
@@ -377,6 +382,7 @@ public class login_service {
 	            int choice = scanner.nextInt();
 	            scanner.nextLine();
 	            String ID;
+	            
 	            switch (choice) {
 	                case 1:
 	                    System.out.println("查看病虫害及防治措施信息");
@@ -467,3 +473,4 @@ public class login_service {
 	 }
 
 }
+
