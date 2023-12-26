@@ -30,14 +30,21 @@ public interface image_infoDAO {
      * @throws Exception
      */
     public void updateImg(ImageInfo img) throws Exception;
-
+    
     /**
      * 根据植物id查找对应配图信息
      * @param 
      * @return
      */
     
-    public  List<ImageInfo> getImageInfoById(String plant_id) throws Exception;
+    public  List<ImageInfo> getImageInfoByPlantId(String plant_id) throws Exception;
+
+    /**
+     * 根据配图id查找对应配图信息
+     * @param 
+     * @return
+     */
+	public ImageInfo getImageInfoByImageId(String img_id) throws Exception;
     
 
 
