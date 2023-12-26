@@ -29,4 +29,7 @@ public interface diseaseDAO {
 
 	//判断主码重复
 	boolean existID(String ID) throws Exception;
+
+	//随机生成编号
+	String getNewID() throws Exception;
 }

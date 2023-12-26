@@ -23,4 +23,8 @@ public interface medicineDAO {
 	
 	//判断主码重复
 	boolean existID(String ID) throws Exception;
+
+	String getNewID() throws Exception;
+
+	public void listID() throws Exception;
 }

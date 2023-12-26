@@ -23,4 +23,6 @@ public interface deviceDAO {
 
 	//判断主码重复
 	boolean existID(String ID) throws Exception;
+
+	public String getNewID() throws Exception;
 }

@@ -18,6 +18,8 @@ public interface monitorDAO {
 	//查询监测表记录
 	public List<Map<String, String>> queryMonitor(String monitorID) throws Exception;
 
+	public List<Map<String, String>> queryMonitor1(String indexID) throws Exception;
+	
 	//显示监测表记录
 	public List<Map<String, String>> listMonitor() throws Exception;
 	
@@ -29,4 +31,7 @@ public interface monitorDAO {
 
 	//判断是否id存在
 	public boolean existID(String ID) throws Exception;
+
+	String getNewID() throws Exception;
+
 }

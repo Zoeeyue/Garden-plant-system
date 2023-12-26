@@ -23,4 +23,8 @@ public interface staffDAO {
 
 	//判断主码重复
 	boolean existID(String ID) throws Exception;
+
+//	String getNewID() throws Exception;
+
+	staff login(String username, String password) throws Exception;
 }

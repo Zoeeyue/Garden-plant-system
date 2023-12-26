@@ -9,8 +9,11 @@ public interface indexsDAO {
 	//增加监测指标表记录
 	public boolean insertIndexs(indexs bean) throws Exception;
 
-	//删除监测指标表记录
-	public boolean deleteIndexs(String indexID) throws Exception;
+	//按照指标编号删除监测指标表记录
+	public boolean deleteIndexsByID(String indexID) throws Exception;
+	
+	//按照监测编号删除监测指标表记录
+	boolean deleteIndexsByMonitor(String indexID) throws Exception;
 
 	//修改监测指标表记录
 	public boolean updateIndexs(indexs bean) throws Exception;
@@ -26,5 +29,10 @@ public interface indexsDAO {
 
 	//判断主码重复
 	boolean existID(String ID) throws Exception;
+
+	String getNewID() throws Exception;
+
+	void listID() throws Exception;
+
 
 }

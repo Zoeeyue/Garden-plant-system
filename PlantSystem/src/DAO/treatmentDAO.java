@@ -23,4 +23,6 @@ public interface treatmentDAO {
 
 	//判断主码是否重复
 	boolean existID(String ID) throws Exception;
+
+	String getNewID() throws Exception;
 }

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import bean.error;
-//？该表用触发器实现自动存储
+//该表用触发器实现自动存储
 public interface errorDAO {
 	//增加异常表记录
 	public boolean insertError(error bean) throws Exception;
