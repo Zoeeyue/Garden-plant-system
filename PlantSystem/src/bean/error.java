@@ -1,4 +1,4 @@
-package monitor;
+package bean;
 //异常表
 public class error {
 	private String plantID;//监测对象编号
