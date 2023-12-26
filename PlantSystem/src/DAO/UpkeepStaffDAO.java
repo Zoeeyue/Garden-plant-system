@@ -12,5 +12,6 @@ public interface UpkeepStaffDAO {
     UpkeepStaff findUpkeepStaffById(String staffId);
     List<UpkeepStaff> findAllUpkeepStaff() throws Exception;
     List<UpkeepStaff> findUpkeepStaffByProperty(String propertyName, String propertyValue);
+    UpkeepStaff login(String username, String password) throws Exception;
 }
 
