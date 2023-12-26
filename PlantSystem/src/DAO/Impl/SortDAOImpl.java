@@ -18,7 +18,7 @@ public class SortDAOImpl implements SortDAO {
             "SELECT * FROM Sort WHERE SortId = ?";
 
     private static final String SELECT_PLANTS_BY_SORT_ID =
-            "SELECT * FROM PlantInfo WHERE SortId = ?";
+            "SELECT * FROM plant_info WHERE SortId = ?";
 
     private static final String SEARCH_SORTS_BY_GROW_ENV =
             "SELECT * FROM Sort WHERE GrowEnv LIKE ?";
@@ -30,7 +30,7 @@ public class SortDAOImpl implements SortDAO {
             "SELECT * FROM Sort WHERE %s = ?";
 
     private static final String INSERT_SORT =
-            "INSERT INTO Sort (SortId, GenusId, CountyId, PlantId, GrowEnv, Alias) VALUES (?, ?, ?, ?, ?, ?)";
+            "INSERT INTO Sort (SortId, GenusId, CountyId, plant_id, GrowEnv, Alias) VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String UPDATE_SORT =
             "UPDATE Sort SET GenusId = ?, CountyId = ?, PlantId = ?, GrowEnv = ?, Alias = ? WHERE SortId = ?";
@@ -177,12 +177,13 @@ public class SortDAOImpl implements SortDAO {
     public void addSort(Sort sort) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SORT)) {
             // 设置插入 Sort 记录的参数
-            preparedStatement.setString(1,sort.getSortId());
+            preparedStatement.setString(1,generateSortId());
             preparedStatement.setString(2, sort.getGenusId());
-            preparedStatement.setString(3, sort.getPlantId());
-            preparedStatement.setString(4, sort.getGrowEnv());
-            preparedStatement.setString(5, sort.getAlias());
-            preparedStatement.setString(6, sort.getSortId());
+            preparedStatement.setString(3, sort.getCountyId());
+            preparedStatement.setString(4, sort.getPlantId());
+            preparedStatement.setString(5, sort.getGrowEnv());
+            preparedStatement.setString(6, sort.getAlias());
+
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -195,10 +196,11 @@ public class SortDAOImpl implements SortDAO {
             // 设置更新 Sort 记录的参数
             preparedStatement.setString(6,sort.getSortId());
             preparedStatement.setString(1, sort.getGenusId());
-            preparedStatement.setString(2, sort.getPlantId());
-            preparedStatement.setString(3, sort.getGrowEnv());
-            preparedStatement.setString(4, sort.getAlias());
-            preparedStatement.setString(5, sort.getSortId());
+            preparedStatement.setString(2, sort.getCountyId());
+            preparedStatement.setString(3, sort.getPlantId());
+            preparedStatement.setString(4, sort.getGrowEnv());
+            preparedStatement.setString(5, sort.getAlias());
+
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
