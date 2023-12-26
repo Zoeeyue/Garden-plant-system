@@ -1,5 +1,6 @@
 package bean;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Upkeep {
@@ -9,7 +10,7 @@ public class Upkeep {
     private String plant_id;
     private String UpkeepName;
     private String UpkeepDes;
-    private Date UpkeepTime;
+    private String UpkeepTime;  // 修改为 String 类型
     private String UpkeepPlace;
     private String UpkeepSiD;
 
@@ -19,7 +20,7 @@ public class Upkeep {
         // 默认构造函数
     }
 
-    public Upkeep(String UpkeepId, String UTaskId, String plant_id, String UpkeepName, String UpkeepDes, Date UpkeepTime, String UpkeepPlace, String UpkeepSiD) {
+    public Upkeep(String UpkeepId, String UTaskId, String plant_id, String UpkeepName, String UpkeepDes, String UpkeepTime, String UpkeepPlace, String UpkeepSiD) {
         this.UpkeepId = UpkeepId;
         this.UTaskId = UTaskId;
         this.plant_id = plant_id;
@@ -72,11 +73,11 @@ public class Upkeep {
         this.UpkeepDes = UpkeepDes;
     }
 
-    public Date getUpkeepTime() {
+    public String getUpkeepTime() {
         return UpkeepTime;
     }
 
-    public void setUpkeepTime(Date UpkeepTime) {
+    public void setUpkeepTime(String UpkeepTime) {
         this.UpkeepTime = UpkeepTime;
     }
 
