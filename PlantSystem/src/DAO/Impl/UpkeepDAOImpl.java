@@ -185,7 +185,6 @@ public class UpkeepDAOImpl implements UpkeepDAO {
             Date date = dateFormat.parse(stringTime);
             // 将日期格式化为不包含毫秒的字符串
             formattedTime = dateFormat.format(date);
-            System.out.println(formattedTime);
         } catch (ParseException e) {
             e.printStackTrace();
             // 处理日期格式异常
