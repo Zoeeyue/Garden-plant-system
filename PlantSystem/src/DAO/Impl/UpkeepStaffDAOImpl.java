@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class UpkeepStaffDAOImpl implements UpkeepStaffDAO {
 
@@ -121,6 +122,44 @@ public class UpkeepStaffDAOImpl implements UpkeepStaffDAO {
         }
         return staffList;
     }
+
+    @Override
+    public UpkeepStaff login(String username, String password) throws Exception {
+        DButil db = new DButil();
+        Connection conn = db.getConnection();
+
+        // SQL 查询语句，根据用户名和密码查找管理员信息
+        String sql = "SELECT * FROM admin_info WHERE admin_id = ? AND admin_password = ?";
+
+        // 参数列表
+        List<Object> list = new ArrayList<>();
+        list.add(username);
+        list.add(password);
+
+        // 执行查询
+        List<Map<String, String>> result = db.excutequery(sql, list, conn);
+
+        // 关闭连接
+        db.close(conn);
+
+        // 如果查询结果非空，将结果封装为 adminInfo 对象并返回
+        if (!result.isEmpty()) {
+            Map<String, String> adminInfoMap = result.get(0); // 假设只查询到一个结果
+            UpkeepStaff upkeepStaff = new UpkeepStaff();
+
+            // 设置 adminInfo 对象的属性
+            upkeepStaff.setUpkeepSid(adminInfoMap.get("admin_id"));
+            upkeepStaff.setUpkeepSname(adminInfoMap.get("admin_name"));
+            upkeepStaff.setUpkeepPwd("admin_password");;
+            // 设置其他属性...
+
+            return upkeepStaff;
+        }
+
+        // 如果查询结果为空，返回 null 或抛出异常，取决于业务需求
+        return null;
+    }
+
 
     private UpkeepStaff mapResultSetToUpkeepStaff(ResultSet resultSet) throws SQLException {
         // 从 ResultSet 中提取数据并创建 UpkeepStaff 对象
