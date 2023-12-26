@@ -39,13 +39,14 @@ public class SortDAOImpl implements SortDAO {
             "DELETE FROM Sort WHERE SortId = ?";
 
     private static final String GENERATE_SORT_ID =
-            "SELECT CONCAT('SRT', LPAD(IFNULL(SUBSTRING(MAX(SortId), 4) + 1, 1), 4, '0')) AS newId FROM Sort";
+            "SELECT CONCAT('SOR', RIGHT('0000' + CONVERT(VARCHAR, ISNULL(MAX(CAST(SUBSTRING(SortId, 4, LEN(SortId) - 3) AS INT)), 0) + 1), 4)) AS newId FROM Sort";
 
     private Connection connection;
+    private DButil dbUtil;
 
     public SortDAOImpl() throws Exception {
-        // 初始化数据库连接
-        this.connection = DButil.getConnection();
+        this.dbUtil = new DButil();
+        this.connection = dbUtil.getConnection();
     }
 
     @Override

@@ -33,12 +33,14 @@ public class ProvinceDAOImpl implements ProvinceDAO {
             "DELETE FROM Province WHERE ProvinceId = ?";
 
     private static final String GENERATE_PROVINCE_ID =
-            "SELECT CONCAT('PRO', LPAD(IFNULL(SUBSTRING(MAX(ProvinceId), 4) + 1, 1), 4, '0')) AS newId FROM Province";
+            "SELECT CONCAT('PRO', RIGHT('0000' + CONVERT(VARCHAR, ISNULL(MAX(CAST(SUBSTRING(ProvinceId, 4, LEN(ProvinceId) - 3) AS INT)), 0) + 1), 4)) AS newId FROM Province";
 
     private Connection connection;
+    private DButil dbUtil;
 
     public ProvinceDAOImpl() throws Exception {
-        this.connection = DButil.getConnection();
+        this.dbUtil = new DButil();
+        this.connection = dbUtil.getConnection();
     }
 
     @Override

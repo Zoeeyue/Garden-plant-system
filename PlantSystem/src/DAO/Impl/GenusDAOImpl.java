@@ -3,6 +3,7 @@ package DAO.Impl;
 import DAO.GenusDAO;
 import bean.Genus;
 import bean.Sort;
+import comm.DButil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +24,7 @@ public class GenusDAOImpl implements GenusDAO {
             "SELECT * FROM Genus WHERE %s = ?";
 
     private static final String GENERATE_GENUS_ID =
-            "SELECT CONCAT('GEN', LPAD((CONVERT(SUBSTRING(MAX(GenusId), 4), SIGNED) + 1), 4, '0')) FROM Genus";
+            "SELECT CONCAT('GEN', RIGHT('0000' + CONVERT(VARCHAR, ISNULL(MAX(CAST(SUBSTRING(GenusId, 4, LEN(GenusId) - 3) AS INT)), 0) + 1), 4)) AS newId FROM Genus";
 
     private static final String ADD_GENUS =
             "INSERT INTO Genus (GenusId, GenusName, FamilyId) VALUES (?, ?, ?)";
@@ -35,9 +36,11 @@ public class GenusDAOImpl implements GenusDAO {
             "DELETE FROM Genus WHERE GenusId = ?";
 
     private Connection connection;
+    private DButil dbUtil;
 
-    public GenusDAOImpl(Connection connection) {
-        this.connection = connection;
+    public GenusDAOImpl() throws Exception {
+        this.dbUtil = new DButil();
+        this.connection = dbUtil.getConnection();
     }
 
     @Override

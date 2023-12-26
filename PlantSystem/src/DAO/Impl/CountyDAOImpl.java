@@ -33,12 +33,14 @@ public class CountyDAOImpl implements CountyDAO {
             "DELETE FROM County WHERE CountyId = ?";
 
     private static final String GENERATE_COUNTY_ID =
-            "SELECT CONCAT('COU', LPAD(IFNULL(SUBSTRING(MAX(CountyId), 4) + 1, 1), 4, '0')) AS newId FROM County";
+            "SELECT CONCAT('COU', RIGHT('0000' + CONVERT(VARCHAR, ISNULL(MAX(CAST(SUBSTRING(CountyId, 4, LEN(CountyId) - 3) AS INT)), 0) + 1), 4)) AS newId FROM County";
 
     private Connection connection;
+    private DButil dbUtil;
 
     public CountyDAOImpl() throws Exception {
-        this.connection = DButil.getConnection();
+        this.dbUtil = new DButil();
+        this.connection = dbUtil.getConnection();
     }
 
     @Override

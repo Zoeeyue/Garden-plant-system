@@ -28,7 +28,7 @@ public class FamilyDAOImpl implements FamilyDAO {
             "SELECT * FROM Family WHERE %s = ?";
 
     private static final String GENERATE_FAMILY_ID =
-            "SELECT CONCAT('FAM', LPAD((CONVERT(SUBSTRING(MAX(FamilyId), 4), SIGNED) + 1), 4, '0')) FROM Family";
+            "SELECT CONCAT('FAM', RIGHT('0000' + CONVERT(VARCHAR, ISNULL(MAX(CAST(SUBSTRING(FamilyId, 4, LEN(FamilyId) - 3) AS INT)), 0) + 1), 4)) AS newId FROM Family";
 
     private static final String ADD_FAMILY =
             "INSERT INTO Family (FamilyId, FamilyName) VALUES (?, ?)";
@@ -40,9 +40,11 @@ public class FamilyDAOImpl implements FamilyDAO {
             "DELETE FROM Family WHERE FamilyId = ?";
 
     private Connection connection;
+    private DButil dbUtil;
 
-    public FamilyDAOImpl(Connection connection) {
-        this.connection = connection;
+    public FamilyDAOImpl() throws Exception {
+        this.dbUtil = new DButil();
+        this.connection = dbUtil.getConnection();
     }
 
     @Override
