@@ -34,7 +34,7 @@ public class SortDAOImpl implements SortDAO {
             "INSERT INTO Sort (SortId, GenusId, CountyId, plant_id, GrowEnv, Alias) VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String UPDATE_SORT =
-            "UPDATE Sort SET GenusId = ?, CountyId = ?, PlantId = ?, GrowEnv = ?, Alias = ? WHERE SortId = ?";
+            "UPDATE Sort SET GenusId = ?, CountyId = ?, plant_id = ?, GrowEnv = ?, Alias = ? WHERE SortId = ?";
 
     private static final String DELETE_SORT =
             "DELETE FROM Sort WHERE SortId = ?";
@@ -109,7 +109,12 @@ public class SortDAOImpl implements SortDAO {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Sort sort = new Sort();
-                    // 设置分类信息属性
+                    sort.setSortId(resultSet.getString("SortId"));
+                    sort.setGenusId(resultSet.getString("GenusId"));
+                    sort.setPlantId(resultSet.getString("plant_id"));
+                    sort.setCountyId(resultSet.getString("CountyId"));
+                    sort.setGrowEnv(resultSet.getString("GrowEnv"));
+                    sort.setAlias(resultSet.getString("Alias"));
                     sorts.add(sort);
                 }
             }
@@ -130,7 +135,12 @@ public class SortDAOImpl implements SortDAO {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Sort sort = new Sort();
-                    // 设置分类信息属性
+                    sort.setSortId(resultSet.getString("SortId"));
+                    sort.setGenusId(resultSet.getString("GenusId"));
+                    sort.setPlantId(resultSet.getString("plant_id"));
+                    sort.setCountyId(resultSet.getString("CountyId"));
+                    sort.setGrowEnv(resultSet.getString("GrowEnv"));
+                    sort.setAlias(resultSet.getString("Alias"));
                     sorts.add(sort);
                 }
             }
