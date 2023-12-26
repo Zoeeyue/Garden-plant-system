@@ -282,8 +282,9 @@ public class login_service {
 
                   // 调用查询逻辑
                   try {
-                	  
-                	 plantinfo_service.displayQuery(plantDAO.queryFromViewByProperties(properties));
+                	
+                	 if(plantDAO.queryFromViewByProperties(properties).size()==0) System.out.println("未查询到符合条件的该植物信息！");
+                	 else plantinfo_service.displayQuery(plantDAO.queryFromViewByProperties(properties));
                      
                   } catch (Exception e) {
                       e.printStackTrace();
