@@ -70,4 +70,9 @@ public interface plant_infoDAO {
     public boolean isPlantIdExists(String plantId) throws Exception;
 
 
+    public  List<PlantDetailView> queryFromViewByProperties(Map<String, Object> properties) throws Exception;
+    
+    public  List<PlantDetailView> queryFromViewById(String plant_id) throws Exception;
+
+
 }
