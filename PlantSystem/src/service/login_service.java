@@ -8,8 +8,6 @@ import bean.adminInfo;
 import bean.expert;
 import bean.masterInfo;
 import bean.staff;
-import service.Disease;
-import service.Monitor;
 import DAO.staffDAO;
 import DAO.*;
 import DAO.Impl.*;
@@ -33,7 +31,7 @@ public class login_service {
 					getmasterInfoFromUser(scanner);
 					break;
 				case 3:
-//					getupkeepInfoFromUser(scanner);
+					getupkeepInfoFromUser(scanner);
 					break;
 				case 4:
 //					getstaffInfoFromUser(scanner);
@@ -78,6 +76,7 @@ public class login_service {
 	             case 2:
 	                 System.out.println("2.管理植物分类信息");
 	                 // 调用相关逻辑
+					 displayPlantSortMenu(scanner);
 	                 break;
 	             default:
 	                 System.out.println("无效选择，请重新运行程序并输入有效数字。");
@@ -89,14 +88,27 @@ public class login_service {
 		}
 	}
 	
-	 private static void getupkeepInfoFromUser() {
-	 Scanner scanner = new Scanner(System.in);
+	 private static void getupkeepInfoFromUser(Scanner scanner) {
 	 	System.out.println("您选择以【养护人员】身份登录，请输入您的账号：");
 	 	String Id = scanner.nextLine();
          System.out.println("请输入您的密码: ");
          String password = scanner.nextLine();
          UpkeepStaff staff = new UpkeepStaff(Id,"",password);
-	 ///
+		 UpkeepStaffDAO staff_ =new UpkeepStaffDAOImpl();
+		 try {
+			 UpkeepStaff isstaff = staff_.login(staff.getUpkeepSid(), staff.getUpkeepPwd());
+			 if(isstaff==null) {
+				 System.out.println("账号或密码不正确，登录失败！");
+			 }
+			 else
+			 {
+				 System.out.println("欢迎！"+isstaff.getUpkeepSname());
+				 System.out.println("您可以管理以下信息");
+				 displayMasterInfoMenu(scanner);
+			 }
+		 } catch (Exception e) {
+			 e.printStackTrace();
+		 }
 	 }
 	
 //	监测人员
@@ -281,14 +293,14 @@ public class login_service {
                   Map<String, Object> properties =  plantinfo_service.parseUserInput(userInput);
 
                   // 调用查询逻辑
-                  try {
-                	
-                	 if(plantDAO.queryFromViewByProperties(properties).size()==0) System.out.println("未查询到符合条件的该植物信息！");
-                	 else plantinfo_service.displayQuery(plantDAO.queryFromViewByProperties(properties));
-                     
-                  } catch (Exception e) {
-                      e.printStackTrace();
-                  }
+				  try {
+
+					  if(plantDAO.queryFromViewByProperties(properties).size()==0) System.out.println("未查询到符合条件的该植物信息！");
+					  else plantinfo_service.displayQuery(plantDAO.queryFromViewByProperties(properties));
+
+				  } catch (Exception e) {
+					  e.printStackTrace();
+				  }
                   break;
               case 7:
                   System.out.println("退出该基本管理信息菜单");
@@ -368,6 +380,12 @@ public class login_service {
 	            	}
         	}
 	}
+	//养护人员
+	private static void displayMasterInfoMenu(Scanner scanner)throws Exception {
+		upkeep_service upkeep_service = new upkeep_service();
+		upkeep_service.upkeepMenu();
+	}
+
 	//病虫害防治专家
 	private static void displayDiseaseInfoMenu(Scanner scanner) throws Exception {
 		Disease disease = new Disease();
@@ -419,53 +437,64 @@ public class login_service {
 	            	}
         	}
 	}
-		//上级主管部门
-	private static void displayMasterInfoMenu(Scanner scanner) throws Exception {
-		
-		boolean flag = true;
-	        while (flag) {
-	            System.out.println("上级主管部门管理菜单:");
-	            System.out.println("1. 管理养护人员");
-	            System.out.println("2. 管理监测人员");
-	            System.out.println("3. 管理监测设备信息");
-	            System.out.println("4. 管理病虫害防治专家");
-	            System.out.println("5. 管理养护任务");
-	            System.out.println("6. 退出");
-	            int choice = scanner.nextInt();
-	            scanner.nextLine();
-	            String ID;
-	            switch (choice) {
-	                case 1:
-	                    System.out.println("管理养护人员");
-	                    //加入switch分支结构实现增删改查
-	                    break;
-	                case 2:
-	                    System.out.println("管理监测人员");
-	                    //加入switch分支结构实现增删改查
-	                    break;
-	                case 3:
-	                    System.out.println("管理监测设备信息");
-	                    //加入switch分支结构实现增删改查
-	                    break;
-	                case 4:
-	                    System.out.println("管理病虫害防治专家");
-	                    //加入switch分支结构实现增删改查
-	                    break;
-	                case 5:
-	                    System.out.println("管理养护任务");
-			    //加入switch分支结构实现增删改查
-	                    break;
-	                case 6:
-	                    System.out.println("退出");
-	                    flag = false;
-	                    break;
-	                default:
-	                    System.out.println("无效选择，请重新输入");
-	                    break;
-	            	}
-        	}
-	}
 
+	private static void displayPlantSortMenu(Scanner scanner) throws Exception {
+		while (true) {
+			//实例化业务
+			plantSort_service plantsort_service =new plantSort_service();
+			//实例化DAO接口
+
+			// 显示植物信息管理菜单
+			System.out.println("植物分类信息管理菜单:");
+			System.out.println("1. 添加植物分类信息");
+			System.out.println("2. 删除植物分类信息");
+			System.out.println("3. 修改植物分类信息");
+			System.out.println("4. 查询植物分类信息");
+			System.out.println("5. 退出系统");
+
+			// 获取用户输入
+			//int choice = scanner.nextInt();
+			int choice = 0;
+			if (scanner.hasNextInt()) {
+				choice = scanner.nextInt();
+				// 处理整数
+			} else {
+				// 处理没有整数可用的情况
+				System.out.println("请输入有效的整数。");
+			}
+			// 使用 switch-case 处理不同选择
+			switch (choice) {
+				case 1:
+					System.out.println("添加植物分类信息");
+					// 调用添加植物分类信息逻辑
+					plantsort_service.addSortInfo();
+					break;
+				case 2:
+					System.out.println("删除植物分类信息");
+					// 调用删除植物分类信息逻辑
+					plantsort_service.deleteSortInfo();
+					break;
+				case 3:
+					System.out.println("修改植物分类信息");
+					// 调用修改植物分类信息逻辑
+					plantsort_service.updateSortInfo();
+					break;
+				case 4:
+					System.out.println("查询植物分类信息");
+					//调用查询植物分类信息逻辑
+					plantsort_service.searchSortInfo();
+					break;
+				case 5:
+					System.out.println("退出植物分类管理菜单");
+					// 退出菜单循环
+					scanner.close();
+					System.exit(0);
+				default:
+					System.out.println("无效选择，请重新输入");
+					break;
+			}
+		}
+	}
 	
 	//主函数
 	public static void main(String[] args) {
