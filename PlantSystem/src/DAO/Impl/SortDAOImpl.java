@@ -2,6 +2,7 @@ package DAO.Impl;
 
 import DAO.SortDAO;
 import bean.PlantInfo;
+import bean.PlantSortView;
 import bean.Sort;
 import comm.DButil;
 
@@ -40,6 +41,9 @@ public class SortDAOImpl implements SortDAO {
 
     private static final String GENERATE_SORT_ID =
             "SELECT CONCAT('SOR', RIGHT('0000' + CONVERT(VARCHAR, ISNULL(MAX(CAST(SUBSTRING(SortId, 4, LEN(SortId) - 3) AS INT)), 0) + 1), 4)) AS newId FROM Sort";
+
+    private static final String GET_PLANT_SORT_VIEW_BY_ID =
+            "SELECT * FROM PlantSortView WHERE plant_id = ?";
 
     private Connection connection;
     private DButil dbUtil;
@@ -148,7 +152,13 @@ public class SortDAOImpl implements SortDAO {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Sort sort = new Sort();
-                    // 设置分类信息属性
+                    // 从结果集中获取字段值并设置到 Sort 对象的属性中
+                    sort.setSortId(resultSet.getString("SortId"));
+                    sort.setGenusId(resultSet.getString("GenusId"));
+                    sort.setPlantId(resultSet.getString("plant_id"));
+                    sort.setCountyId(resultSet.getString("CountyId"));
+                    sort.setGrowEnv(resultSet.getString("GrowEnv"));
+                    sort.setAlias(resultSet.getString("Alias"));
                     sorts.add(sort);
                 }
             }
@@ -215,5 +225,32 @@ public class SortDAOImpl implements SortDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public PlantSortView getPlantSortViewById(String plantId) throws SQLException {
+        PlantSortView plantSortView = null;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_PLANT_SORT_VIEW_BY_ID)) {
+            preparedStatement.setString(1, plantId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    plantSortView = new PlantSortView();
+                    // 设置 PlantSortView 的属性，从 resultSet 中获取数据
+                    plantSortView.setPlantId(resultSet.getString("plant_id"));
+                    plantSortView.setPlantName(resultSet.getString("plant_name"));
+                    plantSortView.setAlias(resultSet.getString("Alias"));
+                    plantSortView.setFamilyName(resultSet.getString("FamilyName"));
+                    plantSortView.setGenusName(resultSet.getString("GenusName"));
+                    plantSortView.setProvinceName(resultSet.getString("ProvinceName"));
+                    plantSortView.setCityName(resultSet.getString("CityName"));
+                    plantSortView.setCountyName(resultSet.getString("CountyName"));
+                    plantSortView.setGrowEnv(resultSet.getString("GrowEnv"));
+                }
+            }
+        }
+
+        return plantSortView;
     }
 }
