@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 public class SortUpdateTest {
     public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
 
+        Scanner scanner = new Scanner(System.in);
         boolean isValidPlantId = false;
         String plantId = "";
 
@@ -18,7 +18,6 @@ public class SortUpdateTest {
             //从用户输入中获取植物ID
             System.out.print("请输入PlantId: ");
             plantId = scanner.nextLine();
-
             SortDAO sortDAO = new SortDAOImpl();
             List<Sort> sorts = sortDAO.getSortsByProperty("plant_id", plantId);
             // 检查是否有PlantId
@@ -48,9 +47,10 @@ public class SortUpdateTest {
             switch (option) {
                 case 1:
                     // 执行生长环境功能
-                    System.out.println("请输入需要修改的生长环境：");
                     Sort sort = new Sort();
                     sort = getSortBefore(plantId);
+                    scanner.nextLine();
+                    System.out.println("请输入需要修改的生长环境：");
                     String Env = scanner.nextLine();
                     SortDAO sortDAO = new SortDAOImpl();
                     sort.setGrowEnv(Env);
@@ -59,9 +59,10 @@ public class SortUpdateTest {
                     break;
                 case 2:
                     // 执行植物别名功能
+                    sort = getSortBefore(plantId);
+                    scanner.nextLine();
                     System.out.println("请输入需要修改的别名：");
                     String alias = scanner.nextLine();
-                    sort = getSortBefore(plantId);
                     SortDAO sortAlias = new SortDAOImpl();
                     sort.setAlias(alias);
                     sortAlias.updateSort(sort);
