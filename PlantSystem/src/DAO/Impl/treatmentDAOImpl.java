@@ -54,6 +54,13 @@ public class treatmentDAOImpl implements treatmentDAO{
 		String sql ="SELECT * FROM treatment WHERE treatmentID=?";
 		return function.search(list,sql);
 	}
+	@Override
+	public List<Map<String, String>> queryTreatment2(String medicineID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(medicineID);
+		String sql ="SELECT * FROM treatment WHERE treatmentID IN(SELECT treatmentID FROM medicine WHERE medicineID=?)";
+		return function.search(list,sql);
+	}
 	//显示防治方法表记录
 	@Override
 	public List<Map<String, String>> listTreatment() throws Exception {

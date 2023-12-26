@@ -88,11 +88,19 @@ public class monitorDAOImpl implements monitorDAO{
 	    String sql = sqlBuilder.toString();
 	    return function.search(list, sql);
 	}
-	//视图显示
+	
+	//视图显示1
 	@Override
 	public List<Map<String, String>> listMonitorSystem() throws Exception {
 		List<Object> list = new ArrayList<Object>();
 		String sql ="SELECT * FROM MonitorYewu";
+		return function.search(list,sql);
+	}	
+	//视图显示2
+	@Override
+	public List<Map<String, String>> listMonitorShow() throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		String sql ="SELECT * FROM MonitorToShow";
 		return function.search(list,sql);
 	}
 	//判断是否id存在
@@ -101,6 +109,18 @@ public class monitorDAOImpl implements monitorDAO{
 		List<Object> list = new ArrayList<Object>();
 		list.add(ID);
 		String sql ="SELECT * FROM monitor WHERE monitorID=?";
+		List<Map<String, String>> row = function.search(list,sql);
+		if(row.isEmpty()) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	@Override
+	public boolean existID2(String ID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(ID);
+		String sql ="SELECT * FROM MonitorToShow WHERE id=?";
 		List<Map<String, String>> row = function.search(list,sql);
 		if(row.isEmpty()) {
 			return true;

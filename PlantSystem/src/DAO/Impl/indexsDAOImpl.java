@@ -66,6 +66,15 @@ public class indexsDAOImpl implements indexsDAO{
 		String sql ="SELECT * FROM indexs WHERE indexID=?";
 		return function.search(list,sql);
 	}
+	
+	//根据监测编号查询监测指标表记录
+	@Override
+	public List<Map<String, String>> queryIndexs1(String monitorID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(monitorID);
+		String sql ="SELECT * FROM indexs WHERE monitorID=?";
+		return function.search(list,sql);
+	}
 
 	//显示检测指标表所有记录
 	@Override

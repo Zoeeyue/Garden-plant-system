@@ -52,6 +52,14 @@ public class diseaseDAOImpl implements diseaseDAO {
 		String sql ="SELECT * FROM disease WHERE diseaseID=?";
 		return function.search(list,sql);
 	}
+	//查询病虫害表记录
+	@Override
+	public List<Map<String, String>> queryDisease2(String medicineID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(medicineID);
+		String sql ="SELECT * FROM disease WHERE diseaseID in(SELECT diseaseID FROM treatment WHERE treatmentID IN(SELECT treatmentID FROM medicine WHERE medicineID=?))";
+		return function.search(list,sql);
+	}
 	//显示病虫害表记录
 	@Override
 	public List<Map<String, String>> listDisease() throws Exception {
@@ -73,11 +81,18 @@ public class diseaseDAOImpl implements diseaseDAO {
 	    return function.search(list, sql);
 	}
 	
-	//视图显示
+	//视图显示1
 	@Override
 	public List<Map<String, String>> listDiseaseSystem() throws Exception {
 		List<Object> list = new ArrayList<Object>();
 		String sql ="SELECT * FROM DiseaseYewu;";
+		return function.search(list,sql);
+	}
+	//视图显示2
+	@Override
+	public List<Map<String, String>> listDiseaseShow() throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		String sql ="SELECT * FROM DiseaseToShow;";
 		return function.search(list,sql);
 	}
 	//判断是否id重复
@@ -93,7 +108,18 @@ public class diseaseDAOImpl implements diseaseDAO {
 			return false;
 		}
 	}
-		
+	@Override
+	public boolean existID2(String ID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(ID);
+		String sql ="SELECT * FROM DiseaseToShow WHERE id=?";
+		List<Map<String, String>> row = function.search(list,sql);
+		if(row.isEmpty()) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	//获取最大编号+1并返回新编号
 	@Override
 	public String getNewID() throws Exception {
