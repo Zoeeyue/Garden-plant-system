@@ -132,7 +132,7 @@ public class plant_infoDAOImpl implements plant_infoDAO {
 
         db.excute(sql, list, conn);
         db.close(conn);
-        System.out.println("删除成功！");
+//        System.out.println("删除成功！");
 		
 	}
 
@@ -149,7 +149,7 @@ public class plant_infoDAOImpl implements plant_infoDAO {
 	        list.add(pf.getCultivationTechniques());
 	        list.add(pf.getValue());
 	        list.add(pf.getCreatedBy());
-	        list.add(pf.getUpdatedTime());
+	        list.add(new Date());
 	        list.add(pf.getPlantId());
 
 	        db.excute(sql, list, conn);
@@ -223,8 +223,10 @@ public class plant_infoDAOImpl implements plant_infoDAO {
 		        int plantCount = Integer.parseInt(row.get("植物数量"));
 		        plantCountMap.put(familyName, plantCount);
 		    }
-		    System.out.println(plantCountMap);
-
+//		    System.out.println(plantCountMap);
+		    for (Map.Entry<String, Integer> entry : plantCountMap.entrySet()) {
+	            System.out.println("科名: " + entry.getKey() + ", 植物数量: " + entry.getValue());
+	        }
 		    return plantCountMap;
 	}
 
@@ -279,7 +281,123 @@ public class plant_infoDAOImpl implements plant_infoDAO {
 	    return plantInfoList;
 	}
 
+	@Override
+	public List<PlantDetailView> queryFromViewByProperties(Map<String, Object> properties) throws Exception {
+		DButil db = new DButil();
+	    Connection conn = db.getConnection();
 
+	    // 构建动态 SQL 查询语句
+	    StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM PlantDetailView WHERE ");
+	    List<Object> values = new ArrayList<>();
+
+	    // 遍历属性映射，构建查询条件
+	    for (Map.Entry<String, Object> entry : properties.entrySet()) {
+	        String property = entry.getKey();
+	        Object value = entry.getValue();
+	        
+	        // 处理不同数据类型的查询条件，这里默认都是等值查询
+	        if (value instanceof String) {
+	            sqlBuilder.append(property).append(" = ? AND ");
+	        } else {
+	            // 处理其他数据类型...
+	        }
+	        
+	        values.add(value);
+	    }
+
+	    // 移除末尾多余的 "AND "
+	    sqlBuilder.setLength(sqlBuilder.length() - 5);
+
+	    // 执行查询
+	    List<Map<String, String>> result = db.excutequery(sqlBuilder.toString(), values, conn);
+
+	    // 关闭连接
+	    db.close(conn);
+
+	    // 将查询结果转换为 PlantInfo 对象列表
+	    List<PlantDetailView> PlantDetailViewList = new ArrayList<>();
+	    for (Map<String, String> row : result) {
+	    	PlantDetailView plantViewInfo = new PlantDetailView();
+	        // 设置 PlantInfo 对象的属性...
+
+	    	String dateCreateString = row.get("创建时间");
+ 	    	String dateUpdateString = row.get("更新时间");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date createDate = dateFormat.parse(dateCreateString);
+            Date updateDate = dateFormat.parse(dateUpdateString);
+            
+ 	    	plantViewInfo.setPlantId(row.get("植物编号"));
+ 	    	plantViewInfo.setPlantName(row.get("植物种名"));
+ 	    	plantViewInfo.setFeatures(row.get("形态特征"));
+ 	    	plantViewInfo.setCultivation_tech(row.get("栽培技术"));
+ 	    	plantViewInfo.setValue(row.get("应用价值"));
+ 	    	plantViewInfo.setCreatedBy(row.get("创建人"));
+ 	    	plantViewInfo.setCreatedTime(createDate);
+ 	    	plantViewInfo.setUpdatedTime(updateDate);
+ 	    	plantViewInfo.setFamilyName(row.get("植物科名"));
+ 	    	plantViewInfo.setAlias(row.get("植物别名"));
+ 	    	plantViewInfo.setImageId(row.get("植物配图编号"));
+ 	    	plantViewInfo.setFilename(row.get("配图文件存储路径"));
+ 	    	plantViewInfo.setPlace(row.get("拍摄地点"));
+ 	    	plantViewInfo.setDetail(row.get("配图描述"));
+ 	    	plantViewInfo.setCreater(row.get("拍摄人"));
+ 	    	PlantDetailViewList.add(plantViewInfo);
+	    }
+
+	    return PlantDetailViewList;
+	}
+
+	@Override
+	public List<PlantDetailView> queryFromViewById(String plant_id) throws Exception {
+        DButil db = new DButil();
+        Connection conn = db.getConnection();
+	    // SQL 查询语句
+	    String sql = "SELECT * FROM PlantDetailView WHERE plant_id = ?";
+	    
+	    // 参数列表
+	    List<Object> list = new ArrayList<>();
+	    list.add(plant_id);
+
+ 	    List<PlantDetailView> PlantDetailViewList = new ArrayList<>();
+        try {
+        	 List<Map<String, String>> result = db.excutequery(sql, list, conn);
+
+      
+     	    for (Map<String, String> row : result) {
+     	    	PlantDetailView plantViewInfo = new PlantDetailView();
+     	    	String dateCreateString = row.get("创建时间");
+     	    	String dateUpdateString = row.get("更新时间");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date createDate = dateFormat.parse(dateCreateString);
+                Date updateDate = dateFormat.parse(dateUpdateString);
+                
+     	    	plantViewInfo.setPlantId(row.get("植物编号"));
+     	    	plantViewInfo.setPlantName(row.get("植物种名"));
+     	    	plantViewInfo.setFeatures(row.get("形态特征"));
+     	    	plantViewInfo.setCultivation_tech(row.get("栽培技术"));
+     	    	plantViewInfo.setValue(row.get("应用价值"));
+     	    	plantViewInfo.setCreatedBy(row.get("创建人"));
+     	    	plantViewInfo.setCreatedTime(createDate);
+     	    	plantViewInfo.setUpdatedTime(updateDate);
+     	    	plantViewInfo.setFamilyName(row.get("植物科名"));
+     	    	plantViewInfo.setAlias(row.get("植物别名"));
+     	    	plantViewInfo.setImageId(row.get("植物配图编号"));
+     	    	plantViewInfo.setFilename(row.get("配图文件存储路径"));
+     	    	plantViewInfo.setPlace(row.get("拍摄地点"));
+     	    	plantViewInfo.setDetail(row.get("配图描述"));
+     	    	plantViewInfo.setCreater(row.get("拍摄人"));
+     	    	PlantDetailViewList.add(plantViewInfo);
+     	    }
+
+     	    
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            db.close(conn);
+        }
+
+        return PlantDetailViewList;
+	}
 
 
 
