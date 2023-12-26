@@ -1,7 +1,7 @@
 package bean;
 
 public class ViewMonitor {
-    private String monitorID;
+    private String id;
     private String plant_name;
     private String staffName;
     private String monitorTime;
@@ -11,9 +11,9 @@ public class ViewMonitor {
     private String indexValue;
 
     // 有参构造函数
-    public ViewMonitor(String monitorID, String plant_name, String staffName, String monitorTime,
+    public ViewMonitor(String id, String plant_name, String staffName, String monitorTime,
                        String monitorAddr, String deviceName, String indexName, String indexValue) {
-        this.monitorID = monitorID;
+        this.id = id;
         this.plant_name = plant_name;
         this.staffName = staffName;
         this.monitorTime = monitorTime;
@@ -24,12 +24,12 @@ public class ViewMonitor {
     }
 
     // Getter 和 Setter 方法
-    public String getMonitorID() {
-        return monitorID;
+    public String getID() {
+        return id;
     }
 
-    public void setMonitorID(String monitorID) {
-        this.monitorID = monitorID;
+    public void setID(String id) {
+        this.id = id;
     }
 
     public String getPlant_name() {
@@ -89,7 +89,7 @@ public class ViewMonitor {
     }
 
     public void toPrint() {
-        System.out.println("监测编号: " + monitorID);
+        System.out.println("监测记录编号: " + id);
         System.out.println("监测对象: " + plant_name);
         System.out.println("监测人员: " + staffName);
         System.out.println("监测时间: " + monitorTime);
@@ -97,6 +97,7 @@ public class ViewMonitor {
         System.out.println("检测设备: " + deviceName);
         System.out.println("监测指标: " + indexName);
         System.out.println("监测值: " + indexValue);
+        System.out.println("——————————————————————————————————————");
     }
 }
 

@@ -41,5 +41,6 @@ public class ViewIndexs {
         System.out.println("监测指标名称: " + indexName);
         System.out.println("最大值: " + maxValue);
         System.out.println("平均值: " + avgValue);
+        System.out.println("——————————————————————————————————————");
     }
 }

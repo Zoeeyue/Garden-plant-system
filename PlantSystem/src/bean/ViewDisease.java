@@ -86,5 +86,6 @@ public class ViewDisease {
         System.out.println("药剂名称: " + medicineName);
         System.out.println("药剂用量: " + medicineDosage);
         System.out.println("作用期限: " + medicineDuration);
+        System.out.println("——————————————————————————————————————");
     }
 }

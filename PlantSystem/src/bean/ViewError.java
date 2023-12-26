@@ -52,6 +52,7 @@ public class ViewError {
         System.out.println("监测时间: " + monitorTime);
         System.out.println("监测指标: " + indexName);
         System.out.println("监测值: " + indexValue);
+        System.out.println("——————————————————————————————————————");
     }
 
 }
