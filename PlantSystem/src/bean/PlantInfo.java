@@ -5,11 +5,9 @@ import java.util.Date;
 public class PlantInfo {
 	    private String plantId;
 	    private String plantName;
-	    private String diseaseID;//植物病编号
 	    private String features;
 	    private String cultivationTechniques;
 	    private String value;
-	    private String imageId;
 	    private String createdBy;
 	    private Date createdTime;
 	    private Date updatedTime;
@@ -19,16 +17,16 @@ public class PlantInfo {
 	        
 	    }
 
-	    public PlantInfo(String plantId, String plantName, String diseaseID,
+	    public PlantInfo(String plantId, String plantName,
 	                     String features, String cultivationTechniques, String value,
-	                     String imageId, String createdBy, Date createdTime, Date updatedTime) {
+	                    String createdBy, Date createdTime, Date updatedTime) {
 	        this.plantId = plantId;
 	        this.plantName = plantName;
-	        this.diseaseID=diseaseID;
+//	        this.diseaseID=diseaseID;
 	        this.features = features;
 	        this.cultivationTechniques = cultivationTechniques;
 	        this.value = value;
-	        this.imageId = imageId;
+//	        this.imageId = imageId;
 	        this.createdBy = createdBy;
 	        this.createdTime = createdTime;
 	        this.updatedTime = updatedTime;
@@ -77,13 +75,7 @@ public class PlantInfo {
 	        this.value = value;
 	    }
 
-	    public String getImageId() {
-	        return imageId;
-	    }
 
-	    public void setImageId(String imageId) {
-	        this.imageId = imageId;
-	    }
 
 	    public String getCreatedBy() {
 	        return createdBy;
@@ -109,12 +101,7 @@ public class PlantInfo {
 	        this.updatedTime = updatedTime;
 	    }
 
-		public String getDiseaseID() {
-			return diseaseID;
-		}
 
-		public void setDiseaseID(String diseaseID) {
-			this.diseaseID = diseaseID;
-		}
 	}
+
 
