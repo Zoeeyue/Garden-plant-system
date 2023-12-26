@@ -2,79 +2,99 @@ package bean;
 
 import java.util.Date;
 
-// 定义Upkeep实体类
 public class Upkeep {
-    // 定义私有属性，对应数据库表的字段
-    private String upkeepId; // 任务编号，主键
-    private String upkeepName; // 任务名称
-    private Date upkeepEtime; // 执行时间
-    private String upkeepEplace; // 执行地点
-    private String upkeepSiD; // 执行人员
-    private String upkeepDes; // 任务描述
-    private String plantId; // 养护对象
-    private String upkeepProcess; // 养护进程
 
-    // 定义构造方法，用于创建对象
-    public Upkeep() {} // 空参构造方法
-    public Upkeep(String upkeepId, String upkeepName, Date upkeepEtime, String upkeepEplace, String upkeepSiD, String upkeepDes, String plantId, String upkeepProcess) { // 全参构造方法
-        this.upkeepId = upkeepId;
-        this.upkeepName = upkeepName;
-        this.upkeepEtime = upkeepEtime;
-        this.upkeepEplace = upkeepEplace;
-        this.upkeepSiD = upkeepSiD;
-        this.upkeepDes = upkeepDes;
-        this.plantId = plantId;
-        this.upkeepProcess = upkeepProcess;
+    private String UpkeepId;
+    private String UTaskId;
+    private String plant_id;
+    private String UpkeepName;
+    private String UpkeepDes;
+    private Date UpkeepTime;
+    private String UpkeepPlace;
+    private String UpkeepSiD;
+
+    // Constructors
+
+    public Upkeep() {
+        // 默认构造函数
     }
 
-    // 定义setter和getter方法，用于属性的赋值和取值
+    public Upkeep(String UpkeepId, String UTaskId, String plant_id, String UpkeepName, String UpkeepDes, Date UpkeepTime, String UpkeepPlace, String UpkeepSiD) {
+        this.UpkeepId = UpkeepId;
+        this.UTaskId = UTaskId;
+        this.plant_id = plant_id;
+        this.UpkeepName = UpkeepName;
+        this.UpkeepDes = UpkeepDes;
+        this.UpkeepTime = UpkeepTime;
+        this.UpkeepPlace = UpkeepPlace;
+        this.UpkeepSiD = UpkeepSiD;
+    }
+
+    // Getter and setter methods
+
     public String getUpkeepId() {
-        return upkeepId;
+        return UpkeepId;
     }
-    public void setUpkeepId(String upkeepId) {
-        this.upkeepId = upkeepId;
-    }
-    public String getUpkeepName() {
-        return upkeepName;
-    }
-    public void setUpkeepName(String upkeepName) {
-        this.upkeepName = upkeepName;
-    }
-    public Date getUpkeepEtime() {
-        return upkeepEtime;
-    }
-    public void setUpkeepEtime(Date upkeepEtime) {
-        this.upkeepEtime = upkeepEtime;
-    }
-    public String getUpkeepEplace() {
-        return upkeepEplace;
-    }
-    public void setUpkeepEplace(String upkeepEplace) {
-        this.upkeepEplace = upkeepEplace;
-    }
-    public String getUpkeepSiD() {
-        return upkeepSiD;
-    }
-    public void setUpkeepSiD(String upkeepSiD) {
-        this.upkeepSiD = upkeepSiD;
-    }
-    public String getUpkeepDes() {
-        return upkeepDes;
-    }
-    public void setUpkeepDes(String upkeepDes) {
-        this.upkeepDes = upkeepDes;
-    }
-    public String getPlantId() {
-        return plantId;
-    }
-    public void setPlantId(String plantId) {
-        this.plantId = plantId;
-    }
-    public String getUpkeepProcess() {
-        return upkeepProcess;
-    }
-    public void setUpkeepProcess(String upkeepProcess) {
-        this.upkeepProcess = upkeepProcess;
-    }
-}
 
+    public void setUpkeepId(String UpkeepId) {
+        this.UpkeepId = UpkeepId;
+    }
+
+    public String getUTaskId() {
+        return UTaskId;
+    }
+
+    public void setUTaskId(String UTaskId) {
+        this.UTaskId = UTaskId;
+    }
+
+    public String getPlant_id() {
+        return plant_id;
+    }
+
+    public void setPlant_id(String plant_id) {
+        this.plant_id = plant_id;
+    }
+
+    public String getUpkeepName() {
+        return UpkeepName;
+    }
+
+    public void setUpkeepName(String UpkeepName) {
+        this.UpkeepName = UpkeepName;
+    }
+
+    public String getUpkeepDes() {
+        return UpkeepDes;
+    }
+
+    public void setUpkeepDes(String UpkeepDes) {
+        this.UpkeepDes = UpkeepDes;
+    }
+
+    public Date getUpkeepTime() {
+        return UpkeepTime;
+    }
+
+    public void setUpkeepTime(Date UpkeepTime) {
+        this.UpkeepTime = UpkeepTime;
+    }
+
+    public String getUpkeepPlace() {
+        return UpkeepPlace;
+    }
+
+    public void setUpkeepPlace(String UpkeepPlace) {
+        this.UpkeepPlace = UpkeepPlace;
+    }
+
+    public String getUpkeepSiD() {
+        return UpkeepSiD;
+    }
+
+    public void setUpkeepSiD(String UpkeepSiD) {
+        this.UpkeepSiD = UpkeepSiD;
+    }
+
+    // Other methods if needed
+}
