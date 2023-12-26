@@ -25,4 +25,6 @@ public interface treatmentDAO {
 	boolean existID(String ID) throws Exception;
 
 	String getNewID() throws Exception;
+
+	List<Map<String, String>> queryTreatment2(String medicineID) throws Exception;
 }

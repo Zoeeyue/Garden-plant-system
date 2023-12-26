@@ -20,6 +20,9 @@ public interface indexsDAO {
 
 	//查询监测指标表记录
 	public List<Map<String, String>> queryIndexs(String indexID) throws Exception;
+	
+	//按照监测编号查询监测指标表记录
+	List<Map<String, String>> queryIndexs1(String monitorID) throws Exception;
 
 	//显示检测指标表记录
 	public List<Map<String, String>> listIndexs() throws Exception;

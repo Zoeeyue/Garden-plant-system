@@ -32,6 +32,11 @@ public interface monitorDAO {
 	//判断是否id存在
 	public boolean existID(String ID) throws Exception;
 
+	boolean existID2(String ID) throws Exception;
+	
 	String getNewID() throws Exception;
+
+	List<Map<String, String>> listMonitorShow() throws Exception;
+
 
 }
