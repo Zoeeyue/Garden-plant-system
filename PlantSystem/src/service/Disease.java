@@ -2,115 +2,196 @@ package service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
+import DAO.diseaseDAO;
+import DAO.medicineDAO;
+import DAO.plant_infoDAO;
+import DAO.treatmentDAO;
 import DAO.Impl.diseaseDAOImpl;
 import DAO.Impl.medicineDAOImpl;
+import DAO.Impl.plant_infoDAOImpl;
 import DAO.Impl.treatmentDAOImpl;
+import bean.ViewDisease;
 import bean.disease;
 import bean.medicine;
 import bean.treatment;
 
-//业务4病虫害
+//业务4：病虫害
 public class Disease {
-	//增加病虫害及防治措施记录
+	//增加病虫害及防治措施
 	public void add(medicine m,treatment t,disease d) throws Exception {
-		diseaseDAOImpl disease_di = new diseaseDAOImpl();
-		medicineDAOImpl medicine_di = new medicineDAOImpl();
-		treatmentDAOImpl treatment_di = new treatmentDAOImpl();
-
-		//【缺主码的唯一性验证】
+		diseaseDAO disease_di = new diseaseDAOImpl();
+		medicineDAO medicine_di = new medicineDAOImpl();
+		treatmentDAO treatment_di = new treatmentDAOImpl();
+		//生成id——在封装实体的时候实现
 		disease_di.insertDisease(d);//病虫害
 		treatment_di.insertTreatment(t);//防治方法
 		medicine_di.insertMedicine(m);//药剂
+		System.out.println("添加成功！");
 	}
-	//删除病虫害及防治措施记录
-	public void delete(String medicineID) throws Exception {
-		diseaseDAOImpl disease_di = new diseaseDAOImpl();
-		medicineDAOImpl medicine_di = new medicineDAOImpl();
-		treatmentDAOImpl treatment_di = new treatmentDAOImpl();
-
-		//【缺主码的存在性验证】
-		medicine_di.deleteMedicine(medicineID);//药剂
-		treatment_di.deleteTreatment(medicineID);//防治方法
-		disease_di.deleteDisease(medicineID);//病虫害
+	//删除病虫害及防治措施
+	public void delete(String diseaseID) throws Exception {
+		diseaseDAO disease_di = new diseaseDAOImpl();
+		medicineDAO medicine_di = new medicineDAOImpl();
+		treatmentDAO treatment_di = new treatmentDAOImpl();
+		if(disease_di.existID(diseaseID)) {
+			System.out.print("该病虫害信息不存在！");
+			return;
+		}
+		medicine_di.deleteMedicine(diseaseID);//药剂
+		treatment_di.deleteTreatment(diseaseID);//防治方法
+		disease_di.deleteDisease(diseaseID);//病虫害
+		System.out.println("删除成功！");
 	}
-	//修改病虫害及防治措施记录
-	public void update() {
-		
+	//修改病虫害及防治措施
+	public void update(Object entity) throws Exception {
+		if (entity instanceof disease) {
+			disease d = (disease) entity;
+			diseaseDAO disease_di = new diseaseDAOImpl();
+			disease_di.updateDisease(d);
+	    } else if (entity instanceof treatment) {
+	    	treatment t = (treatment) entity;
+	    	treatmentDAO treatment_di = new treatmentDAOImpl();
+	    	treatment_di.updateTreatment(t);
+	    }else if (entity instanceof medicine) {
+	    	medicine m = (medicine) entity;
+	    	medicineDAOImpl medicine_di = new medicineDAOImpl();
+	    	medicine_di.updateMedicine(m);
+	    }
+		System.out.println("修改成功！");
 	}
-	//查询病虫害及防治措施记录——视图
+	//查询病虫害及防治措施——视图
 	public void search(String searchTerm) throws Exception {
-		diseaseDAOImpl disease_di = new diseaseDAOImpl();
-		disease_di.queryDiseaseSystem(searchTerm);
-	}	
-	//查看病虫害及防治措施记录——视图
+		diseaseDAO disease_di = new diseaseDAOImpl();
+		List<Map<String, String>> result = disease_di.queryDiseaseSystem(searchTerm);
+		for(Map<String, String> map : result) {
+			ViewDisease m = new ViewDisease(map.get("id"),map.get("plant_name"),map.get("diseaseName"),map.get("treatmentName"),map.get("medicineName"),map.get("medicineDosage"),map.get("medicineDuration"));
+			m.toPrint();
+		}
+	}
+	//查看病虫害及防治措施——视图
 	public void list() throws Exception {
-		diseaseDAOImpl disease_di = new diseaseDAOImpl();
-		disease_di.listDiseaseSystem();
+		diseaseDAO disease_di = new diseaseDAOImpl();
+		List<Map<String, String>> result = disease_di.listDiseaseSystem();
+		for(Map<String, String> map : result) {
+			ViewDisease m = new ViewDisease(map.get("id"),map.get("plant_name"),map.get("diseaseName"),map.get("treatmentName"),map.get("medicineName"),map.get("medicineDosage"),map.get("medicineDuration"));
+			m.toPrint();
+		}
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public void testDisease() {
-		//插入药剂记录
-		diseaseDAOImpl mdi = new diseaseDAOImpl();
-		try {
-//			List<String> valueList = new ArrayList<String>();
-			List<Map<String, String>> result = mdi.queryDisease("DISEA00001");
-			System.out.println("查找药品的结果: " + result);
-			disease m;
-			if (!result.isEmpty()) {
-			    Map<String, String> update = result.get(0);
-			    m = new disease(update.get("diseaseID"),update.get("diseaseName"),update.get("plantID"));
-				boolean result_ = mdi.updateDisease(m);
-				System.out.println("结果: " + result_);
-				m.set_diseaseName("毛毛虫");
-//			    for (Map.Entry<String, String> entity : update.entrySet()) {  
-//			        String key = entity.getKey();
-//			        String value = entity.getValue();
-//			        valueList.add(value);
-//			        System.out.println("Key: " + key + ", Value: " + value);
-//			    }
-			} else {  
-			    System.out.println("Result is empty.");
-			}
-			//1 3 0 2 4
-//			disease m = new disease(valueList.get(1),valueList.get(2),valueList.get(0),valueList.get(3));
-//	        m.set_medicineID();
-//			m.set_medicineDosage(valueList.get(2));
-//			m.set_medicineDuration(valueList.get(0));
-//			m.set_medicineName(valueList.get(3));
-			
-//			m.set_medicineDuration("2weeks");
-//			indexs m = new indexs("INDEX00005","土壤湿度","400");
-//			boolean result_ = mdi.insertIndexs(m);
-//			System.out.println("插入的结果: " + result_);
-//			List<Map<String, String>> result = mdi.queryMedicine("MEDIC00008");
-//            System.out.println("查找药品的结果: " + result);
-//			List<Map<String, String>> result = mdi.queryMonitorSystem("MONIT00001");
-//			System.out.println("结果: " + result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+	//接收用户输入的数据进行封装，再连接接口【添加】
+	public void toAdd(Scanner scanner) throws Exception {
+		//业务验证
+        System.out.println("请输入植物编号：");
+        String plantID = scanner.nextLine();
+        plant_infoDAO plant_di = new plant_infoDAOImpl();
+		if(!plant_di.isPlantIdExists(plantID)) {
+			System.out.println("该植物不存在！");
+			return;
+		}
+        //用户输入
+        System.out.println("请输入病虫害名：");
+        String diseaseName = scanner.nextLine();
+        System.out.println("请输入防治方法：");
+        String treatmentName = scanner.nextLine();
+        System.out.println("请输入方法内容：");
+        String treatmentCont = scanner.nextLine();
+        System.out.println("请输入药剂名称");
+        String medicineName = scanner.nextLine();
+        System.out.println("请输入药剂用量：");
+        String medicineDosage = scanner.nextLine();
+        System.out.println("请输入作用期限");
+        String medicineDuration = scanner.nextLine();
+        
+        //生成随机编号
+		diseaseDAO disease_di = new diseaseDAOImpl();
+		String diseaseID = disease_di.getNewID();//病虫害编号编号
+		treatmentDAO treatment_di = new treatmentDAOImpl();
+		String treatmentID = treatment_di.getNewID();//防治方法编号
+		medicineDAO medicine_di = new medicineDAOImpl();
+		String medicineID = medicine_di.getNewID();//药剂编号
+		
+        //封装数据
+		medicine m = new medicine(medicineID,medicineName,medicineDosage,medicineDuration,treatmentID);
+		treatment t = new treatment(treatmentID,treatmentName,treatmentCont,diseaseID);
+		disease d = new disease(diseaseID,diseaseName,plantID);
+        //调用接口
+		add(m,t,d);
 	}
-	public static void main(String[] args) {
-		Disease d = new Disease();
-		d.testDisease();
+	
+	
+	public void toUpdate(Scanner scanner) throws Exception {
+		//显示检测记录供用户选择
+//		medicineDAO medicine_di = new medicineDAOImpl();
+//		medicine_di.listID();
+		diseaseDAO disease_di = new diseaseDAOImpl();
+		System.out.println("请选择病虫害防治记录编号：");
+		String ID = scanner.nextLine();
+		//业务验证
+		if(disease_di.existID(ID)) {
+			System.out.println("病虫害防治记录不存在！");
+			return;
+		}
+		//用户输入,返回数据，封装实体
+		System.out.println("请选择信息进行修改：");
+		System.out.println("1.病虫害基本信息");
+		System.out.println("2.防治方法基本信息");
+		System.out.println("3.药剂基本信息");
+		int id = scanner.nextInt();
+		scanner.nextLine();
+		while(id!=2&&id!=1&&id!=3) {
+			System.out.println("序号无效！请重新选择：");
+			id = scanner.nextInt();
+			scanner.nextLine();
+		}
+		List<Map<String, String>> result;
+		Map<String,String> map;
+		switch(id) {
+			case 1:
+				result = disease_di.queryDisease(ID);
+				map = result.get(0);
+				disease d = new disease(map.get("diseaseID"),map.get("diseaseName"),map.get("plantID"));
+			
+				System.out.println("请输入病虫害名称："+d.get_diseaseName()+"）");
+		        String diseaseName = scanner.nextLine();
+		        d.set_diseaseName(diseaseName);
+				//调用接口
+				update(d);
+				break;
+			case 2:
+				treatmentDAO treatment_di = new treatmentDAOImpl();
+				result = treatment_di.queryTreatment(ID);
+				map = result.get(0);
+				treatment t = new treatment(map.get("treatmentID"),map.get("treatmentName"),map.get("treatmentCont"),map.get("diseaseID"));
+				
+		        System.out.println("请输入防治方法名称：（原："+t.get_treatmentName()+"）");
+		        String treatmentName = scanner.nextLine();
+		        t.set_treatmentName(treatmentName);
+		        System.out.println("请输入防治方法内容");
+		        String treatmentCont = scanner.nextLine();
+		        t.set_treatmentCont(treatmentCont);
+				//调用接口
+		        update(t);
+				break;
+			case 3:
+				medicineDAO medicine_di = new medicineDAOImpl();
+				result = medicine_di.queryMedicine(ID);
+				map = result.get(0);
+				medicine m = new medicine(map.get("medicineID"),map.get("medicineName"),map.get("medicineDosage"),map.get("medicineDuration"),map.get("treatmentID"));
+				
+		        System.out.println("请输入药剂名称：（原："+m.get_medicineName()+"）");
+		        String medicineName = scanner.nextLine();
+		        m.set_medicineName(medicineName);
+		        System.out.println("请输入药剂用量（原："+m.get_medicineDosage()+"）");
+		        String medicineDosage = scanner.nextLine();
+		        m.set_medicineDosage(medicineDosage);
+		        System.out.println("请输入作用期限（原："+m.get_medicineDuration()+"）");
+		        String medicineDuration = scanner.nextLine();
+		        m.set_medicineDuration(medicineDuration);
+				//调用接口
+		        update(m);
+				break;
+		}	
 	}
 }
