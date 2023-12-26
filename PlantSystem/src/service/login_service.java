@@ -177,8 +177,8 @@ public class login_service {
         while (flag) {
             System.out.println("植物监测信息管理菜单:");
             System.out.println("1. 查看监测记录");//OK
-            System.out.println("2. 添加监测记录");
-            System.out.println("3. 修改监测记录");
+            System.out.println("2. 添加监测记录");//OK
+            System.out.println("3. 修改监测记录");//OK
             System.out.println("4. 删除指标记录");//OK
             System.out.println("5. 删除监测记录");//OK
             System.out.println("6. 查询监测记录");//OK
@@ -195,9 +195,11 @@ public class login_service {
                     break;
                 case 2:
                     System.out.println("添加监测记录");
+                    monitor.toAdd(scanner);
                     break;
                 case 3:
                     System.out.println("修改监测记录");
+                    monitor.toUpdate(scanner);
                     break;
                 case 4:
                     System.out.println("删除指标记录");
@@ -240,8 +242,8 @@ public class login_service {
         while (true) {
             System.out.println("植物病虫害防治信息管理菜单:");
             System.out.println("1. 查看病虫害及防治措施信息");//OK
-            System.out.println("2. 添加病虫害及防治措施信息");
-            System.out.println("3. 修改病虫害及防治措施信息");
+            System.out.println("2. 添加病虫害及防治措施信息");//OK
+            System.out.println("3. 修改病虫害及防治措施信息");//OK
             System.out.println("4. 删除病虫害及防治措施信息");//OK
             System.out.println("5. 查询病虫害及防治措施信息");//OK
             System.out.println("6. 退出");//OK
@@ -255,9 +257,11 @@ public class login_service {
                     break;
                 case 2:
                     System.out.println("添加病虫害及防治措施信息");
+                    disease.toAdd(scanner);
                     break;
                 case 3:
                     System.out.println("修改病虫害及防治措施信息");
+                    disease.toUpdate(scanner);
                     break;
                 case 4:
                     System.out.println("删除病虫害及防治措施信息");
@@ -269,7 +273,7 @@ public class login_service {
                     System.out.println("查询病虫害及防治措施信息");
                     System.out.println("请输入已知的属性值：");
                     ID = scanner.nextLine();
-                    disease.delete(ID);
+                    disease.search(ID);
                     break;
                 case 6:
                     System.out.println("退出");
