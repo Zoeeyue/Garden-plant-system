@@ -1,21 +1,31 @@
-package monitor;
+package bean;
 //监测表
 public class monitor {
+	private String monitorID;//监测编号
 	private String monitorTime;//监测时间
 	private String monitorAddr;//监测地点
 	private String deviceID;//设备编号
 	private String plantID;//对象编号
 	private String staffID;//员工编号
 	
-    public monitor(String monitorTime, String monitorAddr, String deviceID, String plantID, String staffID) {  
-        this.monitorTime = monitorTime;  
+    public monitor(String monitorID, String monitorTime, String monitorAddr, String deviceID, String plantID, String staffID) {  
+        this.monitorID = monitorID;  
+	this.monitorTime = monitorTime;  
         this.monitorAddr = monitorAddr;
         this.deviceID = deviceID;  
         this.plantID = plantID;  
         this.staffID = staffID;  
+    }
+	
+    public String get_monitorID() {  
+        return this.monitorID;  
+    }  
+  
+    public void set_monitorID(String monitorID) {  
+        this.monitorID = monitorID;  
     }  
 	
-	public String get_monitorTime() {  
+    public String get_monitorTime() {  
         return this.monitorTime;  
     }  
   
