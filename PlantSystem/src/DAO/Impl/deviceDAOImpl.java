@@ -55,16 +55,22 @@ public class deviceDAOImpl implements deviceDAO{
 		return function.search(list,sql);
 	}
 	//判断是否id重复
-		@Override
-		public boolean existID(String ID) throws Exception {
-			List<Object> list = new ArrayList<Object>();
-			list.add(ID);
-			String sql ="SELECT * FROM device WHERE deviceID=?";
-			List<Map<String, String>> row = function.search(list,sql);
-			if(row.isEmpty()) {
-				return true;
-			}else {
-				return false;
-			}
+	@Override
+	public boolean existID(String ID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(ID);
+		String sql ="SELECT * FROM device WHERE deviceID=?";
+		List<Map<String, String>> row = function.search(list,sql);
+		if(row.isEmpty()) {
+			return true;
+		}else {
+			return false;
 		}
+	}
+	//获取最大编号+1并返回新编号
+	@Override
+	public String getNewID() throws Exception {
+		String sql = "SELECT MAX(deviceID) AS max_id FROM device";
+		return function.getNewID(sql,"DIV");
+	}
 }

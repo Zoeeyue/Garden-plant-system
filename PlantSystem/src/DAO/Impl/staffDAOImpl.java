@@ -59,16 +59,39 @@ public class staffDAOImpl implements staffDAO{
 		return function.search(list,sql);
 	}
 	//判断是否id重复
-		@Override
-		public boolean existID(String ID) throws Exception {
-			List<Object> list = new ArrayList<Object>();
-			list.add(ID);
-			String sql ="SELECT * FROM staff WHERE staffID=?";
-			List<Map<String, String>> row = function.search(list,sql);
-			if(row.isEmpty()) {
-				return true;
-			}else {
-				return false;
-			}
+	@Override
+	public boolean existID(String ID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(ID);
+		String sql ="SELECT * FROM staff WHERE staffID=?";
+		List<Map<String, String>> row = function.search(list,sql);
+		if(row.isEmpty()) {
+			return true;
+		}else {
+			return false;
 		}
+	}
+		
+//	//获取最大编号+1并返回新编号
+//	@Override
+//	public String getNewID() throws Exception {
+//		String sql = "SELECT MAX(staffID) AS max_id FROM staff";
+//		return function.getNewID(sql);
+//	}
+	
+	//登录
+    @Override
+    public staff login(String username, String password) throws Exception {
+        List<Object> list = new ArrayList<>();
+        list.add(username);
+        list.add(password);
+        String sql = "SELECT * FROM staff WHERE staffID = ? AND staffPwd = ?";
+        List<Map<String, String>> result = function.search(list,sql);
+        if (!result.isEmpty()) {
+            Map<String, String> staffInfoMap = result.get(0);
+            staff staff = new staff(staffInfoMap.get("staffID"),staffInfoMap.get("staffName"),staffInfoMap.get("staffPwd"));           
+            return staff;
+        }
+        return null;
+    }
 }

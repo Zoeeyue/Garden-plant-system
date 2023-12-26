@@ -27,13 +27,22 @@ public class indexsDAOImpl implements indexsDAO{
 	
 	//删除监测指标表记录
 	@Override
-	public boolean deleteIndexs(String indexID) throws Exception {
+	public boolean deleteIndexsByID(String indexID) throws Exception {
 		List<Object> list = new ArrayList<Object>();
 		list.add(indexID);
 		String sql = "DELETE FROM indexs WHERE indexID=?;";
 		return function.operate(list,sql);
 	}
-
+	
+	//删除监测指标表记录
+	@Override
+	public boolean deleteIndexsByMonitor(String monitorID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(monitorID);
+		String sql = "DELETE FROM indexs WHERE monitorID=?;";
+		return function.operate(list,sql);
+	}
+	
 	//修改监测指标表记录
 	@Override
 	public boolean updateIndexs(indexs bean) throws Exception {
@@ -54,7 +63,7 @@ public class indexsDAOImpl implements indexsDAO{
 	public List<Map<String, String>> queryIndexs(String indexID) throws Exception {
 		List<Object> list = new ArrayList<Object>();
 		list.add(indexID);
-		String sql ="SELECT * FROM index WHERE indexID=?";
+		String sql ="SELECT * FROM indexs WHERE indexID=?";
 		return function.search(list,sql);
 	}
 
@@ -64,6 +73,18 @@ public class indexsDAOImpl implements indexsDAO{
 		List<Object> list = new ArrayList<Object>();
 		String sql ="SELECT * FROM indexs";
 		return function.search(list,sql);
+	}
+	
+	//显示检测指标表所有编号
+	@Override
+	public void listID() throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		String sql ="SELECT indexID FROM indexs";
+		List<Map<String, String>> result = function.search(list,sql);
+		for(Map<String,String> map:result) {
+			System.out.print(map.get("indexID")+"\t");
+		}
+		System.out.println();
 	}
 	
 	//计算指标最大值、均值——已实现视图（可替换）
@@ -86,5 +107,12 @@ public class indexsDAOImpl implements indexsDAO{
 		}else {
 			return false;
 		}
+	}
+	
+	//获取最大编号+1并返回新编号
+	@Override
+	public String getNewID() throws Exception {
+		String sql = "SELECT MAX(indexID) AS max_id FROM indexs";
+		return function.getNewID(sql,"IND");
 	}
 }

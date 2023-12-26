@@ -27,7 +27,8 @@ public class diseaseDAOImpl implements diseaseDAO {
 	public boolean deleteDisease(String medicineID) throws Exception {
 		List<Object> list = new ArrayList<Object>();
 		list.add(medicineID);
-		String sql = "DELETE FROM disease WHERE diseaseID IN(SELECT treatmentID FROM treatment WHERE treatmentID IN(SELECT treatmentID FROM medicine WHERE medicineID=?))";
+//		String sql = "DELETE FROM disease WHERE diseaseID IN(SELECT treatmentID FROM treatment WHERE treatmentID IN(SELECT treatmentID FROM medicine WHERE medicineID=?))";
+		String sql = "DELETE FROM medicine WHERE medicineID=?;";
 		return function.operate(list,sql);
 	}
 	//修改病虫害表记录
@@ -80,19 +81,25 @@ public class diseaseDAOImpl implements diseaseDAO {
 		return function.search(list,sql);
 	}
 	//判断是否id重复
-		@Override
-		public boolean existID(String ID) throws Exception {
-			List<Object> list = new ArrayList<Object>();
-			list.add(ID);
-			String sql ="SELECT * FROM disease WHERE diseaseID=?";
-			List<Map<String, String>> row = function.search(list,sql);
-			if(row.isEmpty()) {
-				return true;
-			}else {
-				return false;
-			}
+	@Override
+	public boolean existID(String ID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(ID);
+		String sql ="SELECT * FROM disease WHERE diseaseID=?";
+		List<Map<String, String>> row = function.search(list,sql);
+		if(row.isEmpty()) {
+			return true;
+		}else {
+			return false;
 		}
-
+	}
+		
+	//获取最大编号+1并返回新编号
+	@Override
+	public String getNewID() throws Exception {
+		String sql = "SELECT MAX(diseaseID) AS max_id FROM disease";
+		return function.getNewID(sql,"DIS");
+	}
 //	@Override
 //	public List<Map<String, String>> queryDiseaseSystem(String monitorID) throws Exception {
 //		List<Object> list = new ArrayList<Object>();

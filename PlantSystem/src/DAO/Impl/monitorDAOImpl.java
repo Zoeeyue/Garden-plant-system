@@ -27,10 +27,10 @@ public class monitorDAOImpl implements monitorDAO{
 	}
 	//删除监测表记录
 	@Override
-	public boolean deleteMonitor(String indexID) throws Exception {
+	public boolean deleteMonitor(String monitorID) throws Exception {
 		List<Object> list = new ArrayList<Object>();
-		list.add(indexID);
-		String sql = "DELETE FROM monitor WHERE monitorID IN(SELECT monitorID FROM indexs WHERE indexID=?)";
+		list.add(monitorID);
+		String sql = "DELETE FROM monitor WHERE monitorID=?;";
 		return function.operate(list,sql);
 	}
 	//修改监测表记录
@@ -57,6 +57,17 @@ public class monitorDAOImpl implements monitorDAO{
 		String sql ="SELECT * FROM monitor WHERE monitorID=?";
 		return function.search(list,sql);
 	}
+	
+	//查询监测表记录
+	@Override
+	public List<Map<String, String>> queryMonitor1(String indexID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(indexID);
+		String sql ="SELECT * FROM monitor WHERE monitorID IN(SELECT monitorID FROM indexs WHERE indexID=?);";
+		return function.search(list,sql);
+	}
+	
+	
 	//显示监测表记录
 	@Override
 	public List<Map<String, String>> listMonitor() throws Exception {
@@ -70,7 +81,7 @@ public class monitorDAOImpl implements monitorDAO{
 	public List<Map<String, String>> queryMonitorSystem(String searchTerm) throws Exception {
 	    List<Object> list = new ArrayList<>();
 	    StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM MonitorYewu WHERE ");
-	    sqlBuilder.append("monitorID=? OR staffName=? OR monnitorAddr=? OR plant_name=? OR monitorTime=? OR deviceName=? OR indexName=?");
+	    sqlBuilder.append("monitorID=? OR staffName=? OR monitorAddr=? OR plant_name=? OR monitorTime=? OR deviceName=? OR indexName=?");
 	    for (int i = 0; i < 7; i++) {
 	        list.add(searchTerm);
 	    }
@@ -97,7 +108,12 @@ public class monitorDAOImpl implements monitorDAO{
 			return false;
 		}
 	}
-	
+	//获取最大编号+1并返回新编号
+	@Override
+	public String getNewID() throws Exception {
+		String sql = "SELECT MAX(monitorID) AS max_id FROM monitor";
+		return function.getNewID(sql,"MON");
+	}
 //	@Override
 //	public List<Map<String, String>> queryMonitorSystem(String monitorID) throws Exception {
 //		List<Object> list = new ArrayList<Object>();

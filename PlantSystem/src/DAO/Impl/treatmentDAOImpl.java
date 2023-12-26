@@ -28,7 +28,8 @@ public class treatmentDAOImpl implements treatmentDAO{
 	public boolean deleteTreatment(String medicineID) throws Exception {
 		List<Object> list = new ArrayList<Object>();
 		list.add(medicineID);
-		String sql = "DELETE FROM treatment WHERE treatmentID IN(SELECT treatmentID FROM medicine WHERE medicineID=?);";
+//		String sql = "DELETE FROM treatment WHERE treatmentID IN(SELECT treatmentID FROM medicine WHERE medicineID=?);";
+		String sql = "DELETE FROM medicine WHERE medicineID IN(SELECT medicineID FROM treatment WHERE treatmentID=?;";
 		return function.operate(list,sql);
 	}
 	//修改防治方法表记录
@@ -72,5 +73,11 @@ public class treatmentDAOImpl implements treatmentDAO{
 			}else {
 				return false;
 			}
+		}
+		//获取最大编号+1并返回新编号
+		@Override
+		public String getNewID() throws Exception {
+			String sql = "SELECT MAX(treatmentID) AS max_id FROM treatment";
+			return function.getNewID(sql,"TRE");
 		}
 }

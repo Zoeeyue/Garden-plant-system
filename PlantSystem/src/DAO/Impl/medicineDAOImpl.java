@@ -29,7 +29,8 @@ public class medicineDAOImpl implements medicineDAO{
 	public boolean deleteMedicine(String medicineID) throws Exception {
 		List<Object> list = new ArrayList<Object>();
 		list.add(medicineID);
-		String sql = "DELETE FROM medicine WHERE medicineID=?;";
+//		String sql = "DELETE FROM medicine WHERE medicineID=?;";
+		String sql = "DELETE FROM medicine WHERE medicineID IN(SELECT medicineID FROM treatment WHERE treatmentID IN(SELECT treatmentID FROM disease WHERE diseaseID=?));";
 		return function.operate(list,sql);
 	}
 	//修改药剂表记录
@@ -62,6 +63,18 @@ public class medicineDAOImpl implements medicineDAO{
 		String sql ="SELECT * FROM medicine";
 		return function.search(list,sql);
 	}
+	
+	@Override
+	public void listID() throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		String sql ="SELECT medicineID FROM medicine";
+		List<Map<String, String>> result = function.search(list,sql);
+		for(Map<String,String> map:result) {
+			System.out.print(map.get("medicineID")+"\t");
+		}
+		System.out.println();
+	}
+	
 	//判断是否id存在
 		@Override
 		public boolean existID(String ID) throws Exception {
@@ -74,5 +87,12 @@ public class medicineDAOImpl implements medicineDAO{
 			}else {
 				return false;
 			}
+		}
+		
+		//获取最大编号+1并返回新编号
+		@Override
+		public String getNewID() throws Exception {
+			String sql = "SELECT MAX(medicineID) AS max_id FROM medicine";
+			return function.getNewID(sql,"MED");
 		}
 }
