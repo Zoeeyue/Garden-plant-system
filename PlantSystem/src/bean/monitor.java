@@ -9,23 +9,22 @@ public class monitor {
 	private String staffID;//员工编号
 	
     public monitor(String monitorID, String monitorTime, String monitorAddr, String deviceID, String plantID, String staffID) {  
-        this.monitorID = monitorID;  
-	this.monitorTime = monitorTime;  
+    	this.monitorID = monitorID;  
+    	this.monitorTime = monitorTime;  
         this.monitorAddr = monitorAddr;
         this.deviceID = deviceID;  
         this.plantID = plantID;  
         this.staffID = staffID;  
-    }
-	
-    public String get_monitorID() {  
+    }  
+    
+	public String get_monitorID() {  
         return this.monitorID;  
     }  
   
     public void set_monitorID(String monitorID) {  
         this.monitorID = monitorID;  
     }  
-	
-    public String get_monitorTime() {  
+	public String get_monitorTime() {  
         return this.monitorTime;  
     }  
   

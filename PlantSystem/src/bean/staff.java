@@ -33,5 +33,6 @@ public class staff {
   
     public void set_staffPwd(String staffPwd) {  
         this.staffPwd = staffPwd;  
-    }  
+    }
+
 }

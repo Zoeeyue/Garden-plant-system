@@ -12,9 +12,9 @@ public class device {
     public String get_deviceID() {  
         return this.deviceID;  
     }
-  
+    
     public void set_deviceID(String deviceID) {  
-        this.deviceID = deviceID;  
+        this.deviceID = deviceID;
     }  
   
     public String get_deviceName() {  
@@ -24,4 +24,5 @@ public class device {
     public void set_deviceName(String deviceName) {  
         this.deviceName = deviceName;  
     }  
+    
 }

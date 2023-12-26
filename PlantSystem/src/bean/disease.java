@@ -5,12 +5,11 @@ public class disease {
 	private String diseaseName;//病虫害名称
 	private String plantID;//植物编号
 	
-    public disease(String diseaseID, String diseaseName, String plantID) {  
+    public disease(String diseaseID, String diseaseName, String plantID) {
         this.diseaseID = diseaseID;
         this.diseaseName = diseaseName;
-        this.plantID = plantID;  
-    }  
-	
+        this.plantID = plantID;
+    }
 	public String get_diseaseID() {
 		return this.diseaseID;
 	}
@@ -23,6 +22,7 @@ public class disease {
 	public void set_diseaseName(String diseaseName) {
 		this.diseaseName = diseaseName;
 	}
+	
 	public String get_plantID() {
 		return this.plantID;
 	}
