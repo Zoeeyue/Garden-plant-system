@@ -1,14 +1,14 @@
-package Disease;
+package bean;
 //病虫害表
 public class disease {
 	private String diseaseID;//病虫害编号
 	private String diseaseName;//病虫害名称
-	private String treatmentID;//防治方法编号
+	private String plantID;//植物编号
 	
-    public disease(String diseaseID, String diseaseName, String treatmentID) {  
+    public disease(String diseaseID, String diseaseName, String plantID) {  
         this.diseaseID = diseaseID;
         this.diseaseName = diseaseName;
-        this.treatmentID = treatmentID;  
+        this.plantID = plantID;  
     }  
 	
 	public String get_diseaseID() {
@@ -23,10 +23,10 @@ public class disease {
 	public void set_diseaseName(String diseaseName) {
 		this.diseaseName = diseaseName;
 	}
-	public String get_treatmentID() {
-		return this.treatmentID;
+	public String get_plantID() {
+		return this.plantID;
 	}
-	public void set_treatmentID(String treatmentID) {
-		this.treatmentID = treatmentID;
+	public void set_plantID(String plantID) {
+		this.plantID = plantID;
 	}
 }
