@@ -1,4 +1,4 @@
-package Disease;
+package bean;
 //防治方法表
 public class treatment {
 	private String treatmentID;//方法编号
