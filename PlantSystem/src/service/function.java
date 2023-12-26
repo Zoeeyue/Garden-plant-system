@@ -48,9 +48,9 @@ public class function {
             String prefix = maxId.replaceAll("\\d", "");
             int number = Integer.parseInt(maxId.replaceAll("\\D", ""));
             number++;
-            newID = prefix + String.format("%04d", number);
+            newID = prefix + String.format("%07d", number);
         } else {
-        	newID = first+"0001";
+        	newID = first+"0000001";
         }
         return newID;
 	}

@@ -5,15 +5,18 @@ import java.util.Map;
 import java.util.Scanner;
 
 import DAO.diseaseDAO;
+import DAO.expertDAO;
 import DAO.medicineDAO;
 import DAO.plant_infoDAO;
 import DAO.treatmentDAO;
 import DAO.Impl.diseaseDAOImpl;
+import DAO.Impl.expertDAOImpl;
 import DAO.Impl.medicineDAOImpl;
 import DAO.Impl.plant_infoDAOImpl;
 import DAO.Impl.treatmentDAOImpl;
 import bean.ViewDisease;
 import bean.disease;
+import bean.expert;
 import bean.medicine;
 import bean.treatment;
 
@@ -119,17 +122,16 @@ public class Disease {
         //调用接口
 		add(m,t,d);
 	}
-	
-	
+
 	public void toUpdate(Scanner scanner) throws Exception {
 		//显示检测记录供用户选择
-//		medicineDAO medicine_di = new medicineDAOImpl();
-//		medicine_di.listID();
+		medicineDAO medicine_di = new medicineDAOImpl();
 		diseaseDAO disease_di = new diseaseDAOImpl();
+		disease_di.listDiseaseShow();
 		System.out.println("请选择病虫害防治记录编号：");
 		String ID = scanner.nextLine();
 		//业务验证
-		if(disease_di.existID(ID)) {
+		if(disease_di.existID2(ID)) {
 			System.out.println("病虫害防治记录不存在！");
 			return;
 		}
@@ -149,7 +151,7 @@ public class Disease {
 		Map<String,String> map;
 		switch(id) {
 			case 1:
-				result = disease_di.queryDisease(ID);
+				result = disease_di.queryDisease2(ID);
 				map = result.get(0);
 				disease d = new disease(map.get("diseaseID"),map.get("diseaseName"),map.get("plantID"));
 			
@@ -161,7 +163,7 @@ public class Disease {
 				break;
 			case 2:
 				treatmentDAO treatment_di = new treatmentDAOImpl();
-				result = treatment_di.queryTreatment(ID);
+				result = treatment_di.queryTreatment2(ID);
 				map = result.get(0);
 				treatment t = new treatment(map.get("treatmentID"),map.get("treatmentName"),map.get("treatmentCont"),map.get("diseaseID"));
 				
@@ -175,7 +177,6 @@ public class Disease {
 		        update(t);
 				break;
 			case 3:
-				medicineDAO medicine_di = new medicineDAOImpl();
 				result = medicine_di.queryMedicine(ID);
 				map = result.get(0);
 				medicine m = new medicine(map.get("medicineID"),map.get("medicineName"),map.get("medicineDosage"),map.get("medicineDuration"),map.get("treatmentID"));
@@ -193,5 +194,74 @@ public class Disease {
 		        update(m);
 				break;
 		}	
+	}
+	
+	//管理专家（主管）
+	public void manageExpert(Scanner scanner) throws Exception {
+		expertDAO expert_di = new expertDAOImpl();
+		System.out.println("管理专家信息：");
+		System.out.println("1.查看专家");
+		System.out.println("2.增加专家");
+		System.out.println("3.删除专家");
+		int choice = scanner.nextInt();
+		scanner.nextLine();
+        while(choice!=2&&choice!=1&&choice!=3) {
+			System.out.println("序号无效！请重新选择：");
+			choice = scanner.nextInt();
+			scanner.nextLine();
+		}
+		String ID;//用户输入
+		
+		switch(choice) {
+		case 1:
+			System.out.println("查看专家");
+			expert_di.listExpert();
+			List<Map<String, String>> result = expert_di.listExpert();
+			for(Map<String, String> map : result) {
+				expert m = new expert(map.get("expertID"),map.get("expertName"),map.get("expertPwd"));
+		        System.out.println("专家编号: " + m.get_expertID());
+		        System.out.println("专家名称: " + m.get_expertName());
+		        System.out.println("专家密码: " + m.get_expertPwd());
+		        System.out.println("——————————————————————————————————————");
+			}
+			break;
+		case 2:
+			System.out.println("增加专家");
+            System.out.println("请输入专家编号：");
+            ID = scanner.nextLine();
+    		if(!expert_di.existID(ID)) {
+    			System.out.print("该专家已存在！");
+    			return;
+    		}
+            System.out.println("请输入专家名称：");
+            String name = scanner.nextLine();
+            System.out.println("请输入专家密码：");
+            String pwd = scanner.nextLine();
+            expert e = new expert(ID,name,pwd);
+            add_expert(e);
+			break;
+		case 3:
+			System.out.println("删除专家");
+            System.out.println("请输入专家编号：");
+            ID = scanner.nextLine();
+    		if(expert_di.existID(ID)) {
+    			System.out.print("该专家不存在！");
+    			return;
+    		}
+    		delete_expert(ID);
+			break;
+		}
+	}
+	//单独删除专家（离职）
+	public void delete_expert(String expertID) throws Exception {
+		expertDAO expert_di = new expertDAOImpl();
+		expert_di.deleteExpert(expertID);
+		System.out.print("删除成功！");
+	}
+	//单独添加专家（入职）
+	public void add_expert(expert e) throws Exception {
+		expertDAO expert_di = new expertDAOImpl();
+		expert_di.insertExpert(e);
+		System.out.print("添加成功！");
 	}
 }
