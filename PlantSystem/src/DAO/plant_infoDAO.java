@@ -1,9 +1,12 @@
 package DAO;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
+import bean.PlantDetailView;
 import bean.PlantInfo;
+import comm.DButil;
 
 public interface plant_infoDAO {
 
@@ -43,13 +46,28 @@ public interface plant_infoDAO {
      * @return
      * @throws Exception
      */
-    public List queryAllPf() throws Exception;
+    public List<PlantDetailView> queryAllPf() throws Exception;
 
     /**
      * 根据用户需要统计平台中每科植物的数量，支持不同科名植物的视图。通过视图来查
      * @param specifiedScientificName，用户指定科名
      * @return
      */
-    public Map<String, Integer> countPlantsByScientificName(String specifiedScientificName) throws Exception;
+    public Map<String, Integer> countPlantsByScientificName() throws Exception;
+    
+    /**
+     * 根据属性或属性组合查询园林植物信息
+     * @param properties 属性及其值的映射
+     * @return 匹配的园林植物信息列表
+     */
+    public List<PlantInfo> queryPlantsByProperties(Map<String, Object> properties) throws Exception;
+
+    /**
+     * 根据植物编号（主键）查找植物在数据库中是否存在
+     * @param 植物编号
+     * @return 是或否
+     */
+    public boolean isPlantIdExists(String plantId) throws Exception;
+
 
 }
