@@ -36,7 +36,7 @@ public class DButil {
     public Connection getConnection() throws Exception {
         Class.forName(classdriver);
         Connection conn = DriverManager.getConnection(url, user, password);
-        System.out.println("连接成功");
+        // System.out.println("连接成功");
         return conn;
     }
     /**
@@ -47,7 +47,7 @@ public class DButil {
     public void close(Connection conn) throws SQLException {
         if(state != null)state.close();
         conn.close();
-        System.out.println("连接关闭");
+        // System.out.println("连接关闭");
     }
 
     /**
@@ -95,7 +95,7 @@ public class DButil {
             }
             list.add(map);
         }
-        System.out.println("查询完成");
+        // System.out.println("查询完成");
         return list;
     }
     
