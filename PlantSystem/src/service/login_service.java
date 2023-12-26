@@ -7,9 +7,9 @@ import DAO.Impl.image_infoDAOImpl;
 import bean.PlantInfo;
 import bean.adminInfo;
 import bean.staff;
-//import DAO.staffDAO;
+import DAO.staffDAO;
 import DAO.Impl.plant_infoDAOImpl;
-//import DAO.Impl.staffDAOImpl;
+import DAO.Impl.staffDAOImpl;
 
 public class login_service {
 	
@@ -19,7 +19,7 @@ public class login_service {
 	public void roleChoose() {
 		Scanner scanner = new Scanner(System.in);
 		while(true) {
-			System.out.println("请选择登录角色：1.系统管理员 2.主管部门 3.养护人员 4.监测人员");
+			System.out.println("请选择登录角色：1.系统管理员 2.主管部门 3.养护人员 4.监测人员 5.病虫害防治专家");
 			int roleID = scanner.nextInt();
             scanner.nextLine();
 			switch (roleID) {
@@ -27,12 +27,16 @@ public class login_service {
 					getadminInfoFromUser(scanner);
 					break;
 				case 2:
+					getmasterInfoFromUser(scanner);
 					break;
 				case 3:
 //					getupkeepInfoFromUser(scanner);
 					break;
 				case 4:
-//					getstaffInfoFromUser(scanner);
+					getstaffInfoFromUser(scanner);
+					break;
+				case 5:
+					getexpertInfoFromUser(scanner);
 					break;
 				default:
 					System.out.println("序号无效，请重新输入！");
@@ -42,6 +46,7 @@ public class login_service {
 	}
 
 	//账号密码验证
+	//管理员
 	private static void getadminInfoFromUser(Scanner scanner) {
 		System.out.println("您选择以【系统管理员】身份登录，请输入您的账号：");
 		String Id = scanner.nextLine();
@@ -81,23 +86,24 @@ public class login_service {
 		}
 	}
 	
-	private static void getupkeepInfoFromUser() {
-	Scanner scanner = new Scanner(System.in);
-		System.out.println("您选择以【养护人员】身份登录，请输入您的账号：");
-		String Id = scanner.nextLine();
-        System.out.println("请输入您的密码: ");
-        String password = scanner.nextLine();
-        UpkeepStaff staff = new UpkeepStaff(Id,"",password);
-	///
-	}
+	// private static void getupkeepInfoFromUser() {
+	// Scanner scanner = new Scanner(System.in);
+	// 	System.out.println("您选择以【养护人员】身份登录，请输入您的账号：");
+	// 	String Id = scanner.nextLine();
+ //        System.out.println("请输入您的密码: ");
+ //        String password = scanner.nextLine();
+ //        UpkeepStaff staff = new UpkeepStaff(Id,"",password);
+	// ///
+	// }
 //	
+	//监测人员
 	private static void getstaffInfoFromUser(Scanner scanner) {
 		System.out.println("您选择以【监测人员】身份登录，请输入您的账号：");
 		String Id = scanner.nextLine();
-        System.out.println("请输入您的密码: ");
-        String password = scanner.nextLine();
-        staff staff = new staff(Id,"",password);
-        staffDAO staff_ =new staffDAOImpl();
+	        System.out.println("请输入您的密码: ");
+	        String password = scanner.nextLine();
+	        staff staff = new staff(Id,"",password);
+	        staffDAO staff_ =new staffDAOImpl();
 		try {
 			staff isstaff = staff_.login(staff.get_staffID(), staff.get_staffPwd());
 		     if(isstaff==null) {
@@ -111,16 +117,60 @@ public class login_service {
 		     }
 		} catch (Exception e) {
 				e.printStackTrace();
+			}
+		}
+	//病虫害防治专家
+	private static void getexpertInfoFromUser(Scanner scanner) {
+		System.out.println("您选择以【病虫害防治专家】身份登录，请输入您的账号：");
+		String Id = scanner.nextLine();
+	        System.out.println("请输入您的密码: ");
+	        String password = scanner.nextLine();
+	        expert expert = new expert(Id,"",password);
+	        expertDAO expert_ =new expertDAOImpl();
+		try {
+			expert isexpert = expert_.login(expert.get_expertID(), expert.get_expertPwd());
+			if(isexpert==null) {
+		    	 	System.out.println("账号或密码不正确，登录失败！");
+			}
+		     	else
+		    	{
+			    	System.out.println("欢迎！"+isexpert.get_expertName());
+			    	System.out.println("您可以管理病虫害防治信息");
+			    	displayDiseaseInfoMenu(scanner);
+		     	}
+		} catch (Exception e) {
+				e.printStackTrace();
 		}
 	}
-	
-	
-	
+	//上级主管部门
+	private static void getmasterInfoFromUser(Scanner scanner) {
+		System.out.println("您选择以【上级主管部门】身份登录，请输入您的账号：");
+		String Id = scanner.nextLine();
+	        System.out.println("请输入您的密码: ");
+	        String password = scanner.nextLine();
+	        expert expert = new expert(Id,"",password);
+	        expertDAO expert_ =new expertDAOImpl();
+		try {
+			expert isexpert = expert_.login(expert.get_expertID(), expert.get_expertPwd());
+		     	if(isexpert==null) {
+		    	 	System.out.println("账号或密码不正确，登录失败！");
+		     	}
+		     	else
+		     	{
+		    		System.out.println("欢迎！"+isexpert.get_expertName());
+		    		System.out.println("您可以管理以下信息");
+				displayDiseaseInfoMenu(scanner);
+		     	}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 
 	
 	
 	//角色功能菜单
+	//管理员-管理植物信息
 	private static void displayPlantInfoMenu(Scanner scanner) {
         while (true) {
         	//实例化业务
@@ -246,121 +296,169 @@ public class login_service {
             }
         }
     }
-	
+	//监测人员
 	private static void displayMonitorInfoMenu(Scanner scanner) throws Exception {
 		Monitor monitor = new Monitor();
 		boolean flag = true;
-        while (flag) {
-            System.out.println("植物监测信息管理菜单:");
-            System.out.println("1. 查看监测记录");//OK
-            System.out.println("2. 添加监测记录");//OK
-            System.out.println("3. 修改监测记录");//OK
-            System.out.println("4. 删除指标记录");//OK
-            System.out.println("5. 删除监测记录");//OK
-            System.out.println("6. 查询监测记录");//OK
-            System.out.println("7. 查看异常指标");//OK
-            System.out.println("8. 指标分析");//OK
-            System.out.println("9. 退出");//OK
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-            String ID;
-            switch (choice) {
-                case 1:
-                    System.out.println("查看监测记录");
-                    monitor.list();
-                    break;
-                case 2:
-                    System.out.println("添加监测记录");
-                    monitor.toAdd(scanner);
-                    break;
-                case 3:
-                    System.out.println("修改监测记录");
-                    monitor.toUpdate(scanner);
-                    break;
-                case 4:
-                    System.out.println("删除指标记录");
-                    System.out.println("请输入指标编号：");
-                    ID = scanner.nextLine();
-                    monitor.delete_index(ID);
-                    break;
-                case 5:
-                    System.out.println("删除监测记录");
-                    System.out.println("请输入监测编号：");
-                    ID = scanner.nextLine();
-                    monitor.delete(ID);
-                    break;
-                case 6:
-                    System.out.println("查询监测记录");
-                    System.out.println("请输入已知的属性值：");
-                    ID = scanner.nextLine();
-                    monitor.search(ID);
-                    break;
-                case 7:
-                    System.out.println("查看异常指标");
-                    monitor.showError();
-                    break;
-                case 8:
-                    System.out.println("指标分析");
-                    monitor.analysis();
-                    break;
-                case 9:
-                	System.out.println("退出");
-                	flag = false;
-                	break;
-                default:
-                    System.out.println("无效选择，请重新输入");
-                    break;
-            }
-        }
+	        while (flag) {
+	            System.out.println("植物监测信息管理菜单:");
+	            System.out.println("1. 查看监测记录");//OK
+	            System.out.println("2. 添加监测记录");//OK
+	            System.out.println("3. 修改监测记录");//OK
+	            System.out.println("4. 删除指标记录");//OK
+	            System.out.println("5. 删除监测记录");//OK
+	            System.out.println("6. 查询监测记录");//OK
+	            System.out.println("7. 查看异常指标");//OK
+	            System.out.println("8. 指标分析");//OK
+	            System.out.println("9. 退出");//OK
+	            int choice = scanner.nextInt();
+	            scanner.nextLine();
+	            String ID;
+	            switch (choice) {
+	                case 1:
+	                    System.out.println("查看监测记录");
+	                    monitor.list();
+	                    break;
+	                case 2:
+	                    System.out.println("添加监测记录");
+	                    monitor.toAdd(scanner);
+	                    break;
+	                case 3:
+	                    System.out.println("修改监测记录");
+	                    monitor.toUpdate(scanner);
+	                    break;
+	                case 4:
+	                    System.out.println("删除指标记录");
+	                    System.out.println("请输入指标编号：");
+	                    ID = scanner.nextLine();
+	                    monitor.delete_index(ID);
+	                    break;
+	                case 5:
+	                    System.out.println("删除监测记录");
+	                    System.out.println("请输入监测编号：");
+	                    ID = scanner.nextLine();
+	                    monitor.delete(ID);
+	                    break;
+	                case 6:
+	                    System.out.println("查询监测记录");
+	                    System.out.println("请输入已知的属性值：");
+	                    ID = scanner.nextLine();
+	                    monitor.search(ID);
+	                    break;
+	                case 7:
+	                    System.out.println("查看异常指标");
+	                    monitor.showError();
+	                    break;
+	                case 8:
+	                    System.out.println("指标分析");
+	                    monitor.analysis();
+	                    break;
+	                case 9:
+	                	System.out.println("退出");
+	                	flag = false;
+	                	break;
+	                default:
+	                    System.out.println("无效选择，请重新输入");
+	                    break;
+	            	}
+        	}
 	}
+	//病虫害防治专家
 	private static void displayDiseaseInfoMenu(Scanner scanner) throws Exception {
 		Disease disease = new Disease();
-        while (true) {
-            System.out.println("植物病虫害防治信息管理菜单:");
-            System.out.println("1. 查看病虫害及防治措施信息");//OK
-            System.out.println("2. 添加病虫害及防治措施信息");//OK
-            System.out.println("3. 修改病虫害及防治措施信息");//OK
-            System.out.println("4. 删除病虫害及防治措施信息");//OK
-            System.out.println("5. 查询病虫害及防治措施信息");//OK
-            System.out.println("6. 退出");//OK
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-            String ID;
-            switch (choice) {
-                case 1:
-                    System.out.println("查看病虫害及防治措施信息");
-                    disease.list();
-                    break;
-                case 2:
-                    System.out.println("添加病虫害及防治措施信息");
-                    disease.toAdd(scanner);
-                    break;
-                case 3:
-                    System.out.println("修改病虫害及防治措施信息");
-                    disease.toUpdate(scanner);
-                    break;
-                case 4:
-                    System.out.println("删除病虫害及防治措施信息");
-                    System.out.println("请输入病虫害编号：");
-                    ID = scanner.nextLine();
-                    disease.delete(ID);
-                    break;
-                case 5:
-                    System.out.println("查询病虫害及防治措施信息");
-                    System.out.println("请输入已知的属性值：");
-                    ID = scanner.nextLine();
-                    disease.search(ID);
-                    break;
-                case 6:
-                    System.out.println("退出");
-                    break;
-                default:
-                    System.out.println("无效选择，请重新输入");
-                    break;
-            }
-        }
+	        while (true) {
+	            System.out.println("植物病虫害防治信息管理菜单:");
+	            System.out.println("1. 查看病虫害及防治措施信息");//OK
+	            System.out.println("2. 添加病虫害及防治措施信息");//OK
+	            System.out.println("3. 修改病虫害及防治措施信息");//OK
+	            System.out.println("4. 删除病虫害及防治措施信息");//OK
+	            System.out.println("5. 查询病虫害及防治措施信息");//OK
+	            System.out.println("6. 退出");//OK
+	            int choice = scanner.nextInt();
+	            scanner.nextLine();
+	            String ID;
+	            switch (choice) {
+	                case 1:
+	                    System.out.println("查看病虫害及防治措施信息");
+	                    disease.list();
+	                    break;
+	                case 2:
+	                    System.out.println("添加病虫害及防治措施信息");
+	                    disease.toAdd(scanner);
+	                    break;
+	                case 3:
+	                    System.out.println("修改病虫害及防治措施信息");
+	                    disease.toUpdate(scanner);
+	                    break;
+	                case 4:
+	                    System.out.println("删除病虫害及防治措施信息");
+	                    System.out.println("请输入病虫害编号：");
+	                    ID = scanner.nextLine();
+	                    disease.delete(ID);
+	                    break;
+	                case 5:
+	                    System.out.println("查询病虫害及防治措施信息");
+	                    System.out.println("请输入已知的属性值：");
+	                    ID = scanner.nextLine();
+	                    disease.search(ID);
+	                    break;
+	                case 6:
+	                    System.out.println("退出");
+	                    flag = false;
+	                    break;              
+			default:
+	                    System.out.println("无效选择，请重新输入");
+	                    break;
+	            	}
+        	}
 	}
-	
+		//上级主管部门
+	private static void displayMasterInfoMenu(Scanner scanner) throws Exception {
+		
+		boolean flag = true;
+	        while (flag) {
+	            System.out.println("上级主管部门管理菜单:");
+	            System.out.println("1. 管理养护人员");
+	            System.out.println("2. 管理监测人员");
+	            System.out.println("3. 管理监测设备信息");
+	            System.out.println("4. 管理病虫害防治专家");
+	            System.out.println("5. 管理养护任务");
+	            System.out.println("6. 退出");
+	            int choice = scanner.nextInt();
+	            scanner.nextLine();
+	            String ID;
+	            switch (choice) {
+	                case 1:
+	                    System.out.println("管理养护人员");
+	                    //加入switch分支结构实现增删改查
+	                    break;
+	                case 2:
+	                    System.out.println("管理监测人员");
+	                    //加入switch分支结构实现增删改查
+	                    break;
+	                case 3:
+	                    System.out.println("管理监测设备信息");
+	                    //加入switch分支结构实现增删改查
+	                    break;
+	                case 4:
+	                    System.out.println("管理病虫害防治专家");
+	                    //加入switch分支结构实现增删改查
+	                    break;
+	                case 5:
+	                    System.out.println("管理养护任务");
+			    //加入switch分支结构实现增删改查
+	                    break;
+	                case 6:
+	                    System.out.println("退出");
+	                    flag = false;
+	                    break;
+	                default:
+	                    System.out.println("无效选择，请重新输入");
+	                    break;
+	            	}
+        	}
+	}
+
 	
 	//主函数
 	public static void main(String[] args) {
