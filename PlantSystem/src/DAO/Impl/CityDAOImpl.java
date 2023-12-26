@@ -33,12 +33,14 @@ public class CityDAOImpl implements CityDAO {
             "DELETE FROM City WHERE CityId = ?";
 
     private static final String GENERATE_CITY_ID =
-            "SELECT CONCAT('CIT', LPAD(IFNULL(SUBSTRING(MAX(CityId), 4) + 1, 1), 4, '0')) AS newId FROM City";
+            "SELECT CONCAT('CIT', RIGHT('0000' + CONVERT(VARCHAR, ISNULL(MAX(CAST(SUBSTRING(CityId, 4, LEN(CityId) - 3) AS INT)), 0) + 1), 4)) AS newId FROM City";
 
     private Connection connection;
+    private DButil dbUtil;
 
     public CityDAOImpl() throws Exception {
-        this.connection = DButil.getConnection();
+        this.dbUtil = new DButil();
+        this.connection = dbUtil.getConnection();
     }
 
     @Override
