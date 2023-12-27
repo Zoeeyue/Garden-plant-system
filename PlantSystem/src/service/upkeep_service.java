@@ -11,6 +11,10 @@ import java.util.Scanner;
 
 public class upkeep_service {
 
+    public UpkeepTaskDAO upkeepTaskDAO = new UpkeepTaskDAOImpl();
+    public UpkeepDAO upkeepDAO = new UpkeepDAOImpl();
+
+
     public void upkeepMenu() throws Exception {
         // 创建 UpkeepTaskDAO 实例
         UpkeepTaskDAO upkeepTaskDAO = new UpkeepTaskDAOImpl();
@@ -19,20 +23,12 @@ public class upkeep_service {
         UpkeepDAO upkeepDAO = new UpkeepDAOImpl();
 
         // 创建养护人员菜单
-        service.UpkeepStaffMenu upkeepStaffMenu = new service.UpkeepStaffMenu(upkeepTaskDAO, upkeepDAO);
 
         // 启动养护人员菜单
-        upkeepStaffMenu.displayMenu();
+        displayMenu();
     }
 
-    class UpkeepStaffMenu {
-        private UpkeepTaskDAO upkeepTaskDAO;
-        private UpkeepDAO upkeepDAO;
 
-        public UpkeepStaffMenu(UpkeepTaskDAO upkeepTaskDAO, UpkeepDAO upkeepDAO) {
-            this.upkeepTaskDAO = upkeepTaskDAO;
-            this.upkeepDAO = upkeepDAO;
-        }
 
         public void displayMenu() throws Exception {
             Scanner scanner = new Scanner(System.in);
@@ -86,7 +82,7 @@ public class upkeep_service {
             List<UpkeepTask> tasksForStaff = upkeepTaskDAO.findTaskByProperty("UTaskSid", staffId);
 
             if (!tasksForStaff.isEmpty()) {
-                System.out.println("找到以下属于人员 " + staffId + " 的任务:");
+                System.out.println("找到以下属于人员" + staffId + " 的任务:");
                 int count = 1;
                 for (UpkeepTask task : tasksForStaff) {
                     System.out.println("第" + count + "个任务：");
@@ -377,4 +373,4 @@ public class upkeep_service {
             }
         }
     }
-}
+

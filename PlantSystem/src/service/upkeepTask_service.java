@@ -23,6 +23,9 @@ import java.util.Scanner;
 
 public class upkeepTask_service {
 
+    public UpkeepTaskDAO upkeepTaskDAO = new UpkeepTaskDAOImpl();
+    public UpkeepStaffDAO upkeepStaffDAO = new UpkeepStaffDAOImpl();
+
     public void upkeeptask_service_menu() throws Exception {
         // 创建 UpkeepTaskDAO 实例
         UpkeepTaskDAO upkeepTaskDAO = new UpkeepTaskDAOImpl();
@@ -31,20 +34,11 @@ public class upkeepTask_service {
         UpkeepStaffDAO upkeepStaffDAO = new UpkeepStaffDAOImpl();
 
         // 创建管理员菜单
-        service.AdminMenu adminMenu = new service.AdminMenu(upkeepTaskDAO, upkeepStaffDAO);
 
         // 启动管理员菜单
-        adminMenu.displayMenu();
+        displayMenu();
     }
 
-    class AdminMenu {
-        private UpkeepTaskDAO upkeepTaskDAO;
-        private UpkeepStaffDAO upkeepStaffDAO;
-
-        public AdminMenu(UpkeepTaskDAO upkeepTaskDAO, UpkeepStaffDAO upkeepStaffDAO) {
-            this.upkeepTaskDAO = upkeepTaskDAO;
-            this.upkeepStaffDAO = upkeepStaffDAO;
-        }
 
         public void displayMenu() throws Exception {
             Scanner scanner = new Scanner(System.in);
@@ -395,4 +389,3 @@ public class upkeepTask_service {
             }
         }
     }
-}
