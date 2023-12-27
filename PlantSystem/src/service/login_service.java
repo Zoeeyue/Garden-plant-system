@@ -198,7 +198,8 @@ public class login_service {
 	//角色功能菜单
 	//管理员-管理植物信息
 	private static void displayPlantInfoMenu(Scanner scanner) {
-        while (true) {
+		boolean flag = true;
+        while (flag) {
         	//实例化业务
         	plantinfo_service plantinfo_service =new plantinfo_service();
         	//实例化DAO接口
@@ -315,8 +316,8 @@ public class login_service {
               case 7:
                   System.out.println("退出该基本管理信息菜单");
                   // 退出菜单循环
-                  scanner.close();
-                  System.exit(0);
+				  flag = false;
+				  break;
                 default:
                     System.out.println("无效选择，请重新输入");
                     break;
