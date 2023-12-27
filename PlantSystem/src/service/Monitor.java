@@ -45,15 +45,15 @@ public class Monitor {
 		System.out.println("删除成功！");
 	}
 	//删除监测记录
-	public void delete(String monitorID) throws Exception {
+	public void delete(String indxID) throws Exception {
 		indexsDAOImpl indexs_di = new indexsDAOImpl();
 		monitorDAOImpl monitor_di = new monitorDAOImpl();
-		if(monitor_di.existID(monitorID)) {
+		if(monitor_di.existID(indxID)) {
 			System.out.println("监测记录不存在！");
 			return;
 		}
-		indexs_di.deleteIndexsByMonitor(monitorID);//监测指标
-		monitor_di.deleteMonitor(monitorID);//监测
+		indexs_di.deleteIndexsByID(indxID);//监测指标
+		monitor_di.deleteIndexsByIndex(indxID);//监测
 		System.out.println("删除成功！");
 	}
 	//修改监测记录
@@ -83,7 +83,7 @@ public class Monitor {
 		monitorDAO monitor_di = new monitorDAOImpl();
 		List<Map<String, String>> result = monitor_di.listMonitorSystem();
 		for(Map<String, String> map : result) {
-			ViewMonitor m = new ViewMonitor(map.get("ididid"),map.get("plant_name"),map.get("staffName"),map.get("monitorTime"),map.get("monitorAddr"),map.get("deviceName"),map.get("indexName"),map.get("indexValue"));
+			ViewMonitor m = new ViewMonitor(map.get("id"),map.get("plant_name"),map.get("staffName"),map.get("monitorTime"),map.get("monitorAddr"),map.get("deviceName"),map.get("indexName"),map.get("indexValue"));
 			m.toPrint();
 		}
 	}
