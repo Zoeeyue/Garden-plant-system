@@ -83,6 +83,7 @@ public class login_service {
 	                 break;
 	             case 2:
 	                 System.out.println("2.管理植物分类信息");
+	                 displayPlantSortMenu(scanner);
 	                 // 调用相关逻辑
 	                 break;
 	             default:
@@ -137,7 +138,7 @@ public class login_service {
 		    	 displayMonitorInfoMenu(scanner);
 		     }
 		} catch (Exception e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 	}
 	//病虫害防治专家
