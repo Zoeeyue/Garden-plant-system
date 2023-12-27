@@ -14,6 +14,7 @@ import DAO.plant_infoDAO;
 import comm.DButil;
 import bean.PlantDetailView;
 import bean.PlantInfo;
+import bean.PlantUnionView;
 
 public class plant_infoDAOImpl implements plant_infoDAO {
 
@@ -352,7 +353,7 @@ public class plant_infoDAOImpl implements plant_infoDAO {
         DButil db = new DButil();
         Connection conn = db.getConnection();
 	    // SQL 查询语句
-	    String sql = "SELECT * FROM PlantDetailView WHERE plant_id = ?";
+	    String sql = "SELECT * FROM PlantDetailView WHERE 植物编号 = ?";
 	    
 	    // 参数列表
 	    List<Object> list = new ArrayList<>();
@@ -398,7 +399,56 @@ public class plant_infoDAOImpl implements plant_infoDAO {
 
         return PlantDetailViewList;
 	}
+	@Override
+	public  List<PlantUnionView> queryFromUnionView() throws Exception{
+		
+		 DButil db = new DButil();
+	        Connection conn = db.getConnection();
+		    // SQL 查询语句
+		    String sql = "SELECT * FROM PlantSortUpkeepView";
+		    
+		    // 参数列表
+		    List<Object> list = new ArrayList<>();
+//		    list.add(plant_id);
 
+	 	    List<PlantUnionView> PlantUnionViewList = new ArrayList<>();
+	        try {
+	        	 List<Map<String, String>> result = db.excutequery(sql, list, conn);
+
+	      
+	     	    for (Map<String, String> row : result) {
+	     	    	PlantUnionView plantViewInfo = new PlantUnionView();
+	                
+	     	    	plantViewInfo.setPlantId(row.get("plant_id"));
+	     	    	plantViewInfo.setPlantName(row.get("plant_name"));
+	     	    	plantViewInfo.setFeatures(row.get("features"));
+	     	    	plantViewInfo.setCultivationTechniques(row.get("cultivation_techniques"));
+	     	    	plantViewInfo.setValue(row.get("value"));
+	     	    	plantViewInfo.setCreatedBy(row.get("created_by"));
+	     	    	plantViewInfo.setFilename(row.get("image_filename"));
+//	     	    	System.out.println(row.get("image_filename"));
+	     	    	plantViewInfo.setFamilyName(row.get("FamilyName"));
+	     	    	plantViewInfo.setAlias(row.get("alias"));
+	     	    	plantViewInfo.setGenusName(row.get("GenusName"));
+	     	    	plantViewInfo.setGrowEnv(row.get("GrowEnv"));
+	     	    	plantViewInfo.setuTaskId(row.get("UTaskId"));
+	     	    	plantViewInfo.setUpkeepName(row.get("UpkeepName"));
+	     	    	plantViewInfo.setUpkeepDes(row.get("UpkeepDes"));
+	     	    	plantViewInfo.setUpkeepPlace(row.get("UpkeepPlace"));
+	     	    	plantViewInfo.setUpkeepSname(row.get("UpkeepSname"));
+	     	    	PlantUnionViewList.add(plantViewInfo);
+	     	    }
+
+	     	    
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        } finally {
+	            db.close(conn);
+	        }
+
+	        return PlantUnionViewList;
+		
+	}
 
 
 
