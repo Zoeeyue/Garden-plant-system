@@ -81,7 +81,7 @@ public class monitorDAOImpl implements monitorDAO{
 	public List<Map<String, String>> queryMonitorSystem(String searchTerm) throws Exception {
 	    List<Object> list = new ArrayList<>();
 	    StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM MonitorYewu WHERE ");
-	    sqlBuilder.append("monitorID=? OR staffName=? OR monitorAddr=? OR plant_name=? OR monitorTime=? OR deviceName=? OR indexName=?");
+	    sqlBuilder.append("id=? OR staffName=? OR monitorAddr=? OR plant_name=? OR monitorTime=? OR deviceName=? OR indexName=?");
 	    for (int i = 0; i < 7; i++) {
 	        list.add(searchTerm);
 	    }

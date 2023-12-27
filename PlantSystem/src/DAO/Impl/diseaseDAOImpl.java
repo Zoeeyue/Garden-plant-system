@@ -73,7 +73,7 @@ public class diseaseDAOImpl implements diseaseDAO {
 	public List<Map<String, String>> queryDiseaseSystem(String searchTerm) throws Exception {
 		List<Object> list = new ArrayList<Object>();
 	    StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM DiseaseYewu WHERE ");
-	    sqlBuilder.append("plant_name=? OR diseaseName=? OR treatmentName=? OR medicineName=?");
+	    sqlBuilder.append("id=? OR plant_name=? OR diseaseName=? OR treatmentName=? OR medicineName=?");
 	    for (int i = 0; i < 4; i++) {
 	        list.add(searchTerm);
 	    }
