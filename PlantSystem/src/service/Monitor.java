@@ -74,7 +74,7 @@ public class Monitor {
 		monitorDAO monitor_di = new monitorDAOImpl();
 		List<Map<String, String>> result = monitor_di.queryMonitorSystem(searchTerm);
 		for(Map<String, String> map : result) {
-			ViewMonitor m = new ViewMonitor(map.get("monitorID"),map.get("plant_name"),map.get("staffName"),map.get("monitorTime"),map.get("monitorAddr"),map.get("deviceName"),map.get("indexName"),map.get("indexValue"));
+			ViewMonitor m = new ViewMonitor(map.get("id"),map.get("plant_name"),map.get("staffName"),map.get("monitorTime"),map.get("monitorAddr"),map.get("deviceName"),map.get("indexName"),map.get("indexValue"));
 			m.toPrint();
 		}
 	}
