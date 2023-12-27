@@ -73,14 +73,20 @@ public class diseaseDAOImpl implements diseaseDAO {
 	public List<Map<String, String>> queryDiseaseSystem(String searchTerm) throws Exception {
 		List<Object> list = new ArrayList<Object>();
 	    StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM DiseaseYewu WHERE ");
-	    sqlBuilder.append("id=? OR plant_name=? OR diseaseName=? OR treatmentName=? OR medicineName=?");
-	    for (int i = 0; i < 4; i++) {
+	    sqlBuilder.append("id=? OR plant_name=? OR diseaseName=? OR treatmentName=? OR medicineName=? OR medicineDosage=? OR medicineDuration=?");
+	    for (int i = 0; i < 7; i++) {
 	        list.add(searchTerm);
 	    }
 	    String sql = sqlBuilder.toString();
 	    return function.search(list, sql);
 	}
-	
+	//视图显示0联动
+	@Override
+	public List<Map<String, String>> ShowUpkeepStats() throws Exception {
+	    List<Object> list = new ArrayList<>();
+	    String sql = "SELECT * FROM DiseaseYewu";
+	    return function.search(list, sql);
+	}
 	//视图显示1
 	@Override
 	public List<Map<String, String>> listDiseaseSystem() throws Exception {

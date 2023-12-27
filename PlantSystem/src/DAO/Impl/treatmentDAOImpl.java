@@ -29,7 +29,7 @@ public class treatmentDAOImpl implements treatmentDAO{
 		List<Object> list = new ArrayList<Object>();
 		list.add(medicineID);
 //		String sql = "DELETE FROM treatment WHERE treatmentID IN(SELECT treatmentID FROM medicine WHERE medicineID=?);";
-		String sql = "DELETE FROM medicine WHERE medicineID IN(SELECT medicineID FROM treatment WHERE treatmentID=?;";
+		String sql = "DELETE FROM medicine WHERE medicineID IN(SELECT medicineID FROM treatment WHERE treatmentID=?)";
 		return function.operate(list,sql);
 	}
 	//修改防治方法表记录
