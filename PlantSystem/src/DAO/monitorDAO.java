@@ -12,6 +12,8 @@ public interface monitorDAO {
 	//删除监测表记录
 	public boolean deleteMonitor(String monitorID) throws Exception;
 
+	boolean deleteIndexsByIndex(String indexID) throws Exception;
+	
 	//修改监测表记录
 	public boolean updateMonitor(monitor bean) throws Exception;
 
