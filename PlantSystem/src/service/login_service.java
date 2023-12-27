@@ -17,7 +17,16 @@ import bean.staff;
 import DAO.staffDAO;
 import DAO.Impl.plant_infoDAOImpl;
 import DAO.Impl.staffDAOImpl;
+import java.util.Map;
+import java.util.Scanner;
+import DAO.admin_infoDAO;
+import bean.PlantInfo;
 import bean.UpkeepStaff;
+import bean.adminInfo;
+import bean.expert;
+import bean.masterInfo;
+import bean.staff;
+import DAO.staffDAO;
 import DAO.*;
 import DAO.Impl.*;
 
@@ -28,8 +37,7 @@ public class login_service {
 	public void roleChoose() throws Exception {
 		Scanner scanner = new Scanner(System.in);
 		while(true) {
-			System.out.println("---------------------------欢迎进入园林植物管理系统----------------------------");
-			System.out.println("请选择登录角色：1.系统管理员 2.主管部门 3.养护人员 4.监测人员 5.病虫害防治专家 6.退出系统");
+			System.out.println("请选择登录角色：1.系统管理员 2.主管部门 3.养护人员 4.监测人员 5.病虫害防治专家");
 			int roleID = scanner.nextInt();
             scanner.nextLine();
 			switch (roleID) {
@@ -48,9 +56,6 @@ public class login_service {
 				case 5:
 					getexpertInfoFromUser(scanner);
 					break;
-				case 6:
-					System.out.println("退出园林植物管理系统，感谢使用！");
-					System.exit(0);
 				default:
 					System.out.println("序号无效，请重新输入！");
 					break;
@@ -87,7 +92,6 @@ public class login_service {
 	                 break;
 	             case 2:
 	                 System.out.println("2.管理植物分类信息");
-	                 displayPlantSortMenu(scanner);
 	                 // 调用相关逻辑
 	                 break;
 	             default:
@@ -108,13 +112,13 @@ public class login_service {
         UpkeepStaff staff = new UpkeepStaff(Id,"",password);
         UpkeepStaffDAO staff_ =new UpkeepStaffDAOImpl();
 		try {
-			UpkeepStaff isstaff = staff_.login(staff.getUpkeepSid(), staff.getUpkeepPwd());
+			masterInfo isstaff = staff_.login(UpkeepStaff.getMasterId(), UpkeepStaff.getMaster_password());
 		     	if(isstaff==null) {
 		    	 	System.out.println("账号或密码不正确，登录失败！");
 		     	}
 		     	else
 		     	{
-		    		System.out.println("欢迎！"+isstaff.getUpkeepSname());
+		    		System.out.println("欢迎！"+isstaff.getMaster_name());
 		    		System.out.println("您可以管理以下信息");
 		    		displayUpkeepInfoMenu(scanner);
 		     	}
@@ -142,7 +146,7 @@ public class login_service {
 		    	 displayMonitorInfoMenu(scanner);
 		     }
 		} catch (Exception e) {
-			e.printStackTrace();
+				e.printStackTrace();
 		}
 	}
 	//病虫害防治专家
@@ -198,8 +202,7 @@ public class login_service {
 	//角色功能菜单
 	//管理员-管理植物信息
 	private static void displayPlantInfoMenu(Scanner scanner) {
-		boolean flag = true;
-        while (flag) {
+        while (true) {
         	//实例化业务
         	plantinfo_service plantinfo_service =new plantinfo_service();
         	//实例化DAO接口
@@ -316,8 +319,8 @@ public class login_service {
               case 7:
                   System.out.println("退出该基本管理信息菜单");
                   // 退出菜单循环
-				  flag = false;
-				  break;
+                  scanner.close();
+                  System.exit(0);
                 default:
                     System.out.println("无效选择，请重新输入");
                     break;
@@ -390,11 +393,12 @@ public class login_service {
             System.out.println("1. 查看监测记录");//OK
             System.out.println("2. 添加监测记录");//OK
             System.out.println("3. 修改监测记录");//OK
-            System.out.println("4. 删除监测记录");//OK
-            System.out.println("5. 查询监测记录");//OK
-            System.out.println("6. 查看异常指标");//OK
-            System.out.println("7. 指标分析");//OK
-            System.out.println("8. 退出");//OK
+            System.out.println("4. 删除指标记录");//OK
+            System.out.println("5. 删除监测记录");//OK
+            System.out.println("6. 查询监测记录");//OK
+            System.out.println("7. 查看异常指标");//OK
+            System.out.println("8. 指标分析");//OK
+            System.out.println("9. 退出");//OK
             int choice = scanner.nextInt();
             scanner.nextLine();
             String ID;
@@ -412,26 +416,32 @@ public class login_service {
                     monitor.toUpdate(scanner);
                     break;
                 case 4:
+                    System.out.println("删除指标记录");
+                    System.out.println("请输入指标编号：");
+                    ID = scanner.nextLine();
+                    monitor.delete_index(ID);
+                    break;
+                case 5:
                     System.out.println("删除监测记录");
-                    System.out.println("请输入监测记录编号：");
+                    System.out.println("请输入监测编号：");
                     ID = scanner.nextLine();
                     monitor.delete(ID);
                     break;
-                case 5:
+                case 6:
                     System.out.println("查询监测记录");
                     System.out.println("请输入已知的属性值：");
                     ID = scanner.nextLine();
                     monitor.search(ID);
                     break;
-                case 6:
+                case 7:
                     System.out.println("查看异常指标");
                     monitor.showError();
                     break;
-                case 7:
+                case 8:
                     System.out.println("指标分析");
                     monitor.analysis();
                     break;
-                case 8:
+                case 9:
                 	System.out.println("退出");
                 	flag = false;
                 	break;
@@ -507,13 +517,11 @@ public class login_service {
             switch (choice) {
                 case 1:
                     System.out.println("管理养护人员");
-		    upkeepStaff_service upkeepstaffservice = new upkeepStaff_service();
-		    upkeepstaffservice.manageUStaff();
+                    
                     break;
                 case 2:
                     System.out.println("管理养护任务");
-                    upkeepTask_service upkeeptaskservice = new upkeepTask_service();
-                    upkeeptaskservice.upkeeptask_service_menu();
+                    
                     break;
                 case 3:
                     System.out.println("管理监测人员");
