@@ -20,7 +20,6 @@ public class plantSort_service {
             // 用户输入PlantId
             System.out.print("请输入PlantId: ");
             plantId = scanner.nextLine();
-            scanner.nextLine();
             // 检查是否有重复的PlantId
             if (isDuplicatePlantId(plantId)) {
                 System.out.println("分类表中已存在相同的PlantId，请重新输入:(");
@@ -255,7 +254,8 @@ public class plantSort_service {
         while (true) {
             // 显示查询菜单
             System.out.println("查找功能选择");
-            System.out.println("1----根据植物编号查找");
+            System.out.println("1----根据植物编号查找分类信息");
+            System.out.println("2----根据植物编号查找地域信息");
             System.out.println("2----根据生长环境模糊查找");
             System.out.println("3----查询下属植物信息");
             System.out.println("0----返回上级菜单");
@@ -269,7 +269,7 @@ public class plantSort_service {
             switch (option) {
                 case 1:
                     // 执行根据植物编号查找分类信息功能
-                    System.out.println("根据植物编号查找：");
+                    System.out.println("根据植物编号查找分类信息：");
 
                     boolean isValidPlantId = false;
                     String plantId = "";
@@ -292,6 +292,30 @@ public class plantSort_service {
                     displaySortInformation(plantId);
                     break;
                 case 2:
+                    // 执行根据植物编号查找分类信息功能
+                    System.out.println("根据植物编号查找地域信息：");
+
+                    boolean isValidPlantIdr = false;
+                    String plantIdr = "";
+
+                    while (!isValidPlantIdr) {
+                        //从用户输入中获取植物ID
+                        System.out.print("请输入PlantId: ");
+                        plantIdr = scanner.nextLine();
+
+                        SortDAO sortDAO = new SortDAOImpl();
+                        List<Sort> sorts = sortDAO.getSortsByProperty("plant_id", plantIdr);
+                        // 检查是否有PlantId
+                        if (sorts.isEmpty()) {
+                            System.out.println("不存在这个PlantId，请重新输入:(");
+                        } else {
+                            isValidPlantIdr = true;
+                        }
+                    }
+                    // 显示植物分类信息
+                    displayRegionInformation(plantIdr);
+                    break;
+                case 3:
                     // 执行根据生长环境查询植物功能
                     System.out.println("执行根据生长环境查询植物功能");
                     System.out.print("请输入生长环境信息: ");
@@ -306,7 +330,7 @@ public class plantSort_service {
                         psv.displayProperties2();
                     }
                     break;
-                case 3:
+                case 4:
                     // 执行查询下属植物信息功能
                     System.out.println("请输入需要查询的科：");
                     String familyName = scanner.nextLine();
@@ -357,6 +381,15 @@ public class plantSort_service {
         PlantSortView psv = sortDAO.getPlantSortViewById(plantId);
         psv.displayProperties();
     }
+
+    private static void displayRegionInformation(String plantId) throws Exception {
+        // 显示植物分类信息
+        System.out.println("该植物的地域信息如下：");
+        SortDAO sortDAO = new SortDAOImpl();
+        PlantRegionView plantRegionView = sortDAO.getPlantRegionById(plantId);
+        plantRegionView.displayProperties();
+    }
+
 
     public void updateSortInfo() throws Exception {
         Scanner scanner = new Scanner(System.in);
