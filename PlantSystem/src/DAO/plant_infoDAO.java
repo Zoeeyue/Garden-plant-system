@@ -6,6 +6,7 @@ import java.util.Map;
 
 import bean.PlantDetailView;
 import bean.PlantInfo;
+import bean.PlantUnionView;
 import comm.DButil;
 
 public interface plant_infoDAO {
@@ -73,6 +74,7 @@ public interface plant_infoDAO {
     public  List<PlantDetailView> queryFromViewByProperties(Map<String, Object> properties) throws Exception;
     
     public  List<PlantDetailView> queryFromViewById(String plant_id) throws Exception;
-
+    
+    public  List<PlantUnionView> queryFromUnionView() throws Exception;
 
 }
