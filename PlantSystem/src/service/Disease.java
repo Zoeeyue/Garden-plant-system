@@ -15,6 +15,7 @@ import DAO.Impl.medicineDAOImpl;
 import DAO.Impl.plant_infoDAOImpl;
 import DAO.Impl.treatmentDAOImpl;
 import bean.ViewDisease;
+import bean.ViewDiseaseUpkeep;
 import bean.disease;
 import bean.expert;
 import bean.medicine;
@@ -33,18 +34,18 @@ public class Disease {
 		medicine_di.insertMedicine(m);//药剂
 		System.out.println("添加成功！");
 	}
-	//删除病虫害及防治措施
-	public void delete(String diseaseID) throws Exception {
+	//删除病虫害及防治措施medicineID
+	public void delete(String medicineID) throws Exception {
 		diseaseDAO disease_di = new diseaseDAOImpl();
 		medicineDAO medicine_di = new medicineDAOImpl();
 		treatmentDAO treatment_di = new treatmentDAOImpl();
-		if(disease_di.existID(diseaseID)) {
-			System.out.print("该病虫害信息不存在！");
+		if(medicine_di.existID(medicineID)) {
+			System.out.println("该病虫害信息不存在！");
 			return;
 		}
-		medicine_di.deleteMedicine(diseaseID);//药剂
-		treatment_di.deleteTreatment(diseaseID);//防治方法
-		disease_di.deleteDisease(diseaseID);//病虫害
+		medicine_di.deleteMedicine(medicineID);//药剂
+		treatment_di.deleteTreatment(medicineID);//防治方法
+		disease_di.deleteDisease(medicineID);//病虫害
 		System.out.println("删除成功！");
 	}
 	//修改病虫害及防治措施
@@ -82,7 +83,15 @@ public class Disease {
 			m.toPrint();
 		}
 	}
-
+	//查看病虫害养护状态——视图
+	public void listUpkeep() throws Exception {
+		diseaseDAO disease_di = new diseaseDAOImpl();
+		List<Map<String, String>> result = disease_di.ShowUpkeepStats();
+		for(Map<String, String> map : result) {
+			ViewDiseaseUpkeep m = new ViewDiseaseUpkeep(map.get("UTaskId"),map.get("plant_name"),map.get("diseaseName"),map.get("treatmentName"),map.get("medicineName"),map.get("UTaskStatus"));
+			m.toPrint();
+		}
+	}
 	//接收用户输入的数据进行封装，再连接接口【添加】
 	public void toAdd(Scanner scanner) throws Exception {
 		//业务验证
@@ -104,7 +113,7 @@ public class Disease {
         String medicineName = scanner.nextLine();
         System.out.println("请输入药剂用量：");
         String medicineDosage = scanner.nextLine();
-        System.out.println("请输入作用期限");
+        System.out.println("请输入作用期限：");
         String medicineDuration = scanner.nextLine();
         
         //生成随机编号
@@ -155,7 +164,7 @@ public class Disease {
 				map = result.get(0);
 				disease d = new disease(map.get("diseaseID"),map.get("diseaseName"),map.get("plantID"));
 			
-				System.out.println("请输入病虫害名称："+d.get_diseaseName()+"）");
+				System.out.println("请输入病虫害名称：");
 		        String diseaseName = scanner.nextLine();
 		        d.set_diseaseName(diseaseName);
 				//调用接口
@@ -167,10 +176,10 @@ public class Disease {
 				map = result.get(0);
 				treatment t = new treatment(map.get("treatmentID"),map.get("treatmentName"),map.get("treatmentCont"),map.get("diseaseID"));
 				
-		        System.out.println("请输入防治方法名称：（原："+t.get_treatmentName()+"）");
+		        System.out.println("请输入防治方法名称：");
 		        String treatmentName = scanner.nextLine();
 		        t.set_treatmentName(treatmentName);
-		        System.out.println("请输入防治方法内容");
+		        System.out.println("请输入防治方法内容：");
 		        String treatmentCont = scanner.nextLine();
 		        t.set_treatmentCont(treatmentCont);
 				//调用接口
@@ -181,13 +190,13 @@ public class Disease {
 				map = result.get(0);
 				medicine m = new medicine(map.get("medicineID"),map.get("medicineName"),map.get("medicineDosage"),map.get("medicineDuration"),map.get("treatmentID"));
 				
-		        System.out.println("请输入药剂名称：（原："+m.get_medicineName()+"）");
+		        System.out.println("请输入药剂名称：");
 		        String medicineName = scanner.nextLine();
 		        m.set_medicineName(medicineName);
-		        System.out.println("请输入药剂用量（原："+m.get_medicineDosage()+"）");
+		        System.out.println("请输入药剂用量：");
 		        String medicineDosage = scanner.nextLine();
 		        m.set_medicineDosage(medicineDosage);
-		        System.out.println("请输入作用期限（原："+m.get_medicineDuration()+"）");
+		        System.out.println("请输入作用期限：");
 		        String medicineDuration = scanner.nextLine();
 		        m.set_medicineDuration(medicineDuration);
 				//调用接口
@@ -230,7 +239,7 @@ public class Disease {
             System.out.println("请输入专家编号：");
             ID = scanner.nextLine();
     		if(!expert_di.existID(ID)) {
-    			System.out.print("该专家已存在！");
+    			System.out.println("该专家已存在！");
     			return;
     		}
             System.out.println("请输入专家名称：");
@@ -245,7 +254,7 @@ public class Disease {
             System.out.println("请输入专家编号：");
             ID = scanner.nextLine();
     		if(expert_di.existID(ID)) {
-    			System.out.print("该专家不存在！");
+    			System.out.println("该专家不存在！");
     			return;
     		}
     		delete_expert(ID);
@@ -256,12 +265,12 @@ public class Disease {
 	public void delete_expert(String expertID) throws Exception {
 		expertDAO expert_di = new expertDAOImpl();
 		expert_di.deleteExpert(expertID);
-		System.out.print("删除成功！");
+		System.out.println("删除成功！");
 	}
 	//单独添加专家（入职）
 	public void add_expert(expert e) throws Exception {
 		expertDAO expert_di = new expertDAOImpl();
 		expert_di.insertExpert(e);
-		System.out.print("添加成功！");
+		System.out.println("添加成功！");
 	}
 }
