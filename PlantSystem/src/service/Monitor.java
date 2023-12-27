@@ -19,6 +19,7 @@ import DAO.Impl.staffDAOImpl;
 import bean.ViewError;
 import bean.ViewIndexs;
 import bean.ViewMonitor;
+import bean.ViewMonitorShow;
 import bean.device;
 import bean.indexs;
 import bean.monitor;
@@ -123,16 +124,22 @@ public class Monitor {
 			System.out.println("监测人员不存在！");
 			return;
 		}
+        //输出设备供选择
+		deviceDAO device_di = new deviceDAOImpl();
+		List<Map<String, String>> result = device_di.listDevice();
+		for(Map<String, String> map : result) {
+			device m = new device(map.get("deviceID"),map.get("deviceName"));
+	        System.out.println(m.get_deviceID()+"\t"+ m.get_deviceName());
+		}
         System.out.println("请输入监测设备编号：");
         String deviceID = scanner.nextLine();
-        deviceDAO device_di = new deviceDAOImpl();
 		if(device_di.existID(deviceID)) {
 			System.out.println("监测设备不存在！");
 			return;
 		}
 		
         //用户输入
-        System.out.println("请输入监测时间：");
+        System.out.println("请输入监测时间：（格式示例：2022-10-23-23:30）");
         String monitorTime = scanner.nextLine();
         System.out.println("请输入监测地点：");
         String monitorAddr = scanner.nextLine();
@@ -160,7 +167,11 @@ public class Monitor {
 		//显示检测记录供用户选择
 		monitorDAO monitor_di = new monitorDAOImpl();
 		indexsDAO index_di = new indexsDAOImpl();
-		monitor_di.listMonitorShow();
+		List<Map<String,String>> result = monitor_di.listMonitorShow();
+		for(Map<String, String> map : result) {
+			ViewMonitorShow m = new ViewMonitorShow(map.get("id"),map.get("plant_name"),map.get("indexName"));
+	        m.toPrint();
+		}
 		System.out.println("请选择监测指标记录编号：");
 		String ID = scanner.nextLine();
 		//业务验证
@@ -179,7 +190,7 @@ public class Monitor {
 			id = scanner.nextInt();
 			scanner.nextLine();
 		}
-		List<Map<String, String>> result;
+//		List<Map<String, String>> result;
 		Map<String,String> map;
 		switch(id) {
 			case 1:
@@ -206,7 +217,7 @@ public class Monitor {
 				        m.set_monitorAddr(monitorAddr);
 						break;
 					case 2:
-				        System.out.println("请输入监测时间：");
+				        System.out.println("请输入监测时间：（格式示例：2022-10-23-23:30）");
 				        String monitorTime = scanner.nextLine();
 				        m.set_monitorTime(monitorTime);
 						break;
