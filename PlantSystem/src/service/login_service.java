@@ -28,7 +28,8 @@ public class login_service {
 	public void roleChoose() throws Exception {
 		Scanner scanner = new Scanner(System.in);
 		while(true) {
-			System.out.println("请选择登录角色：1.系统管理员 2.主管部门 3.养护人员 4.监测人员 5.病虫害防治专家");
+			System.out.println("---------------------------欢迎进入园林植物管理系统----------------------------");
+			System.out.println("请选择登录角色：1.系统管理员 2.主管部门 3.养护人员 4.监测人员 5.病虫害防治专家 6.退出系统");
 			int roleID = scanner.nextInt();
             scanner.nextLine();
 			switch (roleID) {
@@ -47,6 +48,9 @@ public class login_service {
 				case 5:
 					getexpertInfoFromUser(scanner);
 					break;
+				case 6:
+					System.out.println("退出园林植物管理系统，感谢使用！");
+					System.exit(0);
 				default:
 					System.out.println("序号无效，请重新输入！");
 					break;
