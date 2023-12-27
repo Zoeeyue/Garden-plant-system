@@ -80,24 +80,32 @@ public class login_service {
 	     else
 	     {
 	    	 System.out.println("欢迎！"+isaf.getName());
-	    	 System.out.println("您可以1.管理植物基本信息2.管理植物分类信息");
-	    	  // 获取用户输入
-	         int choice = scanner.nextInt();
-	         // 使用 switch-case 处理不同选择
-	         switch (choice) {
-	             case 1:
-	                 System.out.println("1.管理植物基本信息");
-	                 // 调用相关逻辑
-	                 displayPlantInfoMenu(scanner);
-	                 break;
-	             case 2:
-	                 System.out.println("2.管理植物分类信息");
-	                 // 调用相关逻辑
-	                 break;
-	             default:
-	                 System.out.println("无效选择，请重新运行程序并输入有效数字。");
-	                 break;
-	         }
+			 boolean flag=true;
+			 while(flag) {
+				 System.out.println("您可以\n1.管理植物基本信息\n2.管理植物分类信息\n3.退出管理员系统");
+				 // 获取用户输入
+				 int choice = scanner.nextInt();
+				 // 使用 switch-case 处理不同选择
+				 switch (choice) {
+					 case 1:
+						 System.out.println("1.管理植物基本信息");
+						 // 调用相关逻辑
+						 displayPlantInfoMenu(scanner);
+						 break;
+					 case 2:
+						 System.out.println("2.管理植物分类信息");
+						 // 调用相关逻辑
+						 displayPlantSortMenu(scanner);
+						 break;
+					 case 3:
+						 System.out.println("3.退出管理员系统");
+						 flag=false;
+						 break;
+					 default:
+						 System.out.println("无效选择，请重新运行程序并输入有效数字。");
+						 break;
+				 }
+			 }
 	     }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -329,7 +337,8 @@ public class login_service {
     }      
     //管理员-管理植物分类信息
 	private static void displayPlantSortMenu(Scanner scanner) throws Exception {
-		while (true) {
+		boolean flag=true;
+		while (flag) {
 			//实例化业务
 			plantSort_service plantsort_service =new plantSort_service();
 			//实例化DAO接口
@@ -340,7 +349,7 @@ public class login_service {
 			System.out.println("2. 删除植物分类信息");
 			System.out.println("3. 修改植物分类信息");
 			System.out.println("4. 查询植物分类信息");
-			System.out.println("5. 退出系统");
+			System.out.println("5. 退出植物分类管理菜单");
 
 			// 获取用户输入
 			//int choice = scanner.nextInt();
@@ -377,8 +386,8 @@ public class login_service {
 				case 5:
 					System.out.println("退出植物分类管理菜单");
 					// 退出菜单循环
-					scanner.close();
-					System.exit(0);
+					flag = false;
+					break;
 				default:
 					System.out.println("无效选择，请重新输入");
 					break;
