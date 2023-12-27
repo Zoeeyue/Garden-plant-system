@@ -33,6 +33,14 @@ public class monitorDAOImpl implements monitorDAO{
 		String sql = "DELETE FROM monitor WHERE monitorID=?;";
 		return function.operate(list,sql);
 	}
+	//根据指标编号删除监测指标表记录
+	@Override
+	public boolean deleteIndexsByIndex(String indexID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(indexID);
+		String sql = "DELETE FROM monitor WHERE monitorID IN(SELECT monitorID FROM indexs WHERE indexID=?);";
+		return function.operate(list,sql);
+	}
 	//修改监测表记录
 	@Override
 	public boolean updateMonitor(monitor bean) throws Exception {
