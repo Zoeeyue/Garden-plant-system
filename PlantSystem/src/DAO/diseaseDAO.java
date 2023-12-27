@@ -39,4 +39,6 @@ public interface diseaseDAO {
 
 	List<Map<String, String>> queryDisease2(String medicineID) throws Exception;
 
+	List<Map<String, String>> ShowUpkeepStats() throws Exception;
+
 }
