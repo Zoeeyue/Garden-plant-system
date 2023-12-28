@@ -194,7 +194,8 @@ public class Monitor {
 		Map<String,String> map;
 		switch(id) {
 			case 1:
-				result = monitor_di.queryMonitor1(ID);
+				result = monitor_di.queryMonitor(ID);
+				
 				map = result.get(0);
 				monitor m = new monitor(map.get("monitorID"),map.get("monitorTime"),map.get("monitorAddr"),map.get("deviceID"),map.get("plantID"),map.get("staffID"));
 				
@@ -226,7 +227,7 @@ public class Monitor {
 				update(m);
 				break;
 			case 2:
-				result = index_di.queryIndexs(ID);
+				result = index_di.queryIndexs1(ID);
 				map = result.get(0);
 				indexs i = new indexs(map.get("indexID"),map.get("indexName"),Float.parseFloat(map.get("indexValue")),map.get("monitorID"));
 				
