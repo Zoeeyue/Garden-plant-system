@@ -142,36 +142,4 @@ public class monitorDAOImpl implements monitorDAO{
 		String sql = "SELECT MAX(monitorID) AS max_id FROM monitor";
 		return function.getNewID(sql,"MON");
 	}
-//	@Override
-//	public List<Map<String, String>> queryMonitorSystem(String monitorID) throws Exception {
-//		List<Object> list = new ArrayList<Object>();
-//		list.add(monitorID);
-//		String sql ="SELECT * "+
-//				"FROM monitor "+
-//				"JOIN staff ON monitor.staffID=staff.staffID "+
-//				"JOIN plant_info ON monitor.plant_id=plant_info.plant_id "+
-//				"JOIN device ON monitor.deviceID=device.deviceID "+
-//				"JOIN indexs ON monitor.monitorID=indexs.monitorID "+
-//				"WHERE monitorID=?;";
-//		return function.search(list,sql);
-//	}
-//	@Override
-//	public List<Map<String, String>> queryMonitorSystem(String monitorID) throws Exception {
-//		List<Object> list = new ArrayList<Object>();
-//		list.add(monitorID);
-//		String sql ="SELECT * FROM MonitorYewu WHERE monitorID=?;";
-//		return function.search(list,sql);
-//	}
-	
-//	@Override
-//	public List<Map<String, String>> listMonitorSystem() throws Exception {
-//		List<Object> list = new ArrayList<Object>();
-//		String sql ="SELECT * "+
-//				"FROM monitor "+
-//				"JOIN staff ON monitor.staffID=staff.staffID "+
-//				"JOIN plant_info ON monitor.plant_id=plant_info.plant_id "+
-//				"JOIN device ON monitor.deviceID=device.deviceID "+
-//				"JOIN indexs ON monitor.monitorID=indexs.monitorID;";
-//		return function.search(list,sql);
-//	}
 }
