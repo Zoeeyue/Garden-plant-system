@@ -71,13 +71,6 @@ public class staffDAOImpl implements staffDAO{
 			return false;
 		}
 	}
-		
-//	//获取最大编号+1并返回新编号
-//	@Override
-//	public String getNewID() throws Exception {
-//		String sql = "SELECT MAX(staffID) AS max_id FROM staff";
-//		return function.getNewID(sql);
-//	}
 	
 	//登录
     @Override
