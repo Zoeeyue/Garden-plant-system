@@ -44,7 +44,7 @@ public class diseaseDAOImpl implements diseaseDAO {
 		String sql = "UPDATE disease SET diseaseName=?,plantID=? WHERE diseaseID=?;";
 		return function.operate(list,sql);
 	}
-	//查询病虫害表记录
+	//查询病虫害表记录-根据病虫害编号（可能一次删除多条）
 	@Override
 	public List<Map<String, String>> queryDisease(String diseaseID) throws Exception {
 		List<Object> list = new ArrayList<Object>();
@@ -52,7 +52,7 @@ public class diseaseDAOImpl implements diseaseDAO {
 		String sql ="SELECT * FROM disease WHERE diseaseID=?";
 		return function.search(list,sql);
 	}
-	//查询病虫害表记录
+	//查询病虫害表记录-根据药剂编号（删除一条记录）
 	@Override
 	public List<Map<String, String>> queryDisease2(String medicineID) throws Exception {
 		List<Object> list = new ArrayList<Object>();
@@ -80,21 +80,21 @@ public class diseaseDAOImpl implements diseaseDAO {
 	    String sql = sqlBuilder.toString();
 	    return function.search(list, sql);
 	}
-	//视图显示0联动
+	//视图显示0-病虫害养护状态
 	@Override
 	public List<Map<String, String>> ShowUpkeepStats() throws Exception {
 	    List<Object> list = new ArrayList<>();
-	    String sql = "SELECT * FROM DiseaseYewu";
+	    String sql = "SELECT * FROM DiseaseUpkeep";
 	    return function.search(list, sql);
 	}
-	//视图显示1
+	//视图显示1-病虫害防治措施
 	@Override
 	public List<Map<String, String>> listDiseaseSystem() throws Exception {
 		List<Object> list = new ArrayList<Object>();
 		String sql ="SELECT * FROM DiseaseYewu;";
 		return function.search(list,sql);
 	}
-	//视图显示2
+	//视图显示2-病虫害防治列表供选择
 	@Override
 	public List<Map<String, String>> listDiseaseShow() throws Exception {
 		List<Object> list = new ArrayList<Object>();
@@ -132,27 +132,4 @@ public class diseaseDAOImpl implements diseaseDAO {
 		String sql = "SELECT MAX(diseaseID) AS max_id FROM disease";
 		return function.getNewID(sql,"DIS");
 	}
-//	@Override
-//	public List<Map<String, String>> queryDiseaseSystem(String monitorID) throws Exception {
-//		List<Object> list = new ArrayList<Object>();
-//		list.add(monitorID);
-//		String sql ="SELECT * "+
-//				"FROM medicine "+
-//				"JOIN treatment ON medicine.treatmentID=treatment.treatmentID "+
-//				"JOIN disease ON treatment.diseaseID=medicine.diseaseID "+
-//				"JOIN plant_info ON plant_info.plantID=disease.plantID "+
-//				"WHERE medicineID=?;";
-//		return function.search(list,sql);
-//	}
-	
-//	@Override
-//	public List<Map<String, String>> listDiseaseSystem() throws Exception {
-//		List<Object> list = new ArrayList<Object>();
-//		String sql ="SELECT *"+
-//				"FROM medicine "+
-//				"JOIN treatment ON medicine.treatmentID=treatment.treatmentID "+
-//				"JOIN disease ON treatment.diseaseID=medicine.diseaseID "+
-//				"JOIN plant_info ON plant_info.plantID=disease.plantID;";
-//		return function.search(list,sql);
-//	}
 }
