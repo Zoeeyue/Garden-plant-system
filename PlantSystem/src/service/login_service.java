@@ -2,22 +2,7 @@ package service;
 
 import java.util.Map;
 import java.util.Scanner;
-import DAO.admin_infoDAO;
-import DAO.expertDAO;
-import DAO.master_infoDAO;
-import DAO.Impl.admin_infoDAOImpl;
-import DAO.Impl.expertDAOImpl;
-import DAO.Impl.image_infoDAOImpl;
-import DAO.Impl.master_infoDAOImpl;
-import bean.PlantInfo;
-import bean.adminInfo;
-import bean.expert;
-import bean.masterInfo;
-import bean.staff;
-import DAO.staffDAO;
-import DAO.Impl.plant_infoDAOImpl;
-import DAO.Impl.staffDAOImpl;
-import bean.UpkeepStaff;
+import bean.*;
 import DAO.*;
 import DAO.Impl.*;
 
@@ -27,8 +12,9 @@ public class login_service {
 	//选择角色
 	public void roleChoose() throws Exception {
 		Scanner scanner = new Scanner(System.in);
+		System.out.println("欢迎使用园林植物信息管理系统！");
 		while(true) {
-			System.out.println("请选择登录角色：1.系统管理员 2.主管部门 3.养护人员 4.监测人员 5.病虫害防治专家");
+			System.out.println("请选择登录角色：1.系统管理员 2.主管部门 3.养护人员 4.监测人员 5.病虫害防治专家 6.退出管理系统");
 			int roleID = scanner.nextInt();
             scanner.nextLine();
 			switch (roleID) {
@@ -46,6 +32,10 @@ public class login_service {
 					break;
 				case 5:
 					getexpertInfoFromUser(scanner);
+					break;
+				case 6:
+					System.out.println("感谢使用，再见！");
+					System.exit(0);
 					break;
 				default:
 					System.out.println("序号无效，请重新输入！");
