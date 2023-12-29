@@ -14,6 +14,10 @@ public class UpkeepStaff {
         this.UpkeepPwd = UpkeepPwd;
     }
 
+    public UpkeepStaff() {
+
+    }
+
     public String getUpkeepSid() {
         return UpkeepSid;
     }
