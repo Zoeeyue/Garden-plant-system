@@ -187,6 +187,7 @@ public class login_service {
         while (true) {
         	//实例化业务
         	plantinfo_service plantinfo_service =new plantinfo_service();
+		plantSort_service plantsort_service =new plantSort_service();
         	//实例化DAO接口
         	plant_infoDAOImpl plantDAO=new plant_infoDAOImpl();
         	image_infoDAOImpl imageDAO =new image_infoDAOImpl();
@@ -217,6 +218,9 @@ public class login_service {
                     System.out.println("添加植物信息");
                     // 调用添加植物信息的逻辑
                     plantinfo_service.displayInsertPlant(plantDAO,imageDAO);
+		    System.out.println("请继续添加植物分类信息");
+			// 调用添加植物分类信息逻辑
+		    plantsort_service.addSortInfo();
                     break;
                 case 3:
                     System.out.println("更新植物信息");
@@ -257,6 +261,8 @@ public class login_service {
         	        	System.out.println("该植物不存在！");
         	        	break;
                }else {
+		   System.out.println("请先删除该植物分类信息！");
+            	   plantsort_service.deleteSortInfo();
             	   plantinfo_service.displayDeletePlant(plantDAO, imageDAO, deleteId);
                }
 					
