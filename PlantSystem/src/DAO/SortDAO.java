@@ -1,6 +1,7 @@
 package DAO;
 
 import bean.PlantInfo;
+import bean.PlantRegionView;
 import bean.PlantSortView;
 import bean.Sort;
 
@@ -29,6 +30,8 @@ public interface SortDAO {
     void deleteSort(String sortId);
 
     PlantSortView getPlantSortViewById(String plantId) throws SQLException;//通过植物id查找
+
+    PlantRegionView getPlantRegionById(String plantId) throws SQLException;
 }
 
 
