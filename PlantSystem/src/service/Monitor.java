@@ -47,12 +47,14 @@ public class Monitor {
 	}
 	//删除监测记录
 	public void delete(String indxID) throws Exception {
-		indexsDAOImpl indexs_di = new indexsDAOImpl();
-		monitorDAOImpl monitor_di = new monitorDAOImpl();
-		if(monitor_di.existID(indxID)) {
+		indexsDAO indexs_di = new indexsDAOImpl();
+		monitorDAO monitor_di = new monitorDAOImpl();
+		errorDAO error_di = new errorDAOImpl();
+		if(indexs_di.existID(indxID)) {
 			System.out.println("监测记录不存在！");
 			return;
 		}
+		error_di.deleteError(indxID);
 		indexs_di.deleteIndexsByID(indxID);//监测指标
 		monitor_di.deleteIndexsByIndex(indxID);//监测
 		System.out.println("删除成功！");
@@ -175,7 +177,7 @@ public class Monitor {
 		System.out.println("请选择监测指标记录编号：");
 		String ID = scanner.nextLine();
 		//业务验证
-		if(monitor_di.existID2(ID)) {
+		if(index_di.existID(ID)) {
 			System.out.println("监测指标记录不存在！");
 			return;
 		}
@@ -194,7 +196,7 @@ public class Monitor {
 		Map<String,String> map;
 		switch(id) {
 			case 1:
-				result = monitor_di.queryMonitor(ID);
+				result = monitor_di.queryMonitor1(ID);
 				
 				map = result.get(0);
 				monitor m = new monitor(map.get("monitorID"),map.get("monitorTime"),map.get("monitorAddr"),map.get("deviceID"),map.get("plantID"),map.get("staffID"));
@@ -227,7 +229,7 @@ public class Monitor {
 				update(m);
 				break;
 			case 2:
-				result = index_di.queryIndexs1(ID);
+				result = index_di.queryIndexs(ID);
 				map = result.get(0);
 				indexs i = new indexs(map.get("indexID"),map.get("indexName"),Float.parseFloat(map.get("indexValue")),map.get("monitorID"));
 				
