@@ -2,6 +2,7 @@ package DAO.Impl;
 
 import DAO.SortDAO;
 import bean.PlantInfo;
+import bean.PlantRegionView;
 import bean.PlantSortView;
 import bean.Sort;
 import comm.DButil;
@@ -44,6 +45,9 @@ public class SortDAOImpl implements SortDAO {
 
     private static final String GET_PLANT_SORT_VIEW_BY_ID =
             "SELECT * FROM PlantSortView WHERE plant_id = ?";
+
+    private static final String GET_PLANT_REGION_VIEW_BY_ID =
+            "SELECT * FROM PlantRegionView WHERE plant_id = ?";
 
     private Connection connection;
     private DButil dbUtil;
@@ -262,5 +266,28 @@ public class SortDAOImpl implements SortDAO {
         }
 
         return plantSortView;
+    }
+
+    @Override
+    public PlantRegionView getPlantRegionById(String plantId) throws SQLException {
+        PlantRegionView plantregionView = null;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(GET_PLANT_REGION_VIEW_BY_ID)) {
+            preparedStatement.setString(1, plantId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    plantregionView = new PlantRegionView();
+                    // 设置 plantregionView 的属性，从 resultSet 中获取数据
+                    plantregionView.setPlantId(resultSet.getString("plant_id"));
+                    plantregionView.setPlantName(resultSet.getString("plant_name"));
+                    plantregionView.setProvinceName(resultSet.getString("ProvinceName"));
+                    plantregionView.setCityName(resultSet.getString("CityName"));
+                    plantregionView.setCountyName(resultSet.getString("CountyName"));
+                }
+            }
+        }
+
+        return plantregionView;
     }
 }

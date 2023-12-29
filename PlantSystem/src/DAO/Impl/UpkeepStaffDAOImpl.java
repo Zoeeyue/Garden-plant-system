@@ -3,6 +3,7 @@ package DAO.Impl;
 import DAO.UpkeepStaffDAO;
 import bean.UpkeepStaff;
 import comm.DButil;
+import service.function;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +23,8 @@ public class UpkeepStaffDAOImpl implements UpkeepStaffDAO {
     private static final String FIND_BY_ID_SQL = "SELECT * FROM UpkeepStaff WHERE UpkeepSid = ?";
     private static final String FIND_ALL_SQL = "SELECT * FROM UpkeepStaff";
     private static final String FIND_BY_PROPERTY_SQL = "SELECT * FROM UpkeepStaff WHERE %s = ?";
+    private static final String EXIST_ID_SQL = "SELECT * FROM UpkeepStaff WHERE staffId = ?";
+
 
     public UpkeepStaffDAOImpl() {
         this.dbUtil = new DButil();
@@ -160,6 +163,45 @@ public class UpkeepStaffDAOImpl implements UpkeepStaffDAO {
         return null;
     }
 
+    @Override
+    public List<UpkeepStaff> listStaff() throws Exception {
+        String sql ="SELECT * FROM UpkeepStaff";
+        List<UpkeepStaff> staffList = new ArrayList<>();
+        try (Connection connection = dbUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(String.format(sql))) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    UpkeepStaff staff = mapResultSetToUpkeepStaff(resultSet);
+                    staffList.add(staff);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // 处理异常
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return staffList;
+    }
+
+    @Override
+    public boolean existID(String id) throws Exception{
+        boolean exists = false;
+        try (Connection connection = dbUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(EXIST_ID_SQL)) {
+            preparedStatement.setString(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                exists = resultSet.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // 处理异常
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return exists;
+    }
+
 
     private UpkeepStaff mapResultSetToUpkeepStaff(ResultSet resultSet) throws SQLException {
         // 从 ResultSet 中提取数据并创建 UpkeepStaff 对象
@@ -176,4 +218,5 @@ public class UpkeepStaffDAOImpl implements UpkeepStaffDAO {
         preparedStatement.setString(2, staff.getUpkeepSname());
         preparedStatement.setString(3, staff.getUpkeepPwd());
     }
+
 }
