@@ -10,7 +10,7 @@ public interface errorDAO {
 	public boolean insertError(error bean) throws Exception;
 
 	//删除异常表记录
-	public void deleteError(String errorID) throws Exception;
+	public boolean deleteError(String errorID) throws Exception;
 
 	//修改异常表记录
 	public boolean updateError(String errorID) throws Exception;
