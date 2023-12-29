@@ -84,11 +84,6 @@ public class plantSort_service {
         addSort(sort);
         System.out.println("已成功添加分类信息。");
 
-        /*
-        更新植物分类信息
-         */
-
-
     }
     private static Family getOrCreateFamily(String familyName) throws Exception {
         FamilyDAO familyDAO = new FamilyDAOImpl();
@@ -256,8 +251,8 @@ public class plantSort_service {
             System.out.println("查找功能选择");
             System.out.println("1----根据植物编号查找分类信息");
             System.out.println("2----根据植物编号查找地域信息");
-            System.out.println("2----根据生长环境模糊查找");
-            System.out.println("3----查询下属植物信息");
+            System.out.println("3----根据生长环境模糊查找");
+            System.out.println("4----查询下属植物信息");
             System.out.println("0----返回上级菜单");
 
             // 获取用户输入
@@ -500,6 +495,7 @@ public class plantSort_service {
             scanner.nextLine();
         }
     }
+
     private static Sort getSortBefore(String plantId) throws Exception {
         Scanner scanner = new Scanner(System.in);
         String Env = scanner.nextLine();
