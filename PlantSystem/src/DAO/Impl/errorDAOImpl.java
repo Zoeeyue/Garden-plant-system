@@ -17,9 +17,11 @@ public class errorDAOImpl implements errorDAO{
 	}
 
 	@Override
-	public void deleteError(String errorID) throws Exception {
-		// TODO 自动生成的方法存根
-		
+	public boolean deleteError(String errorID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(errorID);
+		String sql = "DELETE FROM error WHERE indexID=?;";
+		return function.operate(list,sql);
 	}
 
 	@Override
