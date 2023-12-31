@@ -183,7 +183,7 @@ public class login_service {
 	
 	//角色功能菜单
 	//管理员-管理植物信息
-	private static void displayPlantInfoMenu(Scanner scanner) {
+	private static void displayPlantInfoMenu(Scanner scanner) throws Exception {
         while (true) {
         	//实例化业务
         	plantinfo_service plantinfo_service =new plantinfo_service();
