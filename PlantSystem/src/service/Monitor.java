@@ -358,14 +358,20 @@ public class Monitor {
 	//单独删除监测设备（设备报废）
 	public void delete_device(String deviceID) throws Exception {
 		deviceDAO device_di = new deviceDAOImpl();
-		device_di.deleteDevice(deviceID);
-		System.out.println("删除成功！");
+		if(device_di.deleteDevice(deviceID)) {
+			System.out.println("删除成功！");
+		}else {
+			System.out.println("该监测设备有相关记录关联，暂不能删除！");
+		}
 	}
 	//单独删除监测人员（员工离职）
 	public void delete_staff(String staffID) throws Exception {
 		staffDAO staff_di = new staffDAOImpl();
-		staff_di.deleteStaff(staffID);
-		System.out.println("删除成功！");
+		if(staff_di.deleteStaff(staffID)) {
+			System.out.println("删除成功！");
+		}else {
+			System.out.println("该监测人员有相关记录关联，暂不能删除！");
+		}
 	}
 	//单独添加监测人员（员工入职）
 	public void add_staff(staff s) throws Exception {

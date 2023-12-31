@@ -264,8 +264,12 @@ public class Disease {
 	//单独删除专家（离职）
 	public void delete_expert(String expertID) throws Exception {
 		expertDAO expert_di = new expertDAOImpl();
-		expert_di.deleteExpert(expertID);
-		System.out.println("删除成功！");
+		if(expert_di.deleteExpert(expertID)){
+			System.out.println("删除成功！");
+		}else {
+			System.out.println("该专家与相关记录关联，暂不能删除！");
+		}
+		
 	}
 	//单独添加专家（入职）
 	public void add_expert(expert e) throws Exception {
