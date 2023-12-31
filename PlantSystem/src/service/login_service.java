@@ -406,7 +406,8 @@ public class login_service {
                     System.out.println("删除监测记录");
                     System.out.println("请输入监测记录编号：");
                     ID = scanner.nextLine();
-                    monitor.delete(ID);
+                    if(monitor.delete(ID))
+                    	System.out.println("删除成功！");
                     break;
                 case 5:
                     System.out.println("查询监测记录");
@@ -464,7 +465,8 @@ public class login_service {
                     System.out.println("删除病虫害及防治措施信息");
                     System.out.println("请输入病虫害编号：");
                     ID = scanner.nextLine();
-                    disease.delete(ID);
+                    if(disease.delete(ID))
+                    	System.out.println("删除成功！");
                     break;
                 case 5:
                     System.out.println("查询病虫害及防治措施信息");
