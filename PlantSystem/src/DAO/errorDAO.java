@@ -17,4 +17,6 @@ public interface errorDAO {
 
 	//查询异常表记录
 	public List<Map<String, String>> queryError() throws Exception;
+
+	boolean isinError(String indexID) throws Exception;
 }

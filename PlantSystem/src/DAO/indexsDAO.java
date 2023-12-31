@@ -37,5 +37,7 @@ public interface indexsDAO {
 
 	void listID() throws Exception;
 
+	List<Map<String, String>> getIDbyPlantID(String plantID) throws Exception;
+
 
 }

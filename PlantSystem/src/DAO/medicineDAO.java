@@ -27,4 +27,6 @@ public interface medicineDAO {
 	String getNewID() throws Exception;
 
 	public void listID() throws Exception;
+
+	List<Map<String, String>> getIDbyPlantID(String plantID) throws Exception;
 }
