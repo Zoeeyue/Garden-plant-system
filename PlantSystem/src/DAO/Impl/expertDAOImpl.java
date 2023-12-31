@@ -25,11 +25,16 @@ public class expertDAOImpl implements expertDAO{
 
 	//删除专家表记录
 	@Override
-	public boolean deleteExpert(String expertID) throws Exception{
+	public boolean deleteExpert(String expertID){
 		List<Object> list = new ArrayList<Object>();
 		list.add(expertID);
 		String sql = "DELETE FROM expert WHERE expertID=?;";
-		return function.operate(list,sql);
+		try {
+			return function.operate(list,sql);
+		} catch (Exception e) {
+//			e.printStackTrace();
+			return false;
+		}
 	}
 
 	//修改专家表记录

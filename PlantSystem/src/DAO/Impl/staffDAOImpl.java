@@ -24,11 +24,16 @@ public class staffDAOImpl implements staffDAO{
 	}
 	//删除监测人员表记录
 	@Override
-	public boolean deleteStaff(String staffID) throws Exception {
+	public boolean deleteStaff(String staffID){
 		List<Object> list = new ArrayList<Object>();
 		list.add(staffID);
 		String sql = "DELETE FROM staff WHERE staffID=?;";
-		return function.operate(list,sql);
+		try {
+			return function.operate(list,sql);
+		} catch (Exception e) {
+//			e.printStackTrace();
+			return false;
+		}
 	}
 	//修改监测人员表记录
 	@Override

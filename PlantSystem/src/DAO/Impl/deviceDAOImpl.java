@@ -21,11 +21,16 @@ public class deviceDAOImpl implements deviceDAO{
 	}
 	//删除监测设备表记录
 	@Override
-	public boolean deleteDevice(String deviceID) throws Exception {
+	public boolean deleteDevice(String deviceID){
 		List<Object> list = new ArrayList<Object>();
 		list.add(deviceID);
 		String sql = "DELETE FROM device WHERE deviceID=?;";
-		return function.operate(list,sql);
+		try {
+			return function.operate(list,sql);
+		} catch (Exception e) {
+//			e.printStackTrace();
+			return false;
+		}
 	}
 	//修改监测设备表记录
 	@Override
