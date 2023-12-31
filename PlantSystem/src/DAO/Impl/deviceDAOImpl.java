@@ -62,10 +62,7 @@ public class deviceDAOImpl implements deviceDAO{
 	//判断是否id重复
 	@Override
 	public boolean existID(String ID) throws Exception {
-		List<Object> list = new ArrayList<Object>();
-		list.add(ID);
-		String sql ="SELECT * FROM device WHERE deviceID=?";
-		List<Map<String, String>> row = function.search(list,sql);
+		List<Map<String, String>> row = queryDevice(ID);
 		if(row.isEmpty()) {
 			return true;
 		}else {

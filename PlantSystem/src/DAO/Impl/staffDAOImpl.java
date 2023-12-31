@@ -31,7 +31,6 @@ public class staffDAOImpl implements staffDAO{
 		try {
 			return function.operate(list,sql);
 		} catch (Exception e) {
-//			e.printStackTrace();
 			return false;
 		}
 	}
@@ -66,10 +65,7 @@ public class staffDAOImpl implements staffDAO{
 	//判断是否id重复
 	@Override
 	public boolean existID(String ID) throws Exception {
-		List<Object> list = new ArrayList<Object>();
-		list.add(ID);
-		String sql ="SELECT * FROM staff WHERE staffID=?";
-		List<Map<String, String>> row = function.search(list,sql);
+		List<Map<String, String>> row = queryStaff(ID);
 		if(row.isEmpty()) {
 			return true;
 		}else {

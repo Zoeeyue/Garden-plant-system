@@ -9,6 +9,27 @@ import bean.monitor;
 import service.function;
 
 public class monitorDAOImpl implements monitorDAO{
+	
+	//根据指标编号获取监测编号
+	@Override
+	public List<Map<String, String>> getIDbyIndexID(String indexID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(indexID);
+		String sql = "SELECT * FROM indexs WHERE indexID=?;";
+		List<Map<String, String>> IDset= function.search(list,sql);
+		return IDset;
+	}
+	//根据监测编号该监测使用的指标数量
+	@Override
+	public int getIndexNUMbyID(String monitorID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(monitorID);
+		String sql = "SELECT * FROM indexs WHERE monitorID=?;";
+		List<Map<String, String>> IDset= function.search(list,sql);
+		int num = IDset.size();
+		return num;
+	}
+	
 	//增加监测表记录
 	@Override
 	public boolean insertMonitor(monitor bean) throws Exception {
