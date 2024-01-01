@@ -6,7 +6,7 @@ import java.util.Map;
 
 import DAO.diseaseDAO;
 import bean.disease;
-import service.function;
+
 
 public class diseaseDAOImpl implements diseaseDAO {
 	//根据药剂编号获取病虫害编号
