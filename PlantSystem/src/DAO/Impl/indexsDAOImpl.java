@@ -6,7 +6,6 @@ import java.util.Map;
 
 import DAO.indexsDAO;
 import bean.indexs;
-import service.function;
 
 public class indexsDAOImpl implements indexsDAO{
 	//根据植物编号获取指标编号
