@@ -41,4 +41,9 @@ public interface diseaseDAO {
 
 	List<Map<String, String>> ShowUpkeepStats() throws Exception;
 
+	List<Map<String, String>> getIDbyMedicineID(String medicineID) throws Exception;
+
+
+	int getTreatmentNUMbyID(String diseaseID) throws Exception;
+
 }

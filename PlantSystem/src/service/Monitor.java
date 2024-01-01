@@ -46,18 +46,39 @@ public class Monitor {
 		System.out.println("删除成功！");
 	}
 	//删除监测记录
-	public void delete(String indxID) throws Exception {
+	public boolean delete(String indxID) throws Exception {
 		indexsDAO indexs_di = new indexsDAOImpl();
 		monitorDAO monitor_di = new monitorDAOImpl();
 		errorDAO error_di = new errorDAOImpl();
+		List<Map<String, String>> set_monitorID = monitor_di.getIDbyIndexID(indxID);//获取监测ID
+		String monitorID = set_monitorID.get(0).get("monitorID");//获取监测ID
+		int indexNUM = monitor_di.getIndexNUMbyID(monitorID);//该监测使用的指标数量
+		
 		if(indexs_di.existID(indxID)) {
 			System.out.println("监测记录不存在！");
-			return;
+			return false;
 		}
-		error_di.deleteError(indxID);
-		indexs_di.deleteIndexsByID(indxID);//监测指标
-		monitor_di.deleteIndexsByIndex(indxID);//监测
-		System.out.println("删除成功！");
+		
+		if(error_di.isinError(indxID)) {
+			if(!error_di.deleteError(indxID)) {
+				System.out.println("删除异常指标表失败！");
+				return false;
+			}
+		}
+
+		if(!indexs_di.deleteIndexsByID(indxID)) {
+			System.out.println("删除指标表失败！");
+			return false;
+		}
+		
+		if(indexNUM==1) {//该监测使用的指标只有一种，则删除该监测
+			if(!monitor_di.deleteMonitor(monitorID)) {
+				System.out.println("删除监测表失败！");
+				return false;
+			}
+		}
+//		System.out.println("删除成功！");
+		return true;
 	}
 	//修改监测记录
 	public void update(Object entity) throws Exception {

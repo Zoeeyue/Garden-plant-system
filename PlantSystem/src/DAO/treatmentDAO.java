@@ -27,4 +27,8 @@ public interface treatmentDAO {
 	String getNewID() throws Exception;
 
 	List<Map<String, String>> queryTreatment2(String medicineID) throws Exception;
+
+	List<Map<String, String>> getIDbyMedicineID(String medicineID) throws Exception;
+
+	int getMedicineNUMbyID(String treatmentID) throws Exception;
 }

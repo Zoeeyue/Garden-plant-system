@@ -9,7 +9,6 @@ import bean.error;
 import service.function;
 
 public class errorDAOImpl implements errorDAO{
-
 	@Override
 	public boolean insertError(error bean) throws Exception {
 		// TODO 自动生成的方法存根
@@ -29,7 +28,21 @@ public class errorDAOImpl implements errorDAO{
 		// TODO 自动生成的方法存根
 		return false;
 	}
-
+	
+	//根据指标编号判断该指标是否存在于异常表中
+	@Override
+	public boolean isinError(String indexID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(indexID);
+		String sql = "SELECT * FROM error WHERE indexID=?;";		
+		List<Map<String, String>> row = function.search(list,sql);
+		if(row.isEmpty()) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
 	@Override
 	public List<Map<String, String>> queryError() throws Exception {
 		List<Object> list = new ArrayList<Object>();

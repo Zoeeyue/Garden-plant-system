@@ -9,6 +9,26 @@ import bean.disease;
 import service.function;
 
 public class diseaseDAOImpl implements diseaseDAO {
+	//根据药剂编号获取病虫害编号
+	@Override
+	public List<Map<String, String>> getIDbyMedicineID(String medicineID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(medicineID);
+		String sql = "SELECT * FROM treatment WHERE treatmentID IN(SELECT treatmentID FROM medicine WHERE medicineID=?);";
+		List<Map<String, String>> IDset= function.search(list,sql);
+		return IDset;
+	}
+	//根据病虫害编号获取对付该病虫害的防治方法数量
+	@Override
+	public int getTreatmentNUMbyID(String diseaseID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(diseaseID);
+		String sql = "SELECT * FROM treatment WHERE diseaseID=?;";
+		List<Map<String, String>> IDset= function.search(list,sql);
+		int num = IDset.size();
+		return num;
+	}
+	
 	//增加病虫害表记录
 	@Override
 	public boolean insertDisease(disease bean) throws Exception {
@@ -24,11 +44,10 @@ public class diseaseDAOImpl implements diseaseDAO {
 	}
 	//删除病虫害表记录
 	@Override
-	public boolean deleteDisease(String medicineID) throws Exception {
+	public boolean deleteDisease(String ID) throws Exception {
 		List<Object> list = new ArrayList<Object>();
-		list.add(medicineID);
-//		String sql = "DELETE FROM disease WHERE diseaseID IN(SELECT treatmentID FROM treatment WHERE treatmentID IN(SELECT treatmentID FROM medicine WHERE medicineID=?))";
-		String sql = "DELETE FROM medicine WHERE medicineID=?;";
+		list.add(ID);
+		String sql = "DELETE FROM disease WHERE diseaseID = ?;";
 		return function.operate(list,sql);
 	}
 	//修改病虫害表记录
@@ -44,7 +63,7 @@ public class diseaseDAOImpl implements diseaseDAO {
 		String sql = "UPDATE disease SET diseaseName=?,plantID=? WHERE diseaseID=?;";
 		return function.operate(list,sql);
 	}
-	//查询病虫害表记录-根据病虫害编号（可能一次删除多条）
+	//【NO】查询病虫害表记录-根据病虫害编号
 	@Override
 	public List<Map<String, String>> queryDisease(String diseaseID) throws Exception {
 		List<Object> list = new ArrayList<Object>();
@@ -52,7 +71,7 @@ public class diseaseDAOImpl implements diseaseDAO {
 		String sql ="SELECT * FROM disease WHERE diseaseID=?";
 		return function.search(list,sql);
 	}
-	//查询病虫害表记录-根据药剂编号（删除一条记录）
+	//【NO】查询病虫害表记录-根据药剂编号
 	@Override
 	public List<Map<String, String>> queryDisease2(String medicineID) throws Exception {
 		List<Object> list = new ArrayList<Object>();
@@ -60,7 +79,7 @@ public class diseaseDAOImpl implements diseaseDAO {
 		String sql ="SELECT * FROM disease WHERE diseaseID in(SELECT diseaseID FROM treatment WHERE treatmentID IN(SELECT treatmentID FROM medicine WHERE medicineID=?))";
 		return function.search(list,sql);
 	}
-	//显示病虫害表记录
+	//【NO】显示病虫害表记录
 	@Override
 	public List<Map<String, String>> listDisease() throws Exception {
 		List<Object> list = new ArrayList<Object>();
@@ -80,28 +99,28 @@ public class diseaseDAOImpl implements diseaseDAO {
 	    String sql = sqlBuilder.toString();
 	    return function.search(list, sql);
 	}
-	//视图显示0-病虫害养护状态
+	//视图显示-病虫害养护状态
 	@Override
 	public List<Map<String, String>> ShowUpkeepStats() throws Exception {
 	    List<Object> list = new ArrayList<>();
 	    String sql = "SELECT * FROM DiseaseUpkeep";
 	    return function.search(list, sql);
 	}
-	//视图显示1-病虫害防治措施
+	//视图显示-病虫害防治措施详细版
 	@Override
 	public List<Map<String, String>> listDiseaseSystem() throws Exception {
 		List<Object> list = new ArrayList<Object>();
 		String sql ="SELECT * FROM DiseaseYewu;";
 		return function.search(list,sql);
 	}
-	//视图显示2-病虫害防治列表供选择
+	//视图显示-病虫害防治措施简略版
 	@Override
 	public List<Map<String, String>> listDiseaseShow() throws Exception {
 		List<Object> list = new ArrayList<Object>();
 		String sql ="SELECT * FROM DiseaseToShow;";
 		return function.search(list,sql);
 	}
-	//判断是否id重复
+	//判断是否id存在-根据表查找病虫害ID是否存在
 	@Override
 	public boolean existID(String ID) throws Exception {
 		List<Object> list = new ArrayList<Object>();
@@ -114,6 +133,7 @@ public class diseaseDAOImpl implements diseaseDAO {
 			return false;
 		}
 	}
+	//判断是否id存在-根据视图查找药剂ID是否存在
 	@Override
 	public boolean existID2(String ID) throws Exception {
 		List<Object> list = new ArrayList<Object>();

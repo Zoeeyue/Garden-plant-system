@@ -34,19 +34,40 @@ public class Disease {
 		medicine_di.insertMedicine(m);//药剂
 		System.out.println("添加成功！");
 	}
-	//删除病虫害及防治措施medicineID
-	public void delete(String medicineID) throws Exception {
+	//删除病虫害及防治措施
+	public boolean delete(String medicineID) throws Exception {
 		diseaseDAO disease_di = new diseaseDAOImpl();
 		medicineDAO medicine_di = new medicineDAOImpl();
 		treatmentDAO treatment_di = new treatmentDAOImpl();
+		List<Map<String, String>> set_treatmentID = treatment_di.getIDbyMedicineID(medicineID);//获取防治方法ID
+		List<Map<String, String>> set_diseaseID = disease_di.getIDbyMedicineID(medicineID);//获取病虫害ID
+		
+		String treatmentID = set_treatmentID.get(0).get("treatmentID");//获取防治方法ID
+		int medicineNUM = treatment_di.getMedicineNUMbyID(treatmentID);//该方法使用的药剂数量
+		String diseaseID = set_diseaseID.get(0).get("diseaseID");//获取病虫害ID
+		int treatmentNUM = disease_di.getTreatmentNUMbyID(diseaseID);//该病虫害使用的防治方法数量
 		if(medicine_di.existID(medicineID)) {
-			System.out.println("该病虫害信息不存在！");
-			return;
+			System.out.println("病虫害信息不存在！");
+			return false;
 		}
-		medicine_di.deleteMedicine(medicineID);//药剂
-		treatment_di.deleteTreatment(medicineID);//防治方法
-		disease_di.deleteDisease(medicineID);//病虫害
-		System.out.println("删除成功！");
+		if(!medicine_di.deleteMedicine(medicineID)) {
+			System.out.println("删除药剂表失败！");
+			return false;
+		}
+		if(medicineNUM==1) {//该方法使用的药剂只有一种，则删除该方法
+			if(!treatment_di.deleteTreatment(treatmentID)) {
+				System.out.println("删除防治方法表失败！");
+				return false;
+			}
+			if(treatmentNUM==1) {//该病虫害使用的防治方法只有一种，则删除该病虫害
+				if(!disease_di.deleteDisease(diseaseID)) {
+					System.out.println("删除病虫害表失败！");
+					return false;
+				}
+			}
+		}
+//		System.out.println("删除成功！");
+		return true;
 	}
 	//修改病虫害及防治措施
 	public void update(Object entity) throws Exception {

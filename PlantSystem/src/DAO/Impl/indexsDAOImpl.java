@@ -9,7 +9,16 @@ import bean.indexs;
 import service.function;
 
 public class indexsDAOImpl implements indexsDAO{
-
+	//根据植物编号获取指标编号
+	@Override
+	public List<Map<String, String>> getIDbyPlantID(String plantID) throws Exception {
+		List<Object> list = new ArrayList<Object>();
+		list.add(plantID);
+		String sql = "SELECT * FROM indexs WHERE monitorID IN (SELECT monitorID FROM monitor WHERE plantID=?);";
+		List<Map<String, String>> IDset= function.search(list,sql);
+		return IDset;
+	}
+	
 	//增加监测指标表记录
 	@Override
 	public boolean insertIndexs(indexs bean) throws Exception {

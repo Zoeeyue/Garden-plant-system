@@ -40,5 +40,9 @@ public interface monitorDAO {
 
 	List<Map<String, String>> listMonitorShow() throws Exception;
 
+	int getIndexNUMbyID(String monitorID) throws Exception;
+
+	List<Map<String, String>> getIDbyIndexID(String indexID) throws Exception;
+
 
 }
