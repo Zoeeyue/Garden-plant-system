@@ -16,6 +16,7 @@ import DAO.image_infoDAO;
 import bean.ImageInfo;
 import bean.PlantDetailView;
 import bean.PlantInfo;
+import bean.PlantUnionView;
 import DAO.Impl.plant_infoDAOImpl;
 import DAO.Impl.image_infoDAOImpl;
 import bean.PlantInfo;
@@ -412,7 +413,8 @@ public class plantinfo_service {
 	public void displayDeletePlant(plant_infoDAO plantDAO, image_infoDAO imageDAO, String deleteId)
 			throws Exception {
 		                    List<ImageInfo> imageinfo=imageDAO.getImageInfoByPlantId(deleteId);
-		//                   // 删除关联的所有图片信息
+		//                   
+		                    // 删除关联的所有图片信息
 		                    for (ImageInfo image : imageinfo) {
 		                        imageDAO.deleteImg(image.getImageId());;
 		                    }
@@ -432,7 +434,7 @@ public class plantinfo_service {
 		System.out.println("5. 退出更新");
              // 获取用户输入
 		int choice2 = scanner.nextInt();
-		
+		scanner.nextLine();
 		
 
 		// 使用 switch-case 处理不同选择
@@ -520,7 +522,52 @@ public class plantinfo_service {
 			e.printStackTrace();
 		}
 	}
+    
+	public void displayQueryUnion(List<PlantUnionView> plantUnionViewList) {
+		try {
+			
+              
+		       // 遍历并打印每个 PlantDetailView 的信息
+		       for (PlantUnionView plantDetailView : plantUnionViewList) {
+		    	   System.out.println("植物基本信息如下: ");
+		           System.out.println("植物编号: " + plantDetailView.getPlantId());
+		           System.out.println("植物种名: " + plantDetailView.getPlantName());
+		           System.out.println("配图文件路径: " + plantDetailView.getFilename());
+		           System.out.println("形态特征: " + plantDetailView.getFeatures());
+		           System.out.println("栽培技术: " + plantDetailView.getCultivationTechniques());
+		           System.out.println("应用价值: " + plantDetailView.getValue());
+		           System.out.println("创建者: " + plantDetailView.getCreatedBy());
+		           System.out.println("该植物分类信息如下: ");
+		           if(plantDetailView.getFamilyName()==null&&plantDetailView.getGenusName()==null&&plantDetailView.getAlias()==null) {
+		        	   System.out.println("科名: " + "未知");
+		        	   System.out.println("属名: " + "未知");
+			           System.out.println("别名: " + "未知");
+		           }else {
+		           System.out.println("科名: " + plantDetailView.getFamilyName());
+		           System.out.println("属名: " + plantDetailView.getGenusName());
+		           System.out.println("别名: " + plantDetailView.getAlias());
+		           System.out.println("生长区域: " + plantDetailView.getGrowEnv());
+		           
+		           }
+		           System.out.println("该植物养护信息如下: ");
+		           System.out.println("养护任务编号: " + plantDetailView.getuTaskId());
+		           System.out.println("养护名称: " + plantDetailView.getUpkeepName());
+		           System.out.println("养护描述: " + plantDetailView.getUpkeepDes());
+		           System.out.println("养护地点: " + plantDetailView.getUpkeepPlace());
+		           System.out.println("养护人员: " + plantDetailView.getUpkeepSname());
 
+
+		           
+		           displayImage(plantDetailView.getFilename(),plantDetailView.getPlantName());
+
+		           System.out.println(); // 为了格式化输出，可根据实际需要调整
+		       }
+			
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+	}
 	private static void displayUpdatePlant(plant_infoDAO plantDAO, image_infoDAO imageDAO) {
 		
 		Scanner scanner = new Scanner(System.in);
