@@ -6,7 +6,6 @@ import java.util.Map;
 
 import DAO.expertDAO;
 import bean.expert;
-import service.function;
 
 public class expertDAOImpl implements expertDAO{
 	//增加专家表记录
