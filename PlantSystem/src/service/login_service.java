@@ -505,11 +505,13 @@ public class login_service {
             switch (choice) {
                 case 1:
                     System.out.println("管理养护人员");
-                    
+                    upkeepStaff_service upkeepstaffservice = new upkeepStaff_service();
+		    upkeepstaffservice.manageUStaff();
                     break;
                 case 2:
                     System.out.println("管理养护任务");
-                    
+                    upkeepTask_service upkeeptaskservice = new upkeepTask_service();
+                    upkeeptaskservice.upkeeptask_service_menu();
                     break;
                 case 3:
                     System.out.println("管理监测人员");
@@ -525,7 +527,11 @@ public class login_service {
                     break;
                 case 6:
                     System.out.println("联合查询（植物、分类、养护信息）");
-                    
+                       //实例化业务
+                	plantinfo_service plantinfo_service =new plantinfo_service();
+                	//实例化DAO接口
+                	plant_infoDAOImpl plantDAO=new plant_infoDAOImpl();
+				    plantinfo_service.displayQueryUnion(plantDAO.queryFromUnionView());
                     break;
                 case 7:
                     System.out.println("退出");
