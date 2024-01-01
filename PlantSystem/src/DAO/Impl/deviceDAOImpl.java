@@ -5,7 +5,7 @@ import java.util.Map;
 
 import DAO.deviceDAO;
 import bean.device;
-import service.function;
+
 public class deviceDAOImpl implements deviceDAO{
 	//增加监测设备表记录
 	@Override
