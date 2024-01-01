@@ -6,7 +6,6 @@ import java.util.Map;
 
 import DAO.medicineDAO;
 import bean.medicine;
-import service.function;
 
 public class medicineDAOImpl implements medicineDAO{
 	//根据植物编号获取药剂编号
