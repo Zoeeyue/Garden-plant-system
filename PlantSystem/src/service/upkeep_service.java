@@ -243,7 +243,7 @@ public class upkeep_service {
             System.out.println("养护人员编号: " + upkeep.getUpkeepSiD());
         }
 
-        private void deleteUpkeepInfo() throws Exception {
+        public void deleteUpkeepInfo() throws Exception {
             // TODO: 实现删除养护信息的逻辑
             Scanner scanner = new Scanner(System.in);
 
