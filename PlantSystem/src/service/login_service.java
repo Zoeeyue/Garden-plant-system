@@ -261,9 +261,31 @@ public class login_service {
         	        	System.out.println("该植物不存在！");
         	        	break;
                }else {
-		   System.out.println("请先删除该植物分类信息！");
-            	   plantsort_service.deleteSortInfo();
-            	   plantinfo_service.displayDeletePlant(plantDAO, imageDAO, deleteId);
+		  System.out.println("请先删除该植物养护信息！");
+            	   upkeep_service upkeep_service = new upkeep_service();
+            	   upkeep_service.deleteUpkeepInfo(); 
+            	   System.out.println("请先删除该植物养护任务信息！");
+            	   upkeepTask_service upkeepTask_service = new upkeepTask_service();
+            	   upkeepTask_service.deleteUpkeepTask();
+            	   System.out.println("请先删除该植物病虫害信息！");
+           		Disease disease = new Disease();
+        		Monitor monitor = new Monitor();
+        		medicineDAO medicine_di = new medicineDAOImpl();
+        		List<Map<String, String>> set_medicineID = medicine_di.getIDbyPlantID(deleteId);
+        		for (Map<String, String> map : set_medicineID) {
+        			disease.delete(map.get("medicineID"));
+        		}
+        		System.out.println("该植物病虫害信息删除成功！");
+        		System.out.println("请先删除该植物监测信息！");
+        		indexsDAOImpl indexs_di = new indexsDAOImpl();
+        		List<Map<String, String>> set_indexID = indexs_di.getIDbyPlantID(deleteId);;
+        		for (Map<String, String> map : set_indexID) {
+        			monitor.delete(map.get("indexID"));
+        		}
+        		System.out.println("该植物监测信息删除成功！");
+         	   System.out.println("请先删除该植物分类信息！");
+    		   plantsort_service.deleteSortInfo();
+               plantinfo_service.displayDeletePlant(plantDAO, imageDAO, deleteId);
                }
 					
 					
