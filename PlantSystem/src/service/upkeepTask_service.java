@@ -213,7 +213,7 @@ public class upkeepTask_service {
             }
         }
 
-        private void deleteUpkeepTask() {
+        public void deleteUpkeepTask() {
             // TODO: 实现删除养护任务的逻辑
             Scanner scanner = new Scanner(System.in);
 
