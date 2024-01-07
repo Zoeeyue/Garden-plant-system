@@ -261,8 +261,10 @@ public class login_service {
         	        	System.out.println("该植物不存在！");
         	        	break;
                }else {
+		     upkeep_service upkeep_service = new upkeep_service();
+            	   System.out.println("查找该植物养护信息：");
+            	   upkeep_service.findUpkeepByPlantId();
 		  System.out.println("请先删除该植物养护信息！");
-            	   upkeep_service upkeep_service = new upkeep_service();
             	   upkeep_service.deleteUpkeepInfo(); 
             	   System.out.println("请先删除该植物养护任务信息！");
             	   upkeepTask_service upkeepTask_service = new upkeepTask_service();
