@@ -337,7 +337,7 @@ public class upkeep_service {
             }
         }
 
-        private void findUpkeepByPlantId() throws Exception {
+        public void findUpkeepByPlantId() throws Exception {
             Scanner scanner = new Scanner(System.in);
             System.out.print("请输入植物ID:");
             String plantId = scanner.nextLine();
